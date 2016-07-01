@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios'; //library เอาไว้ส่งข้อมูล
-export default class AddDoctor extends Component {
+import axios from 'axios';
+export default class EditDoctor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +18,7 @@ export default class AddDoctor extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post('http://localhost:1337/doctors',{ //ใช้เพื่อส่งข้อมูล
+      .put('http://localhost:1337/doctors/'+this.props.params.id,{
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         department: this.state.department,
@@ -28,13 +28,25 @@ export default class AddDoctor extends Component {
       })
       .then(response => {
         console.log(response);
-        alert('success');
       })
       .catch(err => {
         console.error(err);
       })
   }
-  componentWillMount(){
+
+  componentWillMount() {
+    axios
+      .get('http://localhost:1337/doctors/'+this.props.params.id)
+      .then(response => {
+        this.setState({
+          firstName : response.data.firstName,
+          lastName: response.data.lastName,
+          department: response.data.department.id,
+          email:response.data.email,
+          position:response.data.position,
+          password:response.data.password
+        });
+      });
     axios
       .get('http://localhost:1337/departments')
       .then(response => {
@@ -42,40 +54,31 @@ export default class AddDoctor extends Component {
       })
       .catch(err => {
         console.error(err);
-      })
+      });
   }
   render() {
-    let departmentOptions = this.state.departmentList.map((department) => (
-      <option value={department.id} key={department.id}>{department.name}</option>
-    ));
     return (
       <form role="form" onSubmit={this._onSubmit}>
 
-        First name:
-        <input
-          type="text"
-          name="firstName"
-          value={this.state.firstName}
-          onChange={(e) => this.setState({firstName: e.target.value})}
-        />
-        <br />
-        Last name:
-        <input
-          type="text"
-          name="lastName"
-          value={this.state.lastName}
-          onChange={(e) => this.setState({lastName: e.target.value})}
-        />
-        <br />
-        Department:
-        <select
-          name="department"
-          onChange={(e) => this.setState({department: e.target.value})}
-          value={this.state.department}
-        >
-          <option disabled value="0">Please select</option>
-          {departmentOptions}
-        </select>
+        First name:  <input
+        type="text"
+        name="firstName"
+        value={this.state.firstName}
+        onChange={(e) => this.setState({firstName: e.target.value})}
+      /> <br />
+        Last name:  <input
+        type="text"
+        name="lastName"
+        value={this.state.lastName}
+        onChange={(e) => this.setState({lastName: e.target.value})}
+      /> <br />
+        Department:  <input
+        type="text"
+        name="department"
+        value={this.state.department}
+        onChange={(e) => this.setState({department: e.target.value})}
+
+      />
         <br />
         Email:
         <input
@@ -106,4 +109,5 @@ export default class AddDoctor extends Component {
     );
   }
 }
+
 

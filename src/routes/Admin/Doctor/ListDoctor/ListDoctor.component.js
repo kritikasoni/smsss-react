@@ -40,7 +40,7 @@ export default class DoctorList extends Component {
       return (
         <div>
           <Doctor key={ doctor.id } {...doctor} />
-          <a href={'/doctors/'+doctor.id} ><button type="button">Edit</button></a>
+          <a href={`/admin/doctors/${doctor.id}/edit`} ><button type="button">Edit</button></a>
           <button type="button" onClick={() => this._deleteDoctor(doctor.id)}>Delete</button>
         </div>
       );
