@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Doctor from './Doctor.component';
 
-export default class DoctorList extends Component {
+export default class ListDoctor extends Component {
   constructor(props,context) {
     super(props,context);
     this.state =  {
