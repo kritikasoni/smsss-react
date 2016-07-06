@@ -13,12 +13,28 @@ export const Header = () => (
       Counter
     </Link>
     {' · '}
+    <Link to='/admin/patients' activeClassName={classes.activeRoute}>
+      Patient
+    </Link>
+    {' · '}
+    <Link to='/admin/patients/add' activeClassName={classes.activeRoute}>
+      Add Patient
+    </Link>
+    {' · '}
     <Link to='/admin/doctors' activeClassName={classes.activeRoute}>
       Doctors
     </Link>
     {' · '}
     <Link to='/admin/doctors/add' activeClassName={classes.activeRoute}>
       Add Doctor
+    </Link>
+    {' · '}
+    <Link to='/admin/doctors' activeClassName={classes.activeRoute}>
+      Nurses
+    </Link>
+    {' · '}
+    <Link to='/admin/doctors/add' activeClassName={classes.activeRoute}>
+      Add Nurse
     </Link>
     {' · '}
     <Link to='/admin/medicines' activeClassName={classes.activeRoute}>

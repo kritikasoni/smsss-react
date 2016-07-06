@@ -15,9 +15,15 @@ export const createRoutes = (store) => ({
       next(null, [
         // Provide store for async reducers and middleware
         require('./Counter').default(store),
+        require('./Admin/Patient/ListPatient').default(store),
+        require('./Admin/Patient/AddPatient').default(store),
+        require('./Admin/Patient/EditPatient').default(store),
         require('./Admin/Doctor/ListDoctor').default(store),
         require('./Admin/Doctor/AddDoctor').default(store),
         require('./Admin/Doctor/EditDoctor').default(store),
+        require('./Admin/Nurse/ListNurse').default(store),
+        require('./Admin/Nurse/AddNurse').default(store),
+        require('./Admin/Nurse/EditNurse').default(store),
         require('./Admin/Medicine/ListMedicine').default(store),
         require('./Admin/Medicine/AddMedicine').default(store),
         require('./Admin/Medicine/EditMedicine').default(store),
