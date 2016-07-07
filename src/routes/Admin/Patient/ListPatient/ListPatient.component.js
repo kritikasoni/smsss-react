@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Patient from './Patient.component';
-
+import { dateToString } from './../../../../helper/Utils';
 export default class ListPatient extends Component {
   constructor(props,context) {
     super(props,context);
@@ -19,7 +19,6 @@ export default class ListPatient extends Component {
         this.setState({
           patients : response.data
         });
-        console.log(this.state.patients);
       });
   }
 
@@ -36,7 +35,7 @@ export default class ListPatient extends Component {
     this.context.router.push(`/patients/${id}`);
   }
   render() {
-    let patients = this.state.patients.map((patient) => { //map ทำเพื่อเอาtagไปใส่
+    let patients = this.state.patients.map((patient) => {
       return (
         <div>
           <Patient key={ patient.id } {...patient} />

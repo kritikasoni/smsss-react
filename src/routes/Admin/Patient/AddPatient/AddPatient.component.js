@@ -8,9 +8,9 @@ export default class AddNurse extends Component {
       lastName:'',
       email:'',
       idCardNo: '',
-      dob:'',
-      weight:'',
-      height:'',
+      dob: new Date(),
+      weight: 0,
+      height: 0,
       phone:''
     };
     this._onSubmit = this._onSubmit.bind(this);
@@ -37,16 +37,7 @@ export default class AddNurse extends Component {
         console.error(err);
       })
   }
-  componentWillMount(){
-    axios
-      .get('http://localhost:1337/departments')
-      .then(response => {
-        this.setState({departmentList:response.data });
-      })
-      .catch(err => {
-        console.error(err);
-      })
-  }
+
   render() {
     return (
       <form role="form" onSubmit={this._onSubmit}>
@@ -67,7 +58,7 @@ export default class AddNurse extends Component {
           onChange={(e) => this.setState({lastName: e.target.value})}
         />
         <br />
-        
+
         Email:
         <input
           type="email"
@@ -88,7 +79,7 @@ export default class AddNurse extends Component {
         <input
           type="date"
           name="dob"
-          value={this.state.position}
+          value={this.state.dob}
           onChange={(e) => this.setState({dob: e.target.value})}
         />
         <br />
@@ -97,7 +88,7 @@ export default class AddNurse extends Component {
           type="float"
           name="weight"
           value={this.state.weight}
-          onChange={(e) => this.setState({dob: e.target.value})}
+          onChange={(e) => this.setState({weight: e.target.value})}
         />
         <br />
         Height:
@@ -105,7 +96,7 @@ export default class AddNurse extends Component {
           type="float"
           name="height"
           value={this.state.height}
-          onChange={(e) => this.setState({dob: e.target.value})}
+          onChange={(e) => this.setState({height: e.target.value})}
         />
         <br />
         Phone:
@@ -113,7 +104,7 @@ export default class AddNurse extends Component {
           type="string"
           name="phone"
           value={this.state.phone}
-          onChange={(e) => this.setState({dob: e.target.value})}
+          onChange={(e) => this.setState({phone: e.target.value})}
         />
         <br />
         <button type="submit" >Submit</button>
