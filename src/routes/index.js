@@ -27,6 +27,9 @@ export const createRoutes = (store) => ({
         require('./Admin/Medicine/ListMedicine').default(store),
         require('./Admin/Medicine/AddMedicine').default(store),
         require('./Admin/Medicine/EditMedicine').default(store),
+        require('./Doctor/Symptom/AddSymptom').default(store),
+        require('./Doctor/Symptom/EditSymptom').default(store),
+        require('./Doctor/Symptom/ListSymptom').default(store),
         require('./NotFound').default
       ])
     })
