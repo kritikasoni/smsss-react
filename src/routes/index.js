@@ -30,6 +30,9 @@ export const createRoutes = (store) => ({
         require('./Doctor/Symptom/AddSymptom').default(store),
         require('./Doctor/Symptom/EditSymptom').default(store),
         require('./Doctor/Symptom/ListSymptom').default(store),
+        require('./Doctor/Appointment/AddAppointment').default(store),
+        require('./Doctor/Appointment/EditAppointment').default(store),
+        require('./Doctor/Appointment/ListAppointment').default(store),
         require('./NotFound').default
       ])
     })
