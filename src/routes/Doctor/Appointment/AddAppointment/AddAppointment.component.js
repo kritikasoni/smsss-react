@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios'; //library เอาไว้ส่งข้อมูล
 import { todayDateInputValue } from './../../../../helper/Utils';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 export default class AddAppointment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      room:'',
+      room:0,
+      roomList: [],
       patient:{},
       doctor:'',
       date: todayDateInputValue() //ใส่เวลาวันที่ยังไง
@@ -14,6 +17,10 @@ export default class AddAppointment extends Component {
     this._onSubmit = this._onSubmit.bind(this);
   }
   componentWillMount() {
+    this._loadRoomList();
+    this._loadPatient();
+  }
+  _loadPatient() {
     axios
       .get('http://localhost:1337/patients/'+this.props.params.id)
       .then(response => {
@@ -21,15 +28,28 @@ export default class AddAppointment extends Component {
           patient : response.data
         });
         console.log(this.state.patient);
-      });
+      })
+      .catch((err) => console.error(err));
+  }
+  _loadRoomList() {
+    axios
+      .get('http://localhost:1337/rooms')
+      .then(response => {
+        this.setState({roomList:response.data });
+      })
+      .catch(err => {
+        console.error(err);
+      })
   }
   _onSubmit(e) {
     e.preventDefault();
     console.log('submit');
     axios
       .post('http://localhost:1337/appointments',{
-        detail: this.state.detail,
-        patient: this.state.patient,
+        room: this.state.room,
+        patient: this.state.patient.id,
+        doctor: this.state.doctor,
+        date: this.state.date,
 
       })
       .then(response => {
@@ -40,16 +60,16 @@ export default class AddAppointment extends Component {
         console.error(err);
       })
   }
-
   render() {
-
+    let roomOptions = this.state.roomList.map((room) => ({ label: room.name, value: room.id }));
     return (
       <form role="form" onSubmit={this._onSubmit}>
         Room:
-        <input
+        <Select
           name="room"
-          value={this.state.room}
-          onChange={(e) => this.setState({room: e.target.value})}
+          options={roomOptions}
+          value = {this.state.room}
+          onChange={(id) => this.setState({room: id })}
         />
         <br />
         Patient:
@@ -65,6 +85,7 @@ export default class AddAppointment extends Component {
           name="doctor"
           value={this.state.doctor}
           onChange={(e) => this.setState({doctor: e.target.value})}
+          disabled
         />
         <br />
         Date:
