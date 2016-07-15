@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
+import { BackendUrl } from 'Config';
 export default class EditMedicine extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +16,7 @@ export default class EditMedicine extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .put('http://localhost:1337/medicines/'+this.props.params.id,{
+      .put(`${BackendUrl}/medicines/`+this.props.params.id,{
         scientificName: this.state.scientificName,
         informalName: this.state.informalName,
         image: this.state.image,
@@ -32,7 +32,7 @@ export default class EditMedicine extends Component {
 
   componentWillMount() {
     axios
-      .get('http://localhost:1337/medicines/'+this.props.params.id)
+      .get(`${BackendUrl}/medicines/`+this.props.params.id)
       .then(response => {
         console.log(response.data);
         this.setState({

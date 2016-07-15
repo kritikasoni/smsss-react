@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { BackendUrl } from 'Config';
 export default class Edit extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +17,7 @@ export default class Edit extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .put('http://localhost:1337/appointments/'+this.props.params.id,{
+      .put(`${BackendUrl}/appointments/`+this.props.params.id,{
         patient: this.state.patient.id,
         detail: this.state.detail,
       })
@@ -30,7 +31,7 @@ export default class Edit extends Component {
 
   componentWillMount() {
     axios
-      .get('http://localhost:1337/appointments/' + this.props.params.id)
+      .get(`${BackendUrl}/appointments/` + this.props.params.id)
       .then(response => {
         this.setState({
           patient: response.data.patient,

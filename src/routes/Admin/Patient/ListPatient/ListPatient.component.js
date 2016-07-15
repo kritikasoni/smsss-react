@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Patient from './Patient.component';
 import { dateToString } from './../../../../helper/Utils';
+import { BackendUrl } from 'Config';
 export default class ListPatient extends Component {
   constructor(props,context) {
     super(props,context);
@@ -14,7 +15,7 @@ export default class ListPatient extends Component {
 
   componentWillMount() {
     axios
-      .get('http://localhost:1337/patients')
+      .get(`${BackendUrl}/patients`)
       .then(response => {
         this.setState({
           patients : response.data
@@ -24,7 +25,7 @@ export default class ListPatient extends Component {
 
   _deletePatient(id) {
     axios
-      .delete('http://localhost:1337/patients/'+id)
+      .delete(`${BackendUrl}/patients/`+id)
       .then(response => {
         let patients = this.state.patients.filter(patient => patient.id != id);
         this.setState({patients});

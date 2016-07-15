@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'; //library เอาไว้ส่งข้อมูล
+import { BackendUrl } from 'Config';
 export default class AddNurse extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +20,7 @@ export default class AddNurse extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post('http://localhost:1337/patients',{ //ใช้เพื่อส่งข้อมูล
+      .post(`${BackendUrl}/patients`,{ //ใช้เพื่อส่งข้อมูล
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email:this.state.email,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { BackendUrl } from 'Config';
 export default class EditNurse extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +20,7 @@ export default class EditNurse extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .put('http://localhost:1337/patients/'+this.props.params.id,{
+      .put(`${BackendUrl}/patients/`+this.props.params.id,{
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email:this.state.email,
@@ -39,7 +40,7 @@ export default class EditNurse extends Component {
 
   componentWillMount() {
     axios
-      .get('http://localhost:1337/patients/'+this.props.params.id)
+      .get(`${BackendUrl}/patients/`+this.props.params.id)
       .then(response => {
         this.setState({
           firstName : response.data.firstName,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Appointment from './Appointment.component';
-
+import { BackendUrl } from 'Config';
 export default class ListAppointment extends Component {
   constructor(props,context) {
     super(props,context);
@@ -14,7 +14,7 @@ export default class ListAppointment extends Component {
 
   componentWillMount() {
     axios
-      .get('http://localhost:1337/appointments/patient/' + this.props.params.id)
+      .get(`${BackendUrl}:1337/appointments/patient/` + this.props.params.id)
       .then(response => {
         this.setState({
           appointments : response.data
@@ -25,7 +25,7 @@ export default class ListAppointment extends Component {
 
   _deleteAppointment(id) {
     axios
-      .delete('http://localhost:1337/appointments/'+id)
+      .delete(`${BackendUrl}/appointments/`+id)
       .then(response => {
         let appointments = this.state.appointments.filter(appointment => appointment.id != id);
         this.setState({appointments});
@@ -39,7 +39,7 @@ export default class ListAppointment extends Component {
     let appointments = this.state.appointments.map((appointment) => { //map ทำเพื่อเอาtagไปใส่
       return (
         <div>
-          <Appointment key={appointment.id } {...appointment} />
+          <h2>{appointment.detail}</h2>
           <a href={`/doctor/appointments/${appointment.id}/edit`} ><button type="button">Edit</button></a>
           <button type="button" onClick={() => this._deleteAppointment(appointment.id)}>Delete</button>
         </div>

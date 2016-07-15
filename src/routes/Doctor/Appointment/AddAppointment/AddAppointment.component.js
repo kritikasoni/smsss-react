@@ -3,6 +3,7 @@ import axios from 'axios'; //library เอาไว้ส่งข้อมู�
 import { todayDateInputValue } from './../../../../helper/Utils';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import { BackendUrl } from 'Config';
 
 export default class AddAppointment extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class AddAppointment extends Component {
   }
   _loadPatient() {
     axios
-      .get('http://localhost:1337/patients/'+this.props.params.id)
+      .get(`${BackendUrl}/patients/`+this.props.params.id)
       .then(response => {
         this.setState({
           patient : response.data
@@ -33,7 +34,7 @@ export default class AddAppointment extends Component {
   }
   _loadRoomList() {
     axios
-      .get('http://localhost:1337/rooms')
+      .get(`${BackendUrl}/rooms`)
       .then(response => {
         this.setState({roomList:response.data });
       })
@@ -45,7 +46,7 @@ export default class AddAppointment extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post('http://localhost:1337/appointments',{
+      .post(`${BackendUrl}/appointments`,{
         room: this.state.room,
         patient: this.state.patient.id,
         doctor: this.state.doctor,

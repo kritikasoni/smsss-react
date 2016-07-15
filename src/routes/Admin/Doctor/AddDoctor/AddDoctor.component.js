@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios'; //library เอาไว้ส่งข้อมูล
+import axios from 'axios';
+import { BackendUrl } from 'Config';
 export default class AddDoctor extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +19,7 @@ export default class AddDoctor extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post('http://localhost:1337/doctors',{ //ใช้เพื่อส่งข้อมูล
+      .post(`${BackendUrl}/doctors`,{ //ใช้เพื่อส่งข้อมูล
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         department: this.state.department,
@@ -36,7 +37,7 @@ export default class AddDoctor extends Component {
   }
   componentWillMount(){
     axios
-      .get('http://localhost:1337/departments')
+      .get(`${BackendUrl}/departments`)
       .then(response => {
         this.setState({departmentList:response.data });
       })

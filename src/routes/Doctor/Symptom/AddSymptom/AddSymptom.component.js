@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'; //library เอาไว้ส่งข้อมูล
+import { BackendUrl } from 'Config';
 export default class AddSymptom extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +13,7 @@ export default class AddSymptom extends Component {
   }
   componentWillMount() {
     axios
-      .get('http://localhost:1337/patients/'+this.props.params.id)
+      .get(`${BackendUrl}/patients/`+this.props.params.id)
       .then(response => {
         this.setState({
           patient : response.data
@@ -24,7 +25,7 @@ export default class AddSymptom extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post('http://localhost:1337/symptoms',{
+      .post(`${BackendUrl}/symptoms`,{
         detail: this.state.detail,
         patient: this.state.patient,
 

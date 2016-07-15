@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import DropZone from 'react-dropzone';
+import { BackendUrl } from 'Config';
 
 export default class AddMedicine extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class AddMedicine extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post('http://localhost:1337/medicines',{
+      .post(`${BackendUrl}/medicines`,{
         scientificName: this.state.scientificName,
         informalName: this.state.informalName,
         image: this.state.image,
