@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BackendUrl } from 'Config';
+import Select from 'react-select';
 export default class Edit extends Component {
   constructor(props) {
     super(props);
@@ -13,8 +14,7 @@ export default class Edit extends Component {
       timeToTake:0,
       timeToTakeList:[],
       remark:'',
-    }
-    ;
+    };
     this._onSubmit = this._onSubmit.bind(this);
   }
   _onSubmit(e) {
@@ -35,13 +35,15 @@ export default class Edit extends Component {
 
   componentWillMount() {
     axios
-      .get('http://localhost:1337/prescriptions/' + this.props.params.id)
+      .get(`${BackendUrl}/prescriptions/${this.props.params.id}`)
       .then(response => {
         this.setState({
           patient: response.data.patient,
           detail: response.data.detail,
-
         });
+      })
+      .catch(error => {
+        console.error(error);
       });
   }
   render() {

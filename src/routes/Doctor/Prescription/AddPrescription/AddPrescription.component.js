@@ -9,6 +9,7 @@ export default class AddPrescription extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      
       patient:{},
       medicine:0,
       medicineList:[],

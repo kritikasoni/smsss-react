@@ -42,8 +42,8 @@ export default class ListPrescription extends Component {
     let prescriptions = this.state.prescriptions.map((prescription) => { //map ทำเพื่อเอาtagไปใส่
       return (
         <div>
-           
-          {prescription.doctor.firstName}
+
+          {prescription.createdAt}
           <a href={`/doctor/prescriptions/${prescription.id}/edit`} ><button type="button">Edit</button></a>
           <button type="button" onClick={() => this._deletePrescription(prescription.id)}>Delete</button>
         </div>

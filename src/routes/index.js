@@ -36,6 +36,9 @@ export const createRoutes = (store) => ({
         require('./Doctor/Prescription/AddPrescription').default(store),
         require('./Doctor/Prescription/EditPrescription').default(store),
         require('./Doctor/Prescription/ListPrescription').default(store),
+        require('./Doctor/Queue/AddQueue').default(store),
+        require('./Doctor/Queue/EditQueue').default(store),
+        require('./Doctor/Queue/ListQueue').default(store),
         require('./NotFound').default
       ])
     })
