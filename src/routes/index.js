@@ -36,9 +36,12 @@ export const createRoutes = (store) => ({
         require('./Doctor/Prescription/AddPrescription').default(store),
         require('./Doctor/Prescription/EditPrescription').default(store),
         require('./Doctor/Prescription/ListPrescription').default(store),
-        require('./Doctor/Queue/AddQueue').default(store),
-        require('./Doctor/Queue/EditQueue').default(store),
-        require('./Doctor/Queue/ListQueue').default(store),
+        require('./Nurse/Queue/AddQueue').default(store),
+        require('./Nurse/Queue/EditQueue').default(store),
+        require('./Nurse/Queue/ListQueue').default(store),
+        require('./Admin/Room/AddRoom').default(store),
+        require('./Admin/Room/EditRoom').default(store),
+        require('./Admin/Room/ListRoom').default(store),
         require('./NotFound').default
       ])
     })

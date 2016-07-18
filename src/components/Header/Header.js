@@ -45,6 +45,34 @@ export const Header = () => (
       Add Medicine
     </Link>
     {' · '}
+    <Link to='/doctor/appointments/add/patient/1' activeClassName={classes.activeRoute}>
+      Add appointment
+    </Link>
+    {' · '}
+    <Link to='/doctor/prescriptions/add/patient/1' activeClassName={classes.activeRoute}>
+      Add Prescription
+    </Link>
+    {' · '}
+    <Link to='/doctor/symptoms/add/patient/1' activeClassName={classes.activeRoute}>
+      Add Symptom
+    </Link>
+    {' · '}
+    <Link to='/admin/rooms/add' activeClassName={classes.activeRoute}>
+      Add Room
+    </Link>
+    {' · '}
+    <Link to='/admin/rooms' activeClassName={classes.activeRoute}>
+      Rooms
+    </Link>
+    {' · '}
+    <Link to='/nurse/queues/add/patient/1' activeClassName={classes.activeRoute}>
+      Add Queue
+    </Link>
+    {' · '}
+    <Link to='/nurse/queues/list/patient/1' activeClassName={classes.activeRoute}>
+      Queues
+    </Link>
+    {' · '}
   </div>
 )
 

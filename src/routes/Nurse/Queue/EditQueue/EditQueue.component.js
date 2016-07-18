@@ -5,10 +5,11 @@ export default class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      patient:{},
-      time: new time,//ถูกไหม???
-      room:0,
-      roomlist:[]
+      patient: {},
+      time: null,//ถูกไหม???
+      room: 0,
+      roomlist: []
+    }
     ;
     this._onSubmit = this._onSubmit.bind(this);
   }
