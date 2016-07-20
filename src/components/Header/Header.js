@@ -29,11 +29,11 @@ export const Header = () => (
       Add Doctor
     </Link>
     {' · '}
-    <Link to='/admin/doctors' activeClassName={classes.activeRoute}>
+    <Link to='/admin/nurses' activeClassName={classes.activeRoute}>
       Nurses
     </Link>
     {' · '}
-    <Link to='/admin/doctors/add' activeClassName={classes.activeRoute}>
+    <Link to='/admin/nurses/add' activeClassName={classes.activeRoute}>
       Add Nurse
     </Link>
     {' · '}

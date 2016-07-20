@@ -19,7 +19,7 @@ export default class AddDoctor extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post(`${BackendUrl}/doctors`,{ //ใช้เพื่อส่งข้อมูล
+      .post(`${BackendUrl}/doctors`,{ 
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         department: this.state.department,

@@ -19,7 +19,7 @@ export default class AddNurse extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post(`${BackendUrl}/nurses`,{ //ใช้เพื่อส่งข้อมูล
+      .post(`${BackendUrl}/nurses`,{
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         department: this.state.department,
@@ -35,7 +35,18 @@ export default class AddNurse extends Component {
         console.error(err);
       })
   }
-  
+
+  componentWillMount(){
+    axios
+      .get(`${BackendUrl}/departments`)
+      .then(response => {
+        this.setState({departmentList:response.data });
+      })
+      .catch(err => {
+        console.error(err);
+      })
+  }
+
   render() {
     let departmentOptions = this.state.departmentList.map((department) => (
       <option value={department.id} key={department.id}>{department.name}</option>
