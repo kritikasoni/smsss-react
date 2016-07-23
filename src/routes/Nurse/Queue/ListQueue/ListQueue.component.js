@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BackendUrl } from 'Config';
+import Socket from 'helper/Socket';
 
 export default class ListQueue extends Component {
   constructor(props,context) {
@@ -13,27 +14,18 @@ export default class ListQueue extends Component {
   }
 
   componentWillMount() {
-    // axios
-    //   .get(`${BackendUrl}/queues`)
-    //   .then(response => {
-    //     this.setState({
-    //       queues : response.data
-    //     });
-    //     console.log(this.state.queues);
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //   });
-    io.sails.url = BackendUrl;
-    io.socket.get('/queues', function serverResponded (body, JWR) {
-
-      // JWR ==> "JSON WebSocket Response"
-      console.log('Sails responded with: ', body);
-      console.log('with headers: ', JWR.headers);
-      console.log('and with status code: ', JWR.statusCode);
-
-      // first argument `body` === `JWR.body`
-      // (just for convenience, and to maintain familiar usage, a la `JQuery.get()`)
+    const self = this;
+    Socket.get('/queues', (body, JWR) => {
+      self.setState({queues: body});
+      console.log(self.state.queues);
+    });
+    Socket.on('queue', (event) => {
+      if(event.verb === 'created') {
+        self.setState({queues: [...self.state.queues, event.data ]})
+      }
+      else if (event.verb === 'destroyed') {
+        self.setState({queues: self.state.queues.map(q => q != event.data.id)})
+      }
     });
   }
 

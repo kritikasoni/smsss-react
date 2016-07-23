@@ -57,6 +57,7 @@ export const Header = () => (
     </div>
   </div>
 
-)
+) //เพิ่ม '/admin/departments/add' name='ADD DEPARTMENT'
+//เพิ่ม'/admin/departments' name='DEPARTMENT'
 
 export default Header

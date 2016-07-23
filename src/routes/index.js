@@ -42,6 +42,9 @@ export const createRoutes = (store) => ({
         require('./Admin/Room/AddRoom').default(store),
         require('./Admin/Room/EditRoom').default(store),
         require('./Admin/Room/ListRoom').default(store),
+        require('./Admin/Department/AddDepartment').default(store),
+        require('./Admin/Department/EditDepartment').default(store),
+        require('./Admin/Department/ListDepartment').default(store),
         require('./NotFound').default
       ])
     })
