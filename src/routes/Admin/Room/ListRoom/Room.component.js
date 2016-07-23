@@ -1,9 +1,19 @@
 import React from 'react';
+import classes from './Room.component.scss';
 
 export const Room = (props) =>  (
   <div>
-    <h1>{props.name}</h1>
-   
+
+    <div className={classes.topic12}>
+
+      <div className="row">
+        <div className="col-md-12">
+          <div className="col-md-6 text-right">{props.name}</div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 )
 Room.propTypes = {

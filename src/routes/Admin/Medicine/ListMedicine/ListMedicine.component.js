@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Medicine from './Medicine.component';
 import { BackendUrl } from 'Config';
+import classes from './ListMedicine.scss';
 
 export default class ListMedicine extends Component {
   constructor(props,context) {
@@ -41,14 +42,15 @@ export default class ListMedicine extends Component {
       return (
         <div>
           <Medicine key={ medicine.id } {...medicine} />
-          <a href={`/admin/medicines/${medicine.id}/edit`} ><button type="button">Edit</button></a>
-          <button type="button" onClick={() => this._deleteMedicine(medicine.id)}>Delete</button>
+          <a href={`/admin/medicines/${medicine.id}/edit`} >
+            <button type="button" className={`btn ${classes.editer}`}>EDIT</button></a>
+          <button type="button" className={`btn ${classes.deleter}`} onClick={() => this._deleteMedicine(medicine.id)}>Delete</button>
         </div>
       );
     });
     return (
       <div>
-        <h1>Medicines</h1>
+        <div className={classes.namepage}><h1>Medicines</h1></div>
         {medicines}
       </div>
     );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'; //library เอาไว้ส่งข้อมูล
 import { BackendUrl } from 'Config';
+import classes from './AddSymptom.component.scss';
 export default class AddSymptom extends Component {
   constructor(props) {
     super(props);
@@ -43,14 +44,23 @@ export default class AddSymptom extends Component {
 
     return (
       <form role="form" onSubmit={this._onSubmit}>
-        Detail:
-        <textarea
+
+        <div className={classes.topic9}>
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">DETAIL :</div>
+
+        <textarea className="col-md-4"
           name="detail"
           value={this.state.detail}
-          onChange={(e) => this.setState({detail: e.target.value})}
-        />
-        <br />
-        <button type="submit" >Submit</button>
+          onChange={(e) => this.setState({detail: e.target.value})}/>
+              
+            </div>
+          </div>
+        </div>
+
+        <button type="submit"className={`btn ${classes.submitbut8}`} >SUBMIT</button>
       </form>
     );
   }

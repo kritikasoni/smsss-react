@@ -3,6 +3,7 @@ import axios from 'axios'; //library เอาไว้ส่งข้อมู�
 import { todayDateInputValue } from './../../../../helper/Utils';
 import { BackendUrl } from 'Config';
 import MedicinePrescriptionInput from './MedicinePrescriptionInput.component';
+import classes from './AddPrescription.component.scss';
 
 export default class AddPrescription extends Component {
   constructor(props) {
@@ -132,20 +133,32 @@ export default class AddPrescription extends Component {
     });
     return (
       <form role="form" onSubmit={this._onSubmit}>
-        Patient:
-        <input
-          name="patient"
-          value={this.state.patient.firstName}
-          onChange={(e) => this.setState({patient: {firstName: e.target.value }})}
-          disabled
-        />
-        <br />
+
+        <div className={classes.topic7}>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">PATIENT :</div>
+              <input className="col-md-3"
+                     name="patient"
+                     value={this.state.patient.firstName}
+                     onChange={(e) => this.setState({patient: {firstName: e.target.value }})}
+                     disabled
+              />
+            </div>
+          </div>
+        </div>
+
+
+
         {medicinePrescriptionList}
-        <br />
-        <button type="button" onClick={() => this._addMoreMedicinePrescriptionInput()} >
+
+
+
+        <button type="button" className={`btn ${classes.submitbut6}`} onClick={() => this._addMoreMedicinePrescriptionInput()} >
           Add more medicine
         </button>
-        <button type="submit" >Submit</button>
+
+        <button type="submit" className={`btn ${classes.submitbut6}`}>Submit</button>
       </form>
     );
   }

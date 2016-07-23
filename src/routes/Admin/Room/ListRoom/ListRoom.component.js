@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Room from './Room.component';
 import { BackendUrl } from 'Config';
+import classes from './ListRoom.component.scss';
 
 export default class ListRoom extends Component {
   constructor(props,context) {
@@ -40,15 +41,29 @@ export default class ListRoom extends Component {
     let rooms = this.state.rooms.map((room) => {
       return (
         <div>
-          Room: {room.name}
-          <a href={`/admin/rooms/${room.id}/edit`} ><button type="button">Edit</button></a>
-          <button type="button" onClick={() => this._deleteRoom(room.id)}>Delete</button>
+          <div className={classes.topic13}>
+
+            <div className="row">
+              <div className="col-md-12">
+                <div className="col-md-12 text-center">Room: {room.name}
+
+                  <a href={`/admin/rooms/${room.id}/edit`} >
+                    <button type="button" className={`btn ${classes.editer2}`}>EDIT</button></a>
+                  <button type="button" className={`btn ${classes.deleter2}`} onClick={() => this._deleteRoom(room.id)}>DELETE</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+
         </div>
       );
     });
     return (
       <div>
-        <h1>Rooms</h1>
+        <div className={classes.namepage2}><h1>Rooms</h1></div>
         {rooms}
       </div>
     );

@@ -1,14 +1,50 @@
 import React from 'react';
+import classes from './Medicine.component.scss';
 
 export const Medicine = (props) =>  (
   <div>
-    <h1>Scientific name:{props.scientificName}</h1>
-    <h2>Informal name:{props.informalName}</h2>
-    <div>
-      Image:
-    <img src={props.image} />
+
+    <div className={classes.topic11}>
+
+      <div className="row">
+        <div className="col-md-12">
+          <div className="col-md-6 text-right">Scientific name:</div>
+          <div className="col-md-3"> {props.scientificName}
+          </div>
+        </div>
+      </div>
+
+
+      <div className="row">
+        <div className="col-md-12">
+          <div className="col-md-6 text-right">Informal name:</div>
+          <div className="col-md-3"> {props.informalName}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div className={classes.topic11}>
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">Image:</div>
+              <div className="col-md-3"> <img src={props.image} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-md-12">
+          <div className="col-md-6 text-right">Detail:</div>
+          <div className="col-md-3"> {props.detail}
+          </div>
+        </div>
+      </div>
     </div>
-    <h3>Detail:{props.detail}</h3>
+
   </div>
 )
 Medicine.propTypes = {

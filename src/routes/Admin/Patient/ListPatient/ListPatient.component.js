@@ -3,6 +3,8 @@ import axios from 'axios';
 import Patient from './Patient.component';
 import { dateToString } from './../../../../helper/Utils';
 import { BackendUrl } from 'Config';
+import classes from './ListPatient.component.scss';
+
 export default class ListPatient extends Component {
   constructor(props,context) {
     super(props,context);
@@ -40,14 +42,15 @@ export default class ListPatient extends Component {
       return (
         <div>
           <Patient key={ patient.id } {...patient} />
-          <a href={`/admin/patients/${patient.id}/edit`} ><button type="button">Edit</button></a>
-          <button type="button" onClick={() => this._deletePatient(patient.id)}>Delete</button>
+          <a href={`/admin/patients/${patient.id}/edit`} >
+            <button type="button" className={`btn ${classes.editer3}`}>EDIT</button></a>
+          <button type="button" className={`btn ${classes.deleter3}`} onClick={() => this._deletePatient(patient.id)}>DELETE</button>
         </div>
       );
     });
     return (
       <div>
-        <h1>Patients</h1>
+        <div className={classes.namepage3}><h1>Patients</h1></div>
         {patients}
       </div>
     );

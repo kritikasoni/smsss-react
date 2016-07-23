@@ -4,37 +4,69 @@ import classes from './MedicinePrescriptionInput.component.scss';
 
 export const MedicinePrescriptionInput = (props) => (
   <div>
-    Medicine:
-    <Select
-      name="medicine"
-      options={props.medicineOptions}
-      value = {props.medicine}
-      onChange={(id) => props.onMedicineChange(id)}
-    />
-    <br />
-    Dosage:
-    <Select
-      name="dosage"
-      options={props.dosageOptions}
-      value = {props.dosage}
-      onChange={(id) => props.onDosageChange(id)}
-    />
-    <br />
-    Time to take:
-    <Select
-      name="timeToTake"
-      options={props.timeToTakeOptions}
-      value = {props.timeToTake}
-      onChange={(id) => props.onTimeToTakeChange(id)}
-    />
-    <br />
-    Remark:
+    <div className={classes.topic8}>
+      <br/>
+      <div className="row">
+        <div className="col-md-12">
+          <div className="col-md-6 text-right">MEDICINE :</div>
+          <div className="col-md-3">
+            <Select
+              name="medicine"
+              options={props.medicineOptions}
+              value = {props.medicine}
+              onChange={(id) => props.onMedicineChange(id)}
+            /></div>
+        </div>
+      </div>
+
+      <br />
+
+      <div className="row">
+        <div className="col-md-12">
+          <div className="col-md-6 text-right">DOSAGE :</div>
+          <div className="col-md-3">
+            <Select
+              name="dosage"
+              options={props.dosageOptions}
+              value = {props.dosage}
+              onChange={(id) => props.onDosageChange(id)}
+            />
+          </div>
+        </div>
+      </div>
+      <br />
+
+      <div className="row">
+        <div className="col-md-12">
+          <div className="col-md-6 text-right">TIME TO TAKE :</div>
+          <div className="col-md-3">
+            <Select
+              name="timeToTake"
+              options={props.timeToTakeOptions}
+              value = {props.timeToTake}
+              onChange={(id) => props.onTimeToTakeChange(id)}
+            />
+          </div>
+        </div>
+      </div>
+      <br />
+
+      <div className="row">
+        <div className="col-md-12">
+          <div className="col-md-6 text-right">REMARK :</div>
+          <div className="col-md-3">
         <textarea
           name="remark"
           onChange={(text) => props.onRemarkChange(text)}
           value={props.remark}
         >
         </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 )
 

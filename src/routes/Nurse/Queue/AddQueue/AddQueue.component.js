@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { BackendUrl } from 'Config';
 import { todayDateInputValue } from 'helper/Utils';
+import classes from './AddQueue.component.scss';
 
 export default class AddNurse extends Component {
   constructor(props) {
@@ -46,33 +47,50 @@ export default class AddNurse extends Component {
     return (
       <form role="form" onSubmit={this._onSubmit}>
 
-        Patient:
-        <input
-          type="text"
-          name="patient"
-          value={this.state.patient.firstName}
-          onChange={(e) => this.setState({patient: e.target.value})}
-          disabled
-        />
-        <br />
-        Time:
-        <input
-          type="datetime"
-          name="time"
-          value={this.state.time}
-          onChange={(e) => this.setState({time: e.target.value})}
-        />
-        <br />
-        Room:
-        <input
-          type="text"
-          name="room"
-          value={this.state.room}
-          onChange={(e) => this.setState({room: e.target.value})}
-        />
-        <br />
+        <div className={classes.topic10}>
 
-        <button type="submit" >Submit</button>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">PATIENT :</div>
+              <input className="col-md-3"
+                     type="text"
+                     name="patient"
+                     value={this.state.patient.firstName}
+                     onChange={(e) => this.setState({patient: e.target.value})}
+                     disabled
+              />
+            </div>
+          </div>
+          <br />
+
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">TIME :</div>
+              <input className="col-md-3"
+                     type="datetime"
+                     name="time"
+                     value={this.state.time}
+                     onChange={(e) => this.setState({time: e.target.value})}
+              />
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">ROOM :</div>
+              <input className="col-md-3"
+                     type="text"
+                     name="room"
+                     value={this.state.room}
+                     onChange={(e) => this.setState({room: e.target.value})}
+              />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" className={`btn ${classes.submitbut9}`} >SUBMIT</button>
       </form>
     );
   }

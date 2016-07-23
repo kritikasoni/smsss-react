@@ -1,79 +1,62 @@
 import React from 'react'
-import { IndexLink, Link } from 'react-router'
+import { Tab } from './Tab'
+import { IndexLink, Link } from 'react-router';
 import classes from './Header.scss'
 
 export const Header = () => (
-  <div>
-    <h1>React Redux Starter Kit</h1>
-    <IndexLink to='/' activeClassName={classes.activeRoute}>
-      Home
-    </IndexLink>
-    {' · '}
-    <Link to='/counter' activeClassName={classes.activeRoute}>
-      Counter
-    </Link>
-    {' · '}
-    <Link to='/admin/patients' activeClassName={classes.activeRoute}>
-      Patient
-    </Link>
-    {' · '}
-    <Link to='/admin/patients/add' activeClassName={classes.activeRoute}>
-      Add Patient
-    </Link>
-    {' · '}
-    <Link to='/admin/doctors' activeClassName={classes.activeRoute}>
-      Doctors
-    </Link>
-    {' · '}
-    <Link to='/admin/doctors/add' activeClassName={classes.activeRoute}>
-      Add Doctor
-    </Link>
-    {' · '}
-    <Link to='/admin/nurses' activeClassName={classes.activeRoute}>
-      Nurses
-    </Link>
-    {' · '}
-    <Link to='/admin/nurses/add' activeClassName={classes.activeRoute}>
-      Add Nurse
-    </Link>
-    {' · '}
-    <Link to='/admin/medicines' activeClassName={classes.activeRoute}>
-      Medicines
-    </Link>
-    {' · '}
-    <Link to='/admin/medicines/add' activeClassName={classes.activeRoute}>
-      Add Medicine
-    </Link>
-    {' · '}
-    <Link to='/doctor/appointments/add/patient/1' activeClassName={classes.activeRoute}>
-      Add appointment
-    </Link>
-    {' · '}
-    <Link to='/doctor/prescriptions/add/patient/1' activeClassName={classes.activeRoute}>
-      Add Prescription
-    </Link>
-    {' · '}
-    <Link to='/doctor/symptoms/add/patient/1' activeClassName={classes.activeRoute}>
-      Add Symptom
-    </Link>
-    {' · '}
-    <Link to='/admin/rooms/add' activeClassName={classes.activeRoute}>
-      Add Room
-    </Link>
-    {' · '}
-    <Link to='/admin/rooms' activeClassName={classes.activeRoute}>
-      Rooms
-    </Link>
-    {' · '}
-    <Link to='/nurse/queues/add/patient/1' activeClassName={classes.activeRoute}>
-      Add Queue
-    </Link>
-    {' · '}
-    <Link to='/nurse/queues/list/patient/1' activeClassName={classes.activeRoute}>
-      Queues
-    </Link>
-    {' · '}
+  <div className={classes.container}>
+    <div className={`${classes.head1}`}>
+      <h1>SMART MEDICAL SERVICES SUPPORTING SYSTEM</h1>
+
+      <div className={`${classes.head2}`}>
+
+
+
+        <ul className="nav nav-tabs">
+          <div className="row">
+            <div className="col col-md-12">
+              <li className="col-md-2" role="presentation">
+                <IndexLink to='/' activeClassName={classes.activeRoute}>
+                  HOME
+                </IndexLink>
+              </li>
+              <div className="col-md-2"><Tab to='/counter' name='COUNTER' /></div>
+              <div className="col-md-2"><Tab to='/admin/patients' name='PATIENT' /></div>
+              <div className="col-md-2"><Tab to='/admin/patients/add' name='ADD PATIENT' /></div>
+              <div className="col-md-2"><Tab to='/admin/doctors' name='DOCTORS' /></div>
+              <div className="col-md-2"><Tab to='/admin/doctors/add' name='ADD DOCTORS' /></div>
+            </div>
+          </div>
+        </ul>
+        <ul className="nav nav-tabs">
+          <div className="row">
+            <div className="col col-md-12">
+              <div className="col-md-2"> <Tab to='/admin/nurses' name='NURSE'/></div>
+              <div className="col-md-2"><Tab to='/admin/nurses/add' name='ADD NURSE' /></div>
+              <div className="col-md-2"><Tab to='/admin/medicines/add' name='ADD MEDICINE' /></div>
+              <div className="col-md-2"><Tab to='/doctor/appointments/add/patient/1' name='ADD APPOINTMENT' /></div>
+              <div className="col-md-2"><Tab to='/doctor/prescriptions/add/patient/1' name='ADD PRESCRIPTION' /></div>
+              <div className="col-md-2"><Tab to='/doctor/symptoms/add/patient/1' name='ADD SYMPTOM' /></div>
+            </div>
+          </div>
+        </ul>
+        <ul className="nav nav-tabs">
+          <div className="row">
+            <div className="col col-md-12">
+              <div className="col-md-2"> <Tab to='/admin/rooms/add' name='ADD ROOM' /></div>
+              <div className="col-md-2"> <Tab to='/admin/rooms' name='ROOMS' /></div>
+              <div className="col-md-2"> <Tab to='/nurse/queues/add/patient/1' name='ADD QUEUE' /></div>
+              <div className="col-md-2"> <Tab to='/admin/medicines' name='MEDICINES' /></div>
+              <div className="col-md-2"> <Tab to='/nurse/queues/list/patient/1' name='QUEUES' /></div>
+            </div>
+          </div>
+        </ul>
+
+
+      </div>
+    </div>
   </div>
+
 )
 
 export default Header

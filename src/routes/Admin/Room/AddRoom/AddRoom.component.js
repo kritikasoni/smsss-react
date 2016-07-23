@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BackendUrl } from 'Config';
+import classes from './AddRoom.component.scss';
+
 export default class AddRoom extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,7 @@ export default class AddRoom extends Component {
     e.preventDefault();
     console.log('submit');
     axios
-      .post(`${BackendUrl}/rooms`,{ 
+      .post(`${BackendUrl}/rooms`,{
         name: this.state.name,
 
       })
@@ -36,20 +38,27 @@ export default class AddRoom extends Component {
       })
   }
   render() {
-    
+
     return (
       <form role="form" onSubmit={this._onSubmit}>
 
-        Room name:
-        <input
-          type="text"
-          name="name"
-          value={this.state.name}
-          onChange={(e) => this.setState({name: e.target.value})}
-        />
-        <br />
+        <div className={classes.topic5}>
 
-        <button type="submit" >Submit</button>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right"> ROOM NAME :</div>
+              <input className="col-md-3"
+                     type="text"
+                     name="name"
+                     value={this.state.name}
+                     onChange={(e) => this.setState({name: e.target.value})}
+              />
+            </div>
+          </div>
+        </div>
+
+
+        <button type="submit" className={`btn ${classes.submitbut4}`} >Submit</button>
       </form>
     );
   }

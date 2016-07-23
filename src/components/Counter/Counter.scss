@@ -1,12 +1,30 @@
 .counter {
   font-weight: bold;
+
 }
 
 .counter--green {
   composes: counter;
-  color: rgb(25,200,25);
+  color: #c36765;
 }
 
 .counterContainer {
   margin: 1em auto;
+  text-align: center;
+  color: #839192;
+}
+.incre{
+  background-color: #34495E;
+  color: #FFFFFF;
+
+}
+.incre .dou:hover{
+  color: #839192;
+}
+.dou{
+  background-color: #34495E;
+  color: #FFFFFF;
+}
+.dou:hover{
+  color: #839192;
 }

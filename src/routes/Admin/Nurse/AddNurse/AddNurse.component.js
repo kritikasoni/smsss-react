@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'; //library เอาไว้ส่งข้อมูล
 import { BackendUrl } from 'Config';
+import classes from './AddNurse.component.scss';
 export default class AddNurse extends Component {
   constructor(props) {
     super(props);
@@ -54,57 +55,90 @@ export default class AddNurse extends Component {
     return (
       <form role="form" onSubmit={this._onSubmit}>
 
-        First name:
-        <input
-          type="text"
-          name="firstName"
-          value={this.state.firstName}
-          onChange={(e) => this.setState({firstName: e.target.value})}
-        />
-        <br />
-        Last name:
-        <input
-          type="text"
-          name="lastName"
-          value={this.state.lastName}
-          onChange={(e) => this.setState({lastName: e.target.value})}
-        />
-        <br />
-        Department:
-        <select
-          name="department"
-          onChange={(e) => this.setState({department: e.target.value})}
-          value={this.state.department}
-        >
-          <option disabled value="0">Please select</option>
-          {departmentOptions}
-        </select>
-        <br />
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={this.state.email}
-          onChange={(e) => this.setState({email: e.target.value})}
-        />
-        <br />
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={this.state.password}
-          onChange={(e) => this.setState({password: e.target.value})}
-        />
-        <br />
-        Position:
-        <input
-          type="text"
-          name="position"
-          value={this.state.position}
-          onChange={(e) => this.setState({position: e.target.value})}
-        />
-        <br />
-        <button type="submit" >Submit</button>
+        <div className={classes.topic3}>
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right"> FIRST NAME :</div>
+              <input className="col-md-3"
+                     type="text"
+                     name="firstName"
+                     value={this.state.firstName}
+                     onChange={(e) => this.setState({firstName: e.target.value})}
+              />
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right"> LAST NAME :</div>
+              <input className="col-md-3"
+                     type="text"
+                     name="lastName"
+                     value={this.state.lastName}
+                     onChange={(e) => this.setState({lastName: e.target.value})}
+              />
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right"> DEPARTMENT :</div>
+              <select className="col-md-3"
+                      name="department"
+                      onChange={(e) => this.setState({department: e.target.value})}
+                      value={this.state.department}
+              >
+                <option disabled value="0">Please select</option>
+                {departmentOptions}
+              </select>
+            </div>
+          </div>
+          <br />
+
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right"> EMAIL :</div>
+              <input className="col-md-3"
+                     type="email"
+                     name="email"
+                     value={this.state.email}
+                     onChange={(e) => this.setState({email: e.target.value})}
+              />
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right"> PASSWORD :</div>
+              <input className="col-md-3"
+                     type="password"
+                     name="password"
+                     value={this.state.password}
+                     onChange={(e) => this.setState({password: e.target.value})}
+              />
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right"> POSITION :</div>
+              <input className="col-md-3"
+                     type="text"
+                     name="position"
+                     value={this.state.position}
+                     onChange={(e) => this.setState({position: e.target.value})}
+              />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" className={`btn ${classes.submitbut2}`}>SUBMIT</button>
       </form>
     );
   }

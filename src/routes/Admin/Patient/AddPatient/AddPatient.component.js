@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'; //library เอาไว้ส่งข้อมูล
 import { BackendUrl } from 'Config';
+import classes from './AddPatient.component.scss';
+
 export default class AddNurse extends Component {
   constructor(props) {
     super(props);
@@ -43,72 +45,107 @@ export default class AddNurse extends Component {
     return (
       <form role="form" onSubmit={this._onSubmit}>
 
-        First name:
-        <input
-          type="text"
-          name="firstName"
-          value={this.state.firstName}
-          onChange={(e) => this.setState({firstName: e.target.value})}
-        />
-        <br />
-        Last name:
-        <input
-          type="text"
-          name="lastName"
-          value={this.state.lastName}
-          onChange={(e) => this.setState({lastName: e.target.value})}
-        />
-        <br />
+        <div className={classes.topic}>
 
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={this.state.email}
-          onChange={(e) => this.setState({email: e.target.value})}
-        />
-        <br />
-        id card number:
-        <input
-          type="string"
-          name="idCardNo"
-          value={this.state.idCardNo}
-          onChange={(e) => this.setState({idCardNo: e.target.value})}
-        />
-        <br />
-        Date of Birth:
-        <input
-          type="date"
-          name="dob"
-          value={this.state.dob}
-          onChange={(e) => this.setState({dob: e.target.value})}
-        />
-        <br />
-        Weight:
-        <input
-          type="float"
-          name="weight"
-          value={this.state.weight}
-          onChange={(e) => this.setState({weight: e.target.value})}
-        />
-        <br />
-        Height:
-        <input
-          type="float"
-          name="height"
-          value={this.state.height}
-          onChange={(e) => this.setState({height: e.target.value})}
-        />
-        <br />
-        Phone:
-        <input
-          type="string"
-          name="phone"
-          value={this.state.phone}
-          onChange={(e) => this.setState({phone: e.target.value})}
-        />
-        <br />
-        <button type="submit" >Submit</button>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right"> FIRST NAME :</div>
+              <input className="col-md-3"
+                     type="text"
+                     name="firstName"
+                     value={this.state.firstName}
+                     onChange={(e) => this.setState({firstName: e.target.value})}/>
+            </div>
+          </div>
+          <br/>
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">LAST NAME :</div>
+              <input className="col-md-3"
+                     type="text"
+                     name="lastName"
+                     value={this.state.lastName}
+                     onChange={(e) => this.setState({lastName: e.target.value})}/>
+            </div>
+          </div>
+          <br/>
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">EMAIL :</div>
+              <input className="col-md-3"
+                     type="email"
+                     name="email"
+                     value={this.state.email}
+                     onChange={(e) => this.setState({email: e.target.value})}/>
+            </div>
+          </div>
+          <br />
+
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">ID CARD NUMBER :</div>
+              <input className="col-md-3"
+                     type="string"
+                     name="idCardNo"
+                     value={this.state.idCardNo}
+                     onChange={(e) => this.setState({idCardNo: e.target.value})}/>
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">DATE OF BIRTH :</div>
+              <input className="col-md-3"
+                     type="date"
+                     name="dob"
+                     value={this.state.dob}
+                     onChange={(e) => this.setState({dob: e.target.value})}/>
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">WEIGHT :</div>
+              <input className="col-md-3"
+                     type="float"
+                     name="weight"
+                     value={this.state.weight}
+                     onChange={(e) => this.setState({weight: e.target.value})}/>
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">HEIGHT :</div>
+              <input className="col-md-3"
+                     type="float"
+                     name="height"
+                     value={this.state.height}
+                     onChange={(e) => this.setState({height: e.target.value})}/>
+            </div>
+          </div>
+          <br />
+
+          <div className="row">
+            <div className="col-md-12">
+              <div className="col-md-6 text-right">PHONE :</div>
+              <input className="col-md-3"
+                     type="string"
+                     name="phone"
+                     value={this.state.phone}
+                     onChange={(e) => this.setState({phone: e.target.value})}/>
+            </div>
+          </div>
+        </div>
+
+
+        <button type="submit" className={`btn ${classes.submitButton}`}>SUBMIT</button>
       </form>
     );
   }
