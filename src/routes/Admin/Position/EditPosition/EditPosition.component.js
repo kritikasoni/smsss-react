@@ -20,6 +20,7 @@ export default class EditPosition extends Component {
       })
       .then(response => {
         console.log(response);
+        this.props.history.push('/admin/positions');
       })
       .catch(err => {
         console.error(err);

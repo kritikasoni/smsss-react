@@ -23,6 +23,8 @@ export default class Edit extends Component {
       })
       .then(response => {
         console.log(response);
+        // this.props.history.push('/admin/patients');
+        /*TODO: Dear me in the future, for the sake of my laziness I need to link path to individual patient */
       })
       .catch(err => {
         console.error(err);

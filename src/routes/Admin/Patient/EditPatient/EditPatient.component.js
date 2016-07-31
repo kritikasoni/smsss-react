@@ -32,6 +32,7 @@ export default class EditNurse extends Component {
       })
       .then(response => {
         console.log(response);
+        this.props.history.push('/admin/patients');
       })
       .catch(err => {
         console.error(err);
@@ -91,7 +92,7 @@ export default class EditNurse extends Component {
         <input
           type="date"
           name="dob"
-          value={this.state.position}
+          value={this.state.dob}
           onChange={(e) => this.setState({dob: e.target.value})}
         />
         <br />

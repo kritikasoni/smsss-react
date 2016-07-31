@@ -1,7 +1,7 @@
-import { injectReducer } from 'store/reducers'
+import { injectReducer } from '../../../../store/reducers'
 
 export default (store) => ({
-  path: 'nurse/queues/list',
+  path: 'admin/patients/:id/detail',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -9,16 +9,17 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
        dependencies for bundling   */
-      const ListQueue = require('./ListQueue.component').default
-      const reducer = require('./ListQueue.reducer').default
+      const DetailPatient = require('./DetailPatient.component').default
+      const reducer = require('./DetailPatient.reducer').default
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'queues', reducer })
+      injectReducer(store, { key: 'detailPatient', reducer })
 
       /*  Return getComponent   */
-      cb(null, ListQueue)
+      cb(null, DetailPatient)
 
       /* Webpack named bundle   */
-    }, 'listQueues')
+    }, 'detailPatient')
   }
 })
+

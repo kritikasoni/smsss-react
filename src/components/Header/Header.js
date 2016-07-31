@@ -42,7 +42,7 @@ export const Header = () => (
             <div className="col-md-2"> <Tab to='/admin/rooms' name='ROOMS' /></div>
             <div className="col-md-2"> <Tab to='/nurse/queues/add/patient/1' name='ADD QUEUE' /></div>
             <div className="col-md-2"> <Tab to='/admin/medicines' name='MEDICINES' /></div>
-            <div className="col-md-2"> <Tab to='/nurse/queues/list/patient/1' name='QUEUES' /></div>
+            <div className="col-md-2"> <Tab to='/nurse/queues/list' name='QUEUES' /></div>
           </div>
         </div>
       </ul>

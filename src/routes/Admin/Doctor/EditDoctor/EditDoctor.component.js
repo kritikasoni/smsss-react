@@ -29,6 +29,7 @@ export default class EditDoctor extends Component {
       })
       .then(response => {
         console.log(response);
+        this.props.history.push('/admin/doctors');
       })
       .catch(err => {
         console.error(err);

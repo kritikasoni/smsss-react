@@ -24,6 +24,7 @@ export default class EditMedicine extends Component {
       })
       .then(response => {
         console.log(response);
+        this.props.history.push('/admin/medicines');
       })
       .catch(err => {
         console.error(err);

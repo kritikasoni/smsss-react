@@ -29,6 +29,7 @@ export default class EditNurse extends Component {
       })
       .then(response => {
         console.log(response);
+        this.props.history.push('/admin/nurses');
       })
       .catch(err => {
         console.error(err);

@@ -4,12 +4,7 @@ export const Patient = (props) =>  {
   return ( <div>
     <h1>{props.firstName}</h1>
     <h2>{props.lastName}</h2>
-    <h3>{props.email}</h3>
-    <h3>{props.idCardNo}</h3>
-    <h3>{props.dob}</h3>
-    <h3>{props.weight}</h3>
-    <h3>{props.height}</h3>
-    <h3>{props.phone}</h3>
+
   </div>)
 };
 Patient.propTypes = {

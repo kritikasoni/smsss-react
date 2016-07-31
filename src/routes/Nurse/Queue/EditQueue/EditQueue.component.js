@@ -6,7 +6,7 @@ export default class Edit extends Component {
     super(props);
     this.state = {
       patient: {},
-      time: null,//ถูกไหม???
+      time: null,
       room: 0,
       roomlist: []
     }
@@ -75,5 +75,4 @@ export default class Edit extends Component {
     );
   }
 }
-
 

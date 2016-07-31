@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Room from './Room.component';
 import { BackendUrl } from 'Config';
 import classes from './ListRoom.component.scss';
 
@@ -71,4 +70,3 @@ export default class ListRoom extends Component {
 
 
 }
-

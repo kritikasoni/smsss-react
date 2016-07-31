@@ -20,6 +20,7 @@ export default class EditDepartment extends Component {
       })
       .then(response => {
         console.log(response);
+        this.props.history.push('/admin/departments');
       })
       .catch(err => {
         console.error(err);
