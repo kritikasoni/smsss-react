@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import axios from 'axios'; //library เอาไว้ส่งข้อมูล
+import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 import classes from './AddPatient.component.scss';
 
-export default class AddNurse extends Component {
+export default class AddPatient extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,17 +14,18 @@ export default class AddNurse extends Component {
       lastName:'',
       email:'',
       idCardNo: '',
-      dob: new Date(),
+      dob: moment(),
       weight: 0,
       height: 0,
       phone:''
     };
     this._onSubmit = this._onSubmit.bind(this);
+    this._handleDobChange = this._handleDobChange.bind(this);
   }
   _onSubmit(e) {
     e.preventDefault();
     console.log('submit');
-    axios
+    Http
       .post(`${BackendUrl}/patients`,{ //ใช้เพื่อส่งข้อมูล
         firstName: this.state.firstName,
         lastName: this.state.lastName,
@@ -39,6 +43,10 @@ export default class AddNurse extends Component {
       .catch(err => {
         console.error(err);
       })
+  }
+
+  _handleDobChange(date) {
+    this.setState({dob: date});
   }
 
   render() {
@@ -97,14 +105,12 @@ export default class AddNurse extends Component {
           <br />
 
           <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right">DATE OF BIRTH :</div>
-              <input className="col-md-3"
-                     type="date"
-                     name="dob"
-                     value={this.state.dob}
-                     onChange={(e) => this.setState({dob: e.target.value})}/>
-            </div>
+            <div className="col-md-6 text-right">DATE OF BIRTH :</div>
+            <DatePicker
+              className={'col-md-6 pull-left'}
+              dateFormat={'YYYY/MM/DD'}
+              selected={this.state.dob}
+              onChange={this._handleDobChange} />
           </div>
           <br />
 
@@ -150,4 +156,3 @@ export default class AddNurse extends Component {
     );
   }
 }
-

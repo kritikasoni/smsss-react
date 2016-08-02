@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BackendUrl } from 'Config';
-export default class EditNurse extends Component {
+export default class EditPatient extends Component {
   constructor(props) {
     super(props);
     this.state = {
