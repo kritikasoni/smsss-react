@@ -10,6 +10,7 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import moment from 'moment';
+import TimePicker from 'components/TimePicker';
 
 export default class ListQueue extends Component {
   constructor(props,context) {
@@ -99,7 +100,6 @@ export default class ListQueue extends Component {
 
   _addQueue() {
     const self = this;
-    console.log();
     Http
       .post(`${BackendUrl}/queues`,
         {
@@ -111,6 +111,7 @@ export default class ListQueue extends Component {
       .then(({data}) => {
         console.log('add queue success :',data);
         self.setState({queues: [...self.state.queues, data]});
+        console.log('queue',self.state.queues);
         this._closeAddModal();
       });
   }
@@ -162,16 +163,19 @@ export default class ListQueue extends Component {
 
   render() {
     let rooms = this.state.rooms.map(room => {
-      let queues = this.state.queues.filter(queue => (queue.room.id == room.id))
-        .map((queue, index) => (
-          <div>
-            <h2>No. {index + 1}</h2>
-            <h4>Time: {moment(queue.time).format('HH:MM')}</h4>
-            <h5>{`${queue.patient.firstName} ${queue.patient.lastName}`}</h5>
-            <a href={`/nurse/queues/${queue.id}/edit`} ><Button>Edit</Button></a>
-            <Button onClick={() => this._deleteQueue(queue.id)}>Delete</Button>
-          </div>
-        ));
+      const queues = this.state.queues.filter(queue => (queue.room.id == room.id))
+        .map((queue, index) => {
+          console.log('queue room id',queue.id, queue.room.id,room.id);
+          return (
+            <div key={index}>
+              <h2>No. {index + 1}</h2>
+              <h4>Time: {moment(queue.time).format('HH:MM')}</h4>
+              <h5>{`${queue.patient.firstName} ${queue.patient.lastName}`}</h5>
+              <a href={`/nurse/queues/${queue.id}/edit`}><Button>Edit</Button></a>
+              <Button onClick={() => this._deleteQueue(queue.id)}>Delete</Button>
+            </div>
+          );
+        });
       return (
         <Card
           key={room.id}
@@ -216,24 +220,9 @@ export default class ListQueue extends Component {
             <input type="text" disabled="true" value={this.state.selectedRoom.name} />
 
             <h4>Time</h4>
-            <FormGroup className={`col-xs-12 col-sm-6`}>
-              <FormControl
-                type="number"
-                placeholder="Hour"
-                min={0} max={23} step={1}
-                value={this.state.time.hour}
-                onChange={this._onTimeHourChange}
-              />
-            </FormGroup>
-            <FormGroup className={`col-xs-12 col-sm-6`}>
-              <FormControl
-                type="number"
-                placeholder="Minute"
-                min={0} max={59} step={1}
-                value={this.state.time.minute}
-                onChange={this._onTimeMinuteChange}
-              />
-            </FormGroup>
+            <TimePicker hour={this.state.time.hour} minute={this.state.time.minute}
+                        onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
+            />
             <hr />
           </Modal.Body>
           <Modal.Footer>
