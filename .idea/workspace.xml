@@ -50,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddPatient.component.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AddPatient.component.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/routes/Admin/Patient/AddPatient/AddPatient.component.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+            <state relative-caret-position="256">
+              <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -62,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EditPatient.component.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EditPatient.component.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes/Admin/Patient/EditPatient/EditPatient.component.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="3" column="32" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="32" />
+            <state relative-caret-position="273">
+              <caret line="131" column="14" selection-start-line="131" selection-start-column="14" selection-end-line="131" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -201,8 +201,8 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/routes/Nurse/Queue/EditQueue/EditQueue.component.js" />
         <option value="$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/ListQueue.component.js" />
-        <option value="$PROJECT_DIR$/src/routes/Admin/Patient/EditPatient/EditPatient.component.js" />
         <option value="$PROJECT_DIR$/src/routes/Admin/Patient/AddPatient/AddPatient.component.js" />
+        <option value="$PROJECT_DIR$/src/routes/Admin/Patient/EditPatient/EditPatient.component.js" />
       </list>
     </option>
   </component>
@@ -397,7 +397,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="AddPatient" />
+              <option name="myItemId" value="EditPatient" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -541,7 +541,7 @@
       <workItem from="1469896569606" duration="894000" />
       <workItem from="1469948148404" duration="1308000" />
       <workItem from="1469950372081" duration="2667000" />
-      <workItem from="1470124953014" duration="603000" />
+      <workItem from="1470124953014" duration="1296000" />
     </task>
     <task id="LOCAL-00001" summary="Add AddDoctor and ListDoctor">
       <created>1467043726096</created>
@@ -669,11 +669,18 @@
       <option name="project" value="LOCAL" />
       <updated>1470125415773</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="fix date input in AddPatient">
+      <created>1470125573267</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1470125573267</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="174998000" />
+    <option name="totallyTimeSpent" value="175691000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -758,7 +765,8 @@
     <MESSAGE value="add queue (incomplete) and detail folders for nurse, doctor, patient and medicine" />
     <MESSAGE value="fix time input" />
     <MESSAGE value="fix problem for new queue not real-time uploaded" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix problem for new queue not real-time uploaded" />
+    <MESSAGE value="fix date input in AddPatient" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix date input in AddPatient" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1133,14 +1141,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/Admin/Patient/EditPatient/EditPatient.component.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="3" column="32" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/Admin/Patient/EditPatient/EditPatient.reducer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1161,11 +1161,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/Admin/Patient/AddPatient/AddPatient.component.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
+        <state relative-caret-position="256">
+          <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/Admin/Patient/EditPatient/EditPatient.component.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="131" column="14" selection-start-line="131" selection-start-column="14" selection-end-line="131" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>

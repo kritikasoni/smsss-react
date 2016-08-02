@@ -26,7 +26,7 @@ export default class AddPatient extends Component {
     e.preventDefault();
     console.log('submit');
     Http
-      .post(`${BackendUrl}/patients`,{ //ใช้เพื่อส่งข้อมูล
+      .post(`${BackendUrl}/patients`,{ 
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email:this.state.email,

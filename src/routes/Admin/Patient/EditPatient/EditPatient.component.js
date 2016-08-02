@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 export default class EditPatient extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName:'',
-      lastName:'',
-      email:'',
+      firstName: '',
+      lastName: '',
+      email: '',
       idCardNo: '',
-      dob:'',
-      weight:'',
-      height:'',
-      phone:''
+      dob: moment(),
+      weight: '',
+      height: '',
+      phone: ''
     };
     this._onSubmit = this._onSubmit.bind(this);
+    this._handleDobChange = this._handleDobChange.bind(this);
   }
+
   _onSubmit(e) {
     e.preventDefault();
     console.log('submit');
-    axios
+    Http
       .put(`${BackendUrl}/patients/`+this.props.params.id,{
         firstName: this.state.firstName,
         lastName: this.state.lastName,
@@ -39,8 +44,12 @@ export default class EditPatient extends Component {
       })
   }
 
+  _handleDobChange(date) {
+    this.setState({dob: date});
+  }
+
   componentWillMount() {
-    axios
+    Http
       .get(`${BackendUrl}/patients/`+this.props.params.id)
       .then(response => {
         this.setState({
@@ -48,7 +57,7 @@ export default class EditPatient extends Component {
           lastName: response.data.lastName,
           email:response.data.email,
           idCardNo:response.data.idCardNo,
-          dob:response.data.dob,
+          dob: moment(response.data.dob),
           weight:response.data.weight,
           height:response.data.height,
           phone:response.data.phone
@@ -88,13 +97,14 @@ export default class EditPatient extends Component {
           onChange={(e) => this.setState({idCardNo: e.target.value})}
         />
         <br />
-        Date of Birth:
-        <input
-          type="date"
-          name="dob"
-          value={this.state.dob}
-          onChange={(e) => this.setState({dob: e.target.value})}
-        />
+        <div className="row">
+          <div className="col-md-6 text-right">DATE OF BIRTH :</div>
+          <DatePicker
+            className={'col-md-6 pull-left'}
+            dateFormat={'YYYY/MM/DD'}
+            selected={this.state.dob}
+            onChange={this._handleDobChange} />
+        </div>
         <br />
         Weight:
         <input
@@ -125,5 +135,4 @@ export default class EditPatient extends Component {
     );
   }
 }
-
 
