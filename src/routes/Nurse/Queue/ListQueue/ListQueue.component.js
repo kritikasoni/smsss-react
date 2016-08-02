@@ -5,8 +5,6 @@ import Socket from 'helper/Socket';
 import Card from 'components/Card';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import FormControl from 'react-bootstrap/lib/FormControl';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import moment from 'moment';
@@ -51,16 +49,20 @@ export default class ListQueue extends Component {
       self.setState({queues: body});
       console.log(self.state.queues);
     });
-    Socket.on('queue', (event) => {
-      if(event.verb === 'created') {
-        console.log('new queue is added');
-        self.setState({queues: [...self.state.queues, event.data ]})
-      }
-      else if (event.verb === 'destroyed') {
-        console.log('queue is removed');
-        self.setState({queues: self.state.queues.map(q => q != event.data.id)})
-      }
-    });
+    Socket.on('connect', ()=> {
+      Socket.on('queue', (event) => {
+        console.log('event',event);
+        if(event.verb === 'created') {
+          console.log('new queue is added');
+          self.setState({queues: [...self.state.queues, event.data ]})
+        }
+        else if (event.verb === 'destroyed') {
+          console.log('queue is removed');
+          self.setState({queues: self.state.queues.filter(q => q.id != event.data.id)})
+        }
+      });
+    })
+
   }
 
   _deleteQueue(id) {
@@ -109,9 +111,8 @@ export default class ListQueue extends Component {
         }
       )
       .then(({data}) => {
-        console.log('add queue success :',data);
+        data.room = {id: data.room};
         self.setState({queues: [...self.state.queues, data]});
-        console.log('queue',self.state.queues);
         this._closeAddModal();
       });
   }
@@ -149,7 +150,6 @@ export default class ListQueue extends Component {
   }
 
   _onPatientChange(e) {
-    console.log(e);
     this.setState({selectedPatientId: e.value});
     console.log(this.state.selectedPatientId);
   }
@@ -165,11 +165,10 @@ export default class ListQueue extends Component {
     let rooms = this.state.rooms.map(room => {
       const queues = this.state.queues.filter(queue => (queue.room.id == room.id))
         .map((queue, index) => {
-          console.log('queue room id',queue.id, queue.room.id,room.id);
           return (
             <div key={index}>
               <h2>No. {index + 1}</h2>
-              <h4>Time: {moment(queue.time).format('HH:MM')}</h4>
+              <h4>Time: {`${moment(queue.time).get('hours')}:${moment(queue.time).get('minutes')}`}</h4>
               <h5>{`${queue.patient.firstName} ${queue.patient.lastName}`}</h5>
               <a href={`/nurse/queues/${queue.id}/edit`}><Button>Edit</Button></a>
               <Button onClick={() => this._deleteQueue(queue.id)}>Delete</Button>
@@ -220,7 +219,7 @@ export default class ListQueue extends Component {
             <input type="text" disabled="true" value={this.state.selectedRoom.name} />
 
             <h4>Time</h4>
-            <TimePicker hour={this.state.time.hour} minute={this.state.time.minute}
+            <TimePicker hour={this.state.time.hour + ''} minute={this.state.time.minute + ''}
                         onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
             />
             <hr />
