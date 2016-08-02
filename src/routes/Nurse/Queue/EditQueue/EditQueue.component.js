@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
 export default class Edit extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ export default class Edit extends Component {
   _onSubmit(e) {
     e.preventDefault();
     console.log('submit');
-    axios
+    Http
       .put(`${BackendUrl}/queues/`+this.props.params.id,{
         patient: this.state.patient.id,
         detail: this.state.detail,
@@ -30,7 +30,7 @@ export default class Edit extends Component {
   }
 
   componentWillMount(){
-    axios
+    Http
       .get(`${BackendUrl}/queues/` + this.props.params.id)
       .then(response => {
         this.setState({
@@ -75,4 +75,3 @@ export default class Edit extends Component {
     );
   }
 }
-

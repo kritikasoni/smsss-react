@@ -52,9 +52,11 @@ export default class ListQueue extends Component {
     });
     Socket.on('queue', (event) => {
       if(event.verb === 'created') {
+        console.log('new queue is added');
         self.setState({queues: [...self.state.queues, event.data ]})
       }
       else if (event.verb === 'destroyed') {
+        console.log('queue is removed');
         self.setState({queues: self.state.queues.map(q => q != event.data.id)})
       }
     });
@@ -81,7 +83,14 @@ export default class ListQueue extends Component {
   }
 
   _openAddModal(room) {
-    this.setState({showAddModal: true, selectedRoom: room});
+    this.setState({
+      showAddModal: true,
+      selectedRoom: room,
+      time: {
+        hour:moment().get('hours'),
+        minute:moment().get('minutes')
+      }
+    });
   }
 
   _closeAddModal() {
@@ -101,6 +110,7 @@ export default class ListQueue extends Component {
       )
       .then(({data}) => {
         console.log('add queue success :',data);
+        self.setState({queues: [...self.state.queues, data]});
         this._closeAddModal();
       });
   }

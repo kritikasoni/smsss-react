@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="dd2911f6-6cc6-41f1-a2b4-18aac9ab8893" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes/Nurse/Queue/EditQueue/EditQueue.component.js" afterPath="$PROJECT_DIR$/src/routes/Nurse/Queue/EditQueue/EditQueue.component.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/ListQueue.component.js" afterPath="$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/ListQueue.component.js" />
     </list>
     <ignored path="smsss-react.iws" />
@@ -69,8 +69,8 @@
       <file leaf-file-name="EditQueue.component.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/routes/Nurse/Queue/EditQueue/EditQueue.component.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1292">
-              <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+            <state relative-caret-position="375">
+              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -81,8 +81,8 @@
       <file leaf-file-name="ListQueue.component.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/ListQueue.component.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+            <state relative-caret-position="340">
+              <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -193,11 +193,11 @@
         <option value="$PROJECT_DIR$/src/routes/Admin/Room/ListRoom/ListRoom.component.js" />
         <option value="$PROJECT_DIR$/src/routes/Admin/Room/ListRoom/Room.component.js" />
         <option value="$PROJECT_DIR$/src/routes/Admin/Room/ListRoom/Room.component.scss" />
-        <option value="$PROJECT_DIR$/src/routes/Nurse/Queue/EditQueue/EditQueue.component.js" />
         <option value="$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/ListQueue.reducer.js" />
         <option value="$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/index.js" />
         <option value="$PROJECT_DIR$/src/routes/Admin/Patient/DetailPatient/DetailPatient.component.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/routes/Nurse/Queue/EditQueue/EditQueue.component.js" />
         <option value="$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/ListQueue.component.js" />
       </list>
     </option>
@@ -320,6 +320,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ListQueue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="smsss-react" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="smsss-react" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="routes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Nurse" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Queue" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="EditQueue" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -511,7 +541,7 @@
       <workItem from="1469896569606" duration="894000" />
       <workItem from="1469948148404" duration="1308000" />
       <workItem from="1469950372081" duration="2667000" />
-      <workItem from="1470124953014" duration="277000" />
+      <workItem from="1470124953014" duration="437000" />
     </task>
     <task id="LOCAL-00001" summary="Add AddDoctor and ListDoctor">
       <created>1467043726096</created>
@@ -625,11 +655,18 @@
       <option name="project" value="LOCAL" />
       <updated>1469958173355</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="fix time input">
+      <created>1470125256558</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1470125256558</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="174672000" />
+    <option name="totallyTimeSpent" value="174832000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -646,9 +683,9 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27901787" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.49702382" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2569558" sideWeight="0.5104167" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2569558" sideWeight="0.51339287" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2569558" sideWeight="0.48958334" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2569558" sideWeight="0.48660713" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28477904" sideWeight="0.4122024" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -712,7 +749,8 @@
     <MESSAGE value="CRUD position" />
     <MESSAGE value="fix style" />
     <MESSAGE value="add queue (incomplete) and detail folders for nurse, doctor, patient and medicine" />
-    <option name="LAST_COMMIT_MESSAGE" value="add queue (incomplete) and detail folders for nurse, doctor, patient and medicine" />
+    <MESSAGE value="fix time input" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix time input" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1065,16 +1103,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/Nurse/Queue/EditQueue/EditQueue.component.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1292">
-          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/ListQueue.reducer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="782">
@@ -1109,10 +1137,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/Nurse/Queue/EditQueue/EditQueue.component.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/Nurse/Queue/ListQueue/ListQueue.component.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+        <state relative-caret-position="340">
+          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
