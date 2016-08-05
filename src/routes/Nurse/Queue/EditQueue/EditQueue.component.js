@@ -109,16 +109,25 @@ export default class Edit extends Component {
       <div className="row">
         <form role="form" onSubmit={this._onSubmit} className="col-xs-12 col-md-6 col-md-offset-3">
           <div className="row">
-            <FormGroup className={`col-xs-12 col-sm-6`}>
+            <FormGroup className={`col-xs-12 col-sm-6 col-sm-offset-3`}>
               Patient:
               <FormControl
                 type="text"
                 name="patient"
-                value={this.state.patient.firstName}
-                disabled
-                onChange={(e) => this.setState({patient: e.target.value})}
+                value={`${this.state.patient.firstName} ${this.state.patient.lastName}`}
+                disabled={true}
               />
             </FormGroup>
+          </div>
+          <div>
+            Room:
+            <Select.Async
+              name="room"
+              loadOptions={this._getRoomsOptions}
+              onChange={this._onRoomChange}
+              value={this.state.room}
+              placeHolder="Select room"
+            />
           </div>
           <div>
             Time:
@@ -126,14 +135,6 @@ export default class Edit extends Component {
                         onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
             />
           </div>
-          <Select.Async
-            name="room"
-            loadOptions={this._getRoomsOptions}
-            onChange={this._onRoomChange}
-            value={this.state.room}
-            placeHolder="Select room"
-          />
-
           <button type="submit" >Submit</button>
         </form>
       </div>
