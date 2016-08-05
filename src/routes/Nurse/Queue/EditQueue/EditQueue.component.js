@@ -24,15 +24,16 @@ export default class Edit extends Component {
     this._onSubmit = this._onSubmit.bind(this);
     this._getRoomsOptions = this._getRoomsOptions.bind(this);
     this._onRoomChange = this._onRoomChange.bind(this);
+    this._onTimeHourChange = this._onTimeHourChange.bind(this);
+    this._onTimeMinuteChange = this._onTimeMinuteChange.bind(this);
   }
   _onSubmit(e) {
     e.preventDefault();
-    console.log('submit');
     Http
       .put(`${BackendUrl}/queues/`+this.props.params.id,{
         patient: this.state.patient.id,
-        detail: this.state.detail,
-        time: moment().set({'hour' :self.state.time.hour,'minute': self.state.time.minute})
+        room: this.state.room,
+        time: moment().set({'hour' :this.state.time.hour,'minute': this.state.time.minute})
       })
       .then(response => {
         console.log(response);
@@ -46,12 +47,12 @@ export default class Edit extends Component {
     Http
       .get(`${BackendUrl}/queues/` + this.props.params.id)
       .then(({data}) => {
-        const time = moment(data.time).format('HH:MM');
-        const hour = time.split(":")[0];
-        const minute = time.split(":")[1];
+        const time = moment(data.time);
+        const hour = time.get('hours');
+        const minute = time.get('minutes');
         this.setState({
           patient: data.patient,
-          detail: data.detail,
+          room: data.room.id,
           time: {
             hour: hour,
             minute: minute
@@ -119,14 +120,12 @@ export default class Edit extends Component {
               />
             </FormGroup>
           </div>
-          <FormGroup className={`col-xs-12 col-sm-6`}>
+          <div>
             Time:
-            <TimePicker hour={this.state.time.hour} minute={this.state.time.minute}
+            <TimePicker hour={this.state.time.hour + ''} minute={this.state.time.minute + ''}
                         onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
             />
-          </FormGroup>
-
-
+          </div>
           <Select.Async
             name="room"
             loadOptions={this._getRoomsOptions}

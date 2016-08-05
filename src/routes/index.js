@@ -3,7 +3,7 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import Home from './Home'
 
 /*  Note: Instead of using JSX, we recommend using react-router
-    PlainRoute objects to build route definitions.   */
+ PlainRoute objects to build route definitions.   */
 
 export const createRoutes = (store) => ({
   path: '/',
@@ -13,7 +13,7 @@ export const createRoutes = (store) => ({
     require.ensure([], (require) => {
       next(null, [
         // Provide store for async reducers and middleware
-       
+
         require('./Admin/Patient/ListPatient').default(store),
         require('./Admin/Patient/AddPatient').default(store),
         require('./Admin/Patient/EditPatient').default(store),
@@ -38,6 +38,7 @@ export const createRoutes = (store) => ({
         require('./Nurse/Queue/AddQueue').default(store),
         require('./Nurse/Queue/EditQueue').default(store),
         require('./Nurse/Queue/ListQueue').default(store),
+        require('./Nurse/Queue/ManageQueue').default(store),
         require('./Admin/Room/AddRoom').default(store),
         require('./Admin/Room/EditRoom').default(store),
         require('./Admin/Room/ListRoom').default(store),
@@ -54,21 +55,21 @@ export const createRoutes = (store) => ({
 })
 
 /*  Note: childRoutes can be chunked or otherwise loaded programmatically
-    using getChildRoutes with the following signature:
+ using getChildRoutes with the following signature:
 
-    getChildRoutes (location, cb) {
-      require.ensure([], (require) => {
-        cb(null, [
-          // Remove imports!
-          require('./Counter').default(store)
-        ])
-      })
-    }
+ getChildRoutes (location, cb) {
+ require.ensure([], (require) => {
+ cb(null, [
+ // Remove imports!
+ require('./Counter').default(store)
+ ])
+ })
+ }
 
-    However, this is not necessary for code-splitting! It simply provides
-    an API for async route definitions. Your code splitting should occur
-    inside the route `getComponent` function, since it is only invoked
-    when the route exists and matches.
-*/
+ However, this is not necessary for code-splitting! It simply provides
+ an API for async route definitions. Your code splitting should occur
+ inside the route `getComponent` function, since it is only invoked
+ when the route exists and matches.
+ */
 
 export default createRoutes
