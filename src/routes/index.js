@@ -16,6 +16,7 @@ export const createRoutes = (store) => ({
 
         require('./Admin/Patient/ListPatient').default(store),
         require('./Admin/Patient/AddPatient').default(store),
+        require('./Admin/Patient/DetailPatient').default(store),
         require('./Admin/Patient/EditPatient').default(store),
         require('./Admin/Doctor/ListDoctor').default(store),
         require('./Admin/Doctor/AddDoctor').default(store),
