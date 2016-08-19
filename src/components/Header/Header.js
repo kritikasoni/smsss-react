@@ -1,55 +1,134 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux';
+import { role } from 'Config';
 import { Tab } from './Tab'
 import { IndexLink, Link } from 'react-router';
 import classes from './Header.scss'
+import Navbar from 'react-bootstrap/lib/Navbar';
+import Nav from 'react-bootstrap/lib/Nav';
+import NavItem from 'react-bootstrap/lib/NavItem';
+import CustomMenuItem from './CustomMenuItem';
+import NavDropdown from 'react-bootstrap/lib/NavDropdown';
+import { logout } from './../../routes/Authentication/Login/Login.reducer';
 
-export const Header = () => (
+export class Header extends Component {
+  constructor(props,context) {
+    super(props, context);
+    this._logout = this._logout.bind(this);
+  }
 
-  <div className={`${classes.head1}`}>
-    <h1>SMART MEDICAL SERVICES SUPPORTING SYSTEM</h1>
-    <div className={`${classes.head2}`}>
-      <ul className="nav nav-tabs">
-        <div className="row">
-          <div className="col col-md-12">
-            <li className="col-md-2 col-xs-12" role="presentation">
-              <IndexLink to='/' activeClassName={classes.activeRoute}>
-                HOME
-              </IndexLink>
-            </li>
-            <div className="col-md-2 col-xs-12"><Tab to='/admin/patients' name='PATIENTS' /></div>
-            <div className="col-md-2 col-xs-12"><Tab to='/admin/patients/add' name='ADD PATIENT' /></div>
-            <div className="col-md-2 col-xs-12"><Tab to='/admin/doctors' name='DOCTORS' /></div>
-            <div className="col-md-2 col-xs-12"><Tab to='/admin/doctors/add' name='ADD DOCTORS' /></div>
-          </div>
-        </div>
-      </ul>
-      <ul className="nav nav-tabs">
-        <div className="row">
-          <div className="col col-md-12">
-            <div className="col-md-2 col-xs-12"> <Tab to='/admin/nurses' name='NURSES'/></div>
-            <div className="col-md-2 col-xs-12"><Tab to='/admin/nurses/add' name='ADD NURSE' /></div>
-            <div className="col-md-2 col-xs-12"><Tab to='/admin/medicines/add' name='ADD MEDICINE' /></div>
-            <div className="col-md-2 col-xs-12"><Tab to='/doctor/appointments/add/patient/1' name='ADD APPOINTMENT' /></div>
-            <div className="col-md-2 col-xs-12"><Tab to='/doctor/prescriptions/add/patient/1' name='ADD PRESCRIPTION' /></div>
-            <div className="col-md-2 col-xs-12"><Tab to='/doctor/symptoms/add/patient/1' name='ADD SYMPTOM' /></div>
-          </div>
-        </div>
-      </ul>
-      <ul className="nav nav-tabs">
-        <div className="row">
-          <div className="col col-md-12">
-            <div className="col-md-2 col-xs-12"> <Tab to='/admin/rooms/add' name='ADD ROOM' /></div>
-            <div className="col-md-2 col-xs-12"> <Tab to='/admin/rooms' name='ROOMS' /></div>
-            <div className="col-md-2 col-xs-12"> <Tab to='/nurse/queues/add/patient/1' name='ADD QUEUE' /></div>
-            <div className="col-md-2 col-xs-12"> <Tab to='/admin/medicines' name='MEDICINES' /></div>
-            <div className="col-md-2 col-xs-12"> <Tab to='/nurse/queues/list' name='QUEUES' /></div>
-          </div>
-        </div>
-      </ul>
-    </div>
-  </div>
+  _logout() {
+    const { router } = this.context;
+    this.props.logout();
+    router.push('/login');
+  }
 
-) //เพิ่ม '/admin/departments/add' name='ADD DEPARTMENT'
-//เพิ่ม'/admin/departments' name='DEPARTMENT'
+  render() {
+    return (
+      <Navbar>
+        <Navbar.Header>
+          <Navbar.Brand>
+            <IndexLink to='/' activeClassName={classes.activeRoute}>
+              SMART MEDICAL SERVICES SUPPORTING SYSTEM
+            </IndexLink>
+          </Navbar.Brand>
+        </Navbar.Header>
+        <Nav pullRight>
+          <NavItem>{
+            this.props.isLoggedIn ?
+              `${this.props.user.role.name} ${this.props.user.firstName} ${this.props.user.lastName}`
+              : ''
+          }</NavItem>
+          {
+            this.props.isLoggedIn ?
+              <NavItem onClick={this._logout}>Log out</NavItem>
+              : <Tab to='/login' name='Login' />
+          }
+        </Nav>
+        {/*admin*/}
+        {
+          this.props.isLoggedIn && (this.props.user.role.name == role.ADMIN) ?
+            (
+              <div>
+                <Nav>
+                  {/*<Tab to="/patients" name="Patients" />*/}
+                  <NavDropdown title="Manage Department" id="admin-menu">
+                    <CustomMenuItem to="/admin/departments" name="Department list"/>
+                    <CustomMenuItem to="/admin/departments/add" name="Add department" />
+                  </NavDropdown>
 
-export default Header
+                  <NavDropdown title="Manage Doctor" id="admin-menu-manage-doctors">
+                    <CustomMenuItem to="/admin/doctors" name="Doctor list"/>
+                    <CustomMenuItem to="/admin/doctors/add" name="Add doctor" />
+                  </NavDropdown>
+                  <NavDropdown eventKey={3} title="Manage Medicine" id="admin-menu-manage-medicine">
+                    <CustomMenuItem to="/admin/medicines" name="Medicine list"/>
+                    <CustomMenuItem to="/admin/medicines/add" name="Add medicine" />
+                  </NavDropdown>
+                  <NavDropdown eventKey={3} title="Manage Nurse" id="admin-menu-manage-nurse">
+                    <CustomMenuItem to="/admin/nurses" name="Nurse list"/>
+                    <CustomMenuItem to="/admin/nurses/add" name="Add nurse" />
+                  </NavDropdown>
+                </Nav>
+                <Nav>
+                  <NavDropdown title="Manage Patient" id="admin-menu-manage-patients">
+                    <CustomMenuItem to="/admin/patients" name="Patients list"/>
+                    <CustomMenuItem to="/admin/patients/add" name="Add patient" />
+                  </NavDropdown>
+                  <NavDropdown eventKey={3} title="Manage Position" id="admin-menu-manage-position">
+                    <CustomMenuItem to="/admin/positions" name="Position list"/>
+                    <CustomMenuItem to="/admin/positions/add" name="Add position" />
+                  </NavDropdown>
+                  <NavDropdown eventKey={3} title="Manage Room" id="admin-menu-manage-room">
+                    <CustomMenuItem to="/admin/rooms" name="Room list"/>
+                    <CustomMenuItem to="/admin/rooms/add" name="Add room" />
+                  </NavDropdown>
+                </Nav>
+              </div>
+            )
+            :
+            null
+        }
+        {/*doctor*/}
+        {
+          this.props.isLoggedIn && (this.props.user.role.name == role.DOCTOR) ?
+            (<div>
+                <Nav>
+                  <Tab to='/admin/patients' name='Patients' />
+                </Nav>
+              </div>)
+            : null
+        }
+        {/*nurse*/}
+        {
+          this.props.isLoggedIn && (this.props.user.role.name == role.NURSE) ?
+            (<div>
+              <Nav>
+                <Tab to='/admin/patients' name='Patients' />
+                <Tab to='/nurse/queues/list' name='Queues' />
+              </Nav>
+            </div>)
+            : null
+        }
+      </Navbar>
+    );
+  }
+}
+
+Header.propTypes = {
+  user: PropTypes.object,
+  isLoggedIn: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired
+}
+Header.contextTypes = {
+  router: PropTypes.any.isRequired
+}
+
+const mapStateToProps = (state) =>({
+  user: state.auth ? state.auth.user : undefined,
+  isLoggedIn: state.auth ? state.auth.isLoggedIn : false
+});
+const mapDispatchToProps = {
+  logout: logout
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

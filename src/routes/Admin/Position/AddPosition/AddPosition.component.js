@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { BackendUrl } from 'Config';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { addPosition } from './../position.reducer';
 import classes from './AddPosition.component.scss';
+import Form from 'react-bootstrap/lib/Form';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
 
-export default class AddPosition extends Component {
+export class AddPosition extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,55 +19,39 @@ export default class AddPosition extends Component {
   }
   _onSubmit(e) {
     e.preventDefault();
-    console.log('submit');
-    axios
-      .post(`${BackendUrl}/positions`,{
-        name: this.state.name,
+    this.props.addPosition(this.state.name);
+  }
 
-      })
-      .then(response => {
-        console.log(response);
-        alert('success');
-      })
-      .catch(err => {
-        console.error(err);
-      })
-  }
-  componentWillMount(){
-    axios
-      .get(`${BackendUrl}/departments`)
-      .then(response => {
-        this.setState({departmentList:response.data });
-      })
-      .catch(err => {
-        console.error(err);
-      })
-  }
   render() {
-
     return (
-      <form role="form" onSubmit={this._onSubmit}>
-
-        <div className={classes.topic5}>
-
-          <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right"> ROOM NAME :</div>
-              <input className="col-md-3"
-                     type="text"
-                     name="name"
-                     value={this.state.name}
-                     onChange={(e) => this.setState({name: e.target.value})}
-              />
-            </div>
-          </div>
-        </div>
-
-
-        <button type="submit" className={`btn ${classes.submitbut4}`} >Submit</button>
-      </form>
+      <Form horizontal onSubmit={this._onSubmit} role="form">
+        <h2>Add position</h2>
+        <FormGroup controlId="formHorizontalPositionName">
+          <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+             NAME :
+          </Col>
+          <Col xs={10} sm={3}>
+            <FormControl type="text" placeholder="Position name"
+                         value={this.state.name}
+                         onChange={(e) => this.setState({name: e.target.value})}
+            />
+          </Col>
+        </FormGroup>
+        {
+          this.props.fetching ?
+            <i className="fa fa-spinner fa-spin fa-spinner" aria-hidden="true"></i> :
+            <Button type="submit">SUBMIT</Button>
+        }
+      </Form>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  fetching: state.departments.fetching
+})
+const mapDispatchToProps = {
+  addPosition
+}
 
+export default connect(mapStateToProps,mapDispatchToProps)(AddPosition);

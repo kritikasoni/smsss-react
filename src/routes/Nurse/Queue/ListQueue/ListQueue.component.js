@@ -187,7 +187,9 @@ export default class ListQueue extends Component {
           buttonName={`Manage queue`}
           onButtonClick={() => {
             this._manageQueue(room.id)
-          }}>
+          }}
+          cardStyle={`col-xs-12 col-sm-4`}
+        >
           <div className="row">
             <div className="col-xs-12 col-sm-6">
               <h4>{queues.length > 0 ? 'First 3 queues' : 'No queue'}</h4>
@@ -218,6 +220,7 @@ export default class ListQueue extends Component {
               loadOptions={this._getPatientOptions}
               onChange={this._onPatientChange}
               value={this.state.selectedPatientId}
+              placeholder="Search patient"
             />
 
             <h4>Room</h4>

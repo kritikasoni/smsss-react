@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import classes from './EditMedicine.component.scss';
 import { BackendUrl } from 'Config';
+import Form from 'react-bootstrap/lib/Form';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
+import DropZone from 'react-dropzone';
+import Image from 'react-bootstrap/lib/Image';
+
 export default class EditMedicine extends Component {
   constructor(props) {
     super(props);
@@ -43,46 +53,74 @@ export default class EditMedicine extends Component {
           detail:response.data.detail
         });
       });
-
   }
+
   render() {
     return (
-      <form role="form" onSubmit={this._onSubmit}>
+      <div>
+        <div className="pull-right">
+          <Button bsStyle="danger" className={classes['medicine-delete__button']}>DELETE</Button>
+        </div>
+        <Form horizontal onSubmit={this._onSubmit} role="form">
+          <h2>{`Edit medicine: ${this.state.informalName} (${this.state.scientificName})`}</h2>
+          <FormGroup controlId="formHorizontalScientificName">
+            <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+              SCIENTIFIC NAME :
+            </Col>
+            <Col xs={10} sm={3}>
+              <FormControl type="text" placeholder="Scientific name"
+                           value={this.state.scientificName}
+                           onChange={(e) => this.setState({scientificName: e.target.value})}
+              />
+            </Col>
+          </FormGroup>
 
-        Scientific name:
-        <input
-          type="text"
-          name="scientificName"
-          value={this.state.scientificName}
-          onChange={(e) => this.setState({scientificName: e.target.value})}
-        />
-        <br />
-        Informal name:
-        <input
-          type="text"
-          name="informalName"
-          value={this.state.informalName}
-          onChange={(e) => this.setState({informalName: e.target.value})}
-        />
-        <br />
-        Image:
-        <input
-          type="text"
-          name="image"
-          value={this.state.image}
-          onChange={(e) => this.setState({image: e.target.value})}
-        />
-        <br />
-        Detail:
-        <input
-          type="text"
-          name="detail"
-          value={this.state.detail}
-          onChange={(e) => this.setState({detail: e.target.value})}
-        />
-        <br />
-        <button type="submit" >Submit</button>
-      </form>
+          <FormGroup controlId="formHorizontalInformalName">
+            <Col componentClass={ControlLabel}  xs={2} sm={2} smOffset={3} >
+              SCIENTIFIC NAME :
+            </Col>
+            <Col  xs={10} sm={3}>
+              <FormControl type="text" placeholder="Informal name"
+                           value={this.state.informalName}
+                           onChange={(e) => this.setState({informalName: e.target.value})}
+              />
+            </Col>
+          </FormGroup>
+          <div className="row">
+            <Col componentClass={ControlLabel}  xs={2} sm={2} smOffset={3} >
+              IMAGE :
+            </Col>
+            <div className="col-xs-10 col-sm-3">
+              <DropZone onDrop={this._onDrop}>
+                <div>Drop new medicine pictures here, or click to select files to upload.</div>
+              </DropZone></div>
+            {this.state.image ?
+              this.state.image.preview ?
+                <div>
+                  <div><img src={this.state.image.preview} /></div>
+                </div>
+                : <div className="col-sm-4">
+                <Image src={this.state.image} responsive />
+              </div>
+              :
+              null}
+          </div>
+          <br />
+          <FormGroup controlId="formControlsDetail">
+            <Col componentClass={ControlLabel}  xs={2} sm={2} smOffset={3} >
+              Detail :
+            </Col>
+            <Col  xs={10} sm={3}>
+              <FormControl componentClass="textarea" placeholder="Detail"
+                           value={this.state.detail}
+                           onChange={(e) => this.setState({detail: e.target.value})}
+              />
+            </Col>
+          </FormGroup>
+
+          <Button type="submit" className={`btn ${classes.submitbut3}`}>SUBMIT</Button>
+        </Form>
+      </div>
     );
   }
 }

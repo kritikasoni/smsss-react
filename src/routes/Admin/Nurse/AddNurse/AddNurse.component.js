@@ -1,146 +1,139 @@
-import React, { Component } from 'react';
-import axios from 'axios'; //library เอาไว้ส่งข้อมูล
-import { BackendUrl } from 'Config';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { addNurse } from "../nurse.reducer";
 import classes from './AddNurse.component.scss';
-export default class AddNurse extends Component {
+import SelectPosition from 'components/SelectPosition';
+import SelectDepartment from 'components/SelectDepartment';
+import Form from 'react-bootstrap/lib/Form';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
+export class AddNurse extends Component {
   constructor(props) {
     super(props);
     this.state = {
       firstName:'',
       lastName:'',
       department:0,
-      departmentList: [],
       email:'',
       position:'',
       password:''
     };
     this._onSubmit = this._onSubmit.bind(this);
+    this._onPositionChange = this._onPositionChange.bind(this);
+    this._onDepartmentChange = this._onDepartmentChange.bind(this);
   }
   _onSubmit(e) {
     e.preventDefault();
-    console.log('submit');
-    axios
-      .post(`${BackendUrl}/nurses`,{
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        department: this.state.department,
-        email:this.state.email,
-        position:this.state.position,
-        password:this.state.password
-      })
-      .then(response => {
-        console.log(response);
-        alert('success');
-      })
-      .catch(err => {
-        console.error(err);
-      })
+    const nurse = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      department: this.state.department,
+      email: this.state.email,
+      position: this.state.position,
+      password: this.state.password
+    };
+    this.props.addNurse(nurse);
   }
 
-  componentWillMount(){
-    axios
-      .get(`${BackendUrl}/departments`)
-      .then(response => {
-        this.setState({departmentList:response.data });
-      })
-      .catch(err => {
-        console.error(err);
-      })
+  _onPositionChange(e) {
+    this.setState({ position: e ? e.value : 0 });
+  }
+  _onDepartmentChange(e) {
+    this.setState({department: e ? e.value : 0 });
   }
 
   render() {
-    let departmentOptions = this.state.departmentList.map((department) => (
-      <option value={department.id} key={department.id}>{department.name}</option>
-    ));
     return (
-      <form role="form" onSubmit={this._onSubmit}>
+      <Form horizontal onSubmit={this._onSubmit} role="form">
+        <h2>Add nurse</h2>
+        <FormGroup controlId="formHorizontalFirstName">
+          <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+            First name :
+          </Col>
+          <Col xs={10} sm={3}>
+            <FormControl type="text" placeholder="First name"
+                         value={this.state.firstName}
+                         onChange={(e) => this.setState({firstName: e.target.value})}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalLastName">
+          <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+            Last name :
+          </Col>
+          <Col xs={10} sm={3}>
+            <FormControl type="text" placeholder="Last name"
+                         value={this.state.lastName}
+                         onChange={(e) => this.setState({lastName: e.target.value})}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalDepartment">
+          <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+            Department :
+          </Col>
+          <Col xs={10} sm={3}>
+            <SelectDepartment onChange={this._onDepartmentChange} value={this.state.department}/>
+          </Col>
+        </FormGroup>
 
-        <div className={classes.topic3}>
+        <FormGroup controlId="formHorizontalEmail">
+          <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+            Email :
+          </Col>
+          <Col xs={10} sm={3}>
+            <FormControl type="text" placeholder="Email"
+                         value={this.state.email}
+                         onChange={(e) => this.setState({email: e.target.value})}
+            />
+          </Col>
+        </FormGroup>
 
-          <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right"> FIRST NAME :</div>
-              <input className="col-md-3"
-                     type="text"
-                     name="firstName"
-                     value={this.state.firstName}
-                     onChange={(e) => this.setState({firstName: e.target.value})}
-              />
-            </div>
-          </div>
-          <br />
-
-          <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right"> LAST NAME :</div>
-              <input className="col-md-3"
-                     type="text"
-                     name="lastName"
-                     value={this.state.lastName}
-                     onChange={(e) => this.setState({lastName: e.target.value})}
-              />
-            </div>
-          </div>
-          <br />
-
-          <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right"> DEPARTMENT :</div>
-              <select className="col-md-3"
-                      name="department"
-                      onChange={(e) => this.setState({department: e.target.value})}
-                      value={this.state.department}
-              >
-                <option disabled value="0">Please select</option>
-                {departmentOptions}
-              </select>
-            </div>
-          </div>
-          <br />
-
-
-          <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right"> EMAIL :</div>
-              <input className="col-md-3"
-                     type="email"
-                     name="email"
-                     value={this.state.email}
-                     onChange={(e) => this.setState({email: e.target.value})}
-              />
-            </div>
-          </div>
-          <br />
-
-          <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right"> PASSWORD :</div>
-              <input className="col-md-3"
-                     type="password"
-                     name="password"
-                     value={this.state.password}
-                     onChange={(e) => this.setState({password: e.target.value})}
-              />
-            </div>
-          </div>
-          <br />
-
-          <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right"> POSITION :</div>
-              <input className="col-md-3"
-                     type="text"
-                     name="position"
-                     value={this.state.position}
-                     onChange={(e) => this.setState({position: e.target.value})}
-              />
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" className={`btn ${classes.submitbut2}`}>SUBMIT</button>
-      </form>
+        <FormGroup controlId="formHorizontalPassword">
+          <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+            Password :
+          </Col>
+          <Col xs={10} sm={3}>
+            <FormControl type="password" placeholder="Password"
+                         value={this.state.password}
+                         onChange={(e) => this.setState({password: e.target.value})}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalPosition">
+          <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+            Position :
+          </Col>
+          <Col xs={10} sm={3}>
+            <SelectPosition
+              placeholder={'Select position'}
+              onChange={this._onPositionChange}
+              value={this.state.position}
+            />
+          </Col>
+        </FormGroup>
+        {
+          this.props.fetching ?
+            <i className="fa fa-spinner fa-spin fa-spinner" aria-hidden="true"></i> :
+            <Button type="submit" className={`btn ${classes.submitbut}`}>SUBMIT</Button>
+        }
+      </Form>
     );
   }
 }
 
+AddNurse.propTypes = {
+  addNurse: PropTypes.func.isRequired,
+  fetching: PropTypes.bool.isRequired
+};
+const mapStateToProps = (state) => ({
+  fetching: state.nurses.fetching
+})
+const mapDispatchToProps = {
+  addNurse
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddNurse);

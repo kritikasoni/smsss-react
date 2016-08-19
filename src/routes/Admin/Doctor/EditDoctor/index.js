@@ -10,10 +10,10 @@ export default (store) => ({
       /*  Webpack - use require callback to define
        dependencies for bundling   */
       const EditDoctor = require('./EditDoctor.component').default
-      const reducer = require('./EditDoctor.reducer').default
+      // const reducer = null
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'editDoctor', reducer })
+      // injectReducer(store, { key: 'editDoctor', reducer })
 
       /*  Return getComponent   */
       cb(null, EditDoctor)

@@ -10,10 +10,10 @@ export default (store) => ({
       /*  Webpack - use require callback to define
        dependencies for bundling   */
       const AddPosition = require('./AddPosition.component').default
-      const reducer = require('./AddPosition.reducer').default
+      // const reducer = null;
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'addPositions', reducer })
+      // injectReducer(store, { key: 'addPositions', reducer })
 
       /*  Return getComponent   */
       cb(null, AddPosition)

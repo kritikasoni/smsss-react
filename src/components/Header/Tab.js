@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { LinkContainer } from 'react-router-bootstrap';
+import NavItem from 'react-bootstrap/lib/NavItem';
 import classes from './Tab.scss'
 
 export const Tab = (props) => (
-  <li role="presentation">
-    <Link to={props.to} activeClassName={classes.activeRoute}>
+  <LinkContainer to={props.to}>
+    <NavItem>
       {props.name}
-    </Link>
-  </li>
+    </NavItem>
+  </LinkContainer>
 );
 export default Tab;

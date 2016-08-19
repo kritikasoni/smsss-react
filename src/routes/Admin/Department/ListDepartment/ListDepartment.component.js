@@ -1,74 +1,71 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { loadDepartment, deleteDepartment } from './../department.reducer';
 import Department from './Department.component';
 import { BackendUrl } from 'Config';
 import classes from './ListDepartment.component.scss';
+import Button from 'react-bootstrap/lib/Button';
 
-export default class ListDepartment extends Component {
+export class ListDepartment extends Component {
   constructor(props,context) {
     super(props,context);
-    this.state =  {
-      departments: []
-    };
-    this._deleteDepartment = this._deleteDepartment.bind(this);
     this._editDepartment = this._editDepartment.bind(this);
   }
 
   componentWillMount() {
-    axios
-      .get(`${BackendUrl}/departments`)
-      .then(response => {
-        this.setState({
-          departments : response.data
-        });
-        console.log(this.state.departments);
-      });
+    this.props.loadDepartment();
   }
 
   _deleteDepartment(id) {
-    axios
-      .delete(`${BackendUrl}/departments/`+id)
-      .then(response => {
-        let departments = this.state.departments.filter(department => department.id != id);
-        this.setState({departments});
-      })
-      .catch(error => console.log);
+    console.log(id);
+    this.props.deleteDepartment(id);
   }
+
   _editDepartment(id) {
-    this.context.router.push(`/departments/${id}`);
+    this.context.router.push(`/admin/departments/${id}/edit`);
   }
   render() {
-    let departments = this.state.departments.map((department) => {
+    let departments = this.props.departments.map((department) => {
       return (
-        <div>
-          <div className={classes.topic13}>
-
-            <div className="row">
-              <div className="col-md-12">
-                <div className="col-md-12 text-center">Department: {department.name}
-
-                  <a href={`/admin/departments/${department.id}/edit`} >
-                    <button type="button" className={`btn ${classes.editer2}`}>EDIT</button></a>
-                  <button type="button" className={`btn ${classes.deleter2}`} onClick={() => this._deleteDepartment(department.id)}>DELETE</button>
-                </div>
-
-              </div>
-            </div>
+        <div className="row" key={department.id}>
+          <div className="col-md-12">
+            <Department name={department.name}>
+                <Button bsStyle="primary" onClick={() => this._editDepartment(department.id)}>EDIT</Button>
+              <button
+                type="button"
+                className={`btn ${classes.deleter}`}
+                onClick={() => this._deleteDepartment(department.id)}
+              >
+                DELETE
+              </button>
+            </Department>
           </div>
-
-
-
         </div>
       );
     });
     return (
       <div>
-        <div className={classes.namepage2}><h1>Departments</h1></div>
+       <h1>Departments</h1>
         {departments}
       </div>
     );
   }
-
-
+}
+ListDepartment.contextTypes = {
+  router: PropTypes.any.isRequired
+}
+ListDepartment.propTypes = {
+  departments: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.any,
+    name: PropTypes.string
+  }))
 }
 
+const mapStateToProps = (state) => ({
+  departments: state.departments.departments
+})
+const mapDispatchToProps = {
+  loadDepartment,
+  deleteDepartment
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ListDepartment);

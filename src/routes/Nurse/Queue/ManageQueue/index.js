@@ -19,6 +19,6 @@ export default (store) => ({
       cb(null, ManageQueue)
 
       /* Webpack named bundle   */
-    }, 'listQueues')
+    }, 'manageQueues')
   }
 })

@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import Button from 'react-bootstrap/lib/Button';
+const Nurse = (props) => (
+  <tr>
+    <td>{props.firstName}</td>
+    <td>{props.lastName}</td>
+    <td>{props.department}</td>
+    <td>{props.position}</td>
+    <td>
+      <Button  onClick={props.handleOnView}>View</Button>
+      <Button bsStyle="primary" onClick={props.handleOnEdit}>Edit</Button>
+      <Button bsStyle="danger" onClick={props.handleOnDelete}>Delete</Button>
+    </td>
+  </tr>);
 
-export const Nurse = (props) =>  (
-  <div>
-    <h1>{props.firstName}</h1>
-    <h2>{props.lastName}</h2>
-    <h3>{props.department.name}</h3>
-  </div>
-)
 Nurse.propTypes = {
-  firstName: React.PropTypes.string.isRequired,
-  lastName: React.PropTypes.string.isRequired,
-  department: React.PropTypes.object
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  department: PropTypes.string.isRequired,
+  position: PropTypes.string.isRequired,
+  handleOnEdit: PropTypes.func.isRequired,
+  handleOnView: PropTypes.func.isRequired,
+  handleOnDelete: PropTypes.func.isRequired
 }
-
 export default Nurse;

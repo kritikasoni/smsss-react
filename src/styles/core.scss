@@ -1,6 +1,20 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../static/fonts/fontawesome-webfont.eot?v=4.5.0');
+  src: url('../static/fonts/fontawesome-webfont.eot?#iefix&v=4.5.0') format('embedded-opentype'),
+  url('../static/fonts/fontawesome-webfont.woff2?v=4.5.0') format('woff2'),
+  url('../static/fonts/fontawesome-webfont.woff?v=4.5.0') format('woff'),
+  url('../static/fonts/fontawesome-webfont.ttf?v=4.5.0') format('truetype'),
+  url('../static/fonts/fontawesome-webfont.svg?v=4.5.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+$fa-font-path: '../static/fonts';
+
 :global {
   @import 'base';
   @import '~normalize.css/normalize';
+  @import "~font-awesome/scss/font-awesome";
 
   // Some best-practice CSS that's useful for most apps
   // Just remove them if they're not what you want

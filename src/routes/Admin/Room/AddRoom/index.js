@@ -10,10 +10,10 @@ export default (store) => ({
       /*  Webpack - use require callback to define
        dependencies for bundling   */
       const AddRoom = require('./AddRoom.component').default
-      const reducer = require('./AddRoom.reducer').default
+      // const reducer = null;
 
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'addRooms', reducer })
+      // injectReducer(store, { key: 'addRooms', reducer })
 
       /*  Return getComponent   */
       cb(null, AddRoom)

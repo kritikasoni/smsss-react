@@ -39,7 +39,7 @@ export default class ManageQueue extends Component {
     const self = this;
     Http.get(`${BackendUrl}/rooms`)
       .then(({data}) => {
-        self.setState({rooms: data});
+        self.setState({rooms: data, selectedRoom: data.filter(room => room.id == self.props.params.id).pop()});
       })
       .catch(err => {
         throw err;
@@ -167,21 +167,21 @@ export default class ManageQueue extends Component {
 
   render() {
     const room = this.state.rooms.filter(room => room.id == this.props.params.id).pop();
-    const queues = this.state.queues.filter(queue => (queue.room.id == room.id))
-      .map((queue, index) => {
-        return (
-          <div key={index}>
-            <h2>No. {index + 1}</h2>
-            <h4>Time: {`${moment(queue.time).get('hours')}:${moment(queue.time).get('minutes')}`}</h4>
-            <h5>{`${queue.patient.firstName} ${queue.patient.lastName}`}</h5>
-            <a href={`/nurse/queues/${queue.id}/edit`}><Button>Edit</Button></a>
-            <Button onClick={() => this._deleteQueue(queue.id)}>Delete</Button>
-          </div>
-        );
-      });
+      const queues = this.state.queues.filter(queue => (queue.room.id == room.id))
+        .map((queue, index) => {
+          return (
+            <div key={index}>
+              <h2>No. {index + 1}</h2>
+              <h4>Time: {`${moment(queue.time).get('hours')}:${moment(queue.time).get('minutes')}`}</h4>
+              <h5>{`${queue.patient.firstName} ${queue.patient.lastName}`}</h5>
+              <a href={`/nurse/queues/${queue.id}/edit`}><Button>Edit</Button></a>
+              <Button onClick={() => this._deleteQueue(queue.id)}>Delete</Button>
+            </div>
+          );
+        });
     return (
       <div>
-        <h1>Queues</h1>
+        <h1>{`Queues of Room ${this.state.selectedRoom.name}`}</h1>
         <div className={`row container-fluid`}>
           <div className="row">
             <button className={`btn btn-primary col-xs-12 col-sm-4 col-sm-offset-4`} onClick={() => { this._openAddModal(room) }}>
