@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
+import { deletePatient } from './../patient.reducer';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
@@ -27,6 +29,7 @@ export default class EditPatient extends Component {
     };
     this._onSubmit = this._onSubmit.bind(this);
     this._handleDobChange = this._handleDobChange.bind(this);
+    this._onDelete = this._onDelete.bind(this);
   }
 
   _onSubmit(e) {
@@ -56,6 +59,10 @@ export default class EditPatient extends Component {
     this.setState({dob: date});
   }
 
+  _onDelete() {
+    this.props.deletePatient(this.props.params.id);
+  }
+
   componentWillMount() {
     Http
       .get(`${BackendUrl}/patients/`+this.props.params.id)
@@ -69,7 +76,7 @@ export default class EditPatient extends Component {
           weight:response.data.weight,
           height:response.data.height,
           phone:response.data.phone,
-          bloodPressure: response.data.bloodPressure
+          bloodPressure: response.data.bloodPressure ? response.data.bloodPressure : ''
         });
       });
 
@@ -78,7 +85,7 @@ export default class EditPatient extends Component {
     return (
       <div>
         <div className="pull-right">
-          <Button bsStyle="danger" className={classes['patient-delete__button']}>DELETE</Button>
+          <Button bsStyle="danger" className={classes['patient-delete__button']} onClick={this._onDelete}>DELETE</Button>
         </div>
         <Form horizontal onSubmit={this._onSubmit} role="form">
           <h2>{`Edit Patient: ${this.state.firstName} ${this.state.lastName} (${this.state.idCardNo})`}</h2>
@@ -162,7 +169,7 @@ export default class EditPatient extends Component {
           </FormGroup>
           <FormGroup controlId="formHorizontalBloodPressure">
             <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-              Phone:
+              Blood pressure:
             </Col>
             <Col xs={10} sm={3}>
               <FormControl type="text" placeholder="bloodPressure"
@@ -188,5 +195,11 @@ export default class EditPatient extends Component {
     );
   }
 }
-
+EditPatient.propTypes = {
+  deletePatient: PropTypes.func.isRequired
+}
+const mapDispatchToProps = {
+  deletePatient
+}
+export default connect(null,mapDispatchToProps)(EditPatient);
 

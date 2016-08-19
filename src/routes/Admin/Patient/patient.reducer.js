@@ -32,7 +32,7 @@ export function loadPatient() {
 export function addPatient(patient) {
   return {
     types: [ADD_PATIENT_REQUEST, ADD_PATIENT_SUCCESS, ADD_PATIENT_FAILURE],
-    callAPI: () => Http.post(`${BackendUrl}/patients`, {name}),
+    callAPI: () => Http.post(`${BackendUrl}/patients`, patient),
     payload: patient,
     successMessage: {
       show: true,

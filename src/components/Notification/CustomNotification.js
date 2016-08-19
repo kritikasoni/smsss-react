@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Popover from 'react-bootstrap/lib/Popover';
-
 import { cancelNotify } from './CustomNotification.reducer';
-
+import FontAwesome from 'react-fontawesome';
 export class CustomNotification extends Component {
 
   constructor(props, context) {
@@ -11,6 +10,14 @@ export class CustomNotification extends Component {
   }
 
   render() {
+    let messages = Array.isArray(this.props.message) ?
+      this.props.message.map((message,index) => {
+        return <div className="row text-center" key={index}>
+          <span style={{marginRight:'5px'}}><FontAwesome name='exclamation-circle' /></span>
+          {message}
+        </div>
+      })
+      : this.props.message;
     return (
       <Popover
         id="notification"
@@ -20,7 +27,7 @@ export class CustomNotification extends Component {
         className={`${this.props.isActive ? "show" : "hidden"}`}
         onClick={this.props.handleOnClick}
       >
-        {this.props.message}
+        {messages}
       </Popover>
     );
   }
@@ -37,7 +44,7 @@ const mapStateToProps = (state) => ({
 
 CustomNotification.propTypes = {
   isActive: PropTypes.bool.isRequired,
-  message: PropTypes.string,
+  message: PropTypes.any,
   title: PropTypes.string,
   handleOnClick: PropTypes.func.isRequired
 }

@@ -38,7 +38,7 @@ export class ListDoctor extends Component {
   render() {
     let doctors = this.props.doctors
       .filter(doctor => {
-        if(this.state.selectedMedicineId > 0){
+        if(this.state.selectedDoctorId > 0){
           return doctor.id == this.state.selectedDoctorId
         }
         else return doctor;

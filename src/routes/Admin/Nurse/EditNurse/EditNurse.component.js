@@ -12,7 +12,8 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
-export default class EditNurse extends Component {
+
+export class EditNurse extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -121,7 +122,7 @@ export default class EditNurse extends Component {
 
           <FormGroup controlId="formHorizontalPassword">
             <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-              Email :
+              Password :
             </Col>
             <Col xs={10} sm={3}>
               <FormControl type="password" placeholder="Password"
@@ -148,5 +149,19 @@ export default class EditNurse extends Component {
     );
   }
 }
+EditNurse.propTypes = {
+  user: PropTypes.object,
+  fetching: PropTypes.bool.isRequired,
+  editNurse: PropTypes.func.isRequired,
+  deleteNurse: PropTypes.func.isRequired
+};
+const mapStateToProps = (state) => ({
+  fetching: state.nurses.fetching
+})
+const mapDispatchToProps = {
+  editNurse,
+  deleteNurse
+}
+export default connect(mapStateToProps, mapDispatchToProps)(EditNurse);
 
 

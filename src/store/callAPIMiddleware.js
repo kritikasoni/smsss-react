@@ -64,14 +64,12 @@ function callAPIMiddleware({ dispatch, getState }) {
             if (error.data.Errors.hasOwnProperty(errorProperty)) {
               // if array, then iterate
               if(Array.isArray(error.data.Errors[errorProperty])){
-                error.data.Errors[errorProperty].forEach(e => {
-                  errorMessages.push(e.message);
-                });
+               errorMessages.push(error.data.Errors[errorProperty][0].message);
               }
               else errorMessages.push(error.data.Errors[errorProperty]);
             }
           }
-          dispatch(notify(errorMessages.join('\n'),'Error'));
+          dispatch(notify(errorMessages,'Error'));
         }
       })
   }

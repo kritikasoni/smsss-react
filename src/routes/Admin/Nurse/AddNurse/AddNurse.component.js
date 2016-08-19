@@ -85,7 +85,7 @@ export class AddNurse extends Component {
             Email :
           </Col>
           <Col xs={10} sm={3}>
-            <FormControl type="text" placeholder="Email"
+            <FormControl type="email" placeholder="Email"
                          value={this.state.email}
                          onChange={(e) => this.setState({email: e.target.value})}
             />

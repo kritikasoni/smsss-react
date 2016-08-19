@@ -70,7 +70,7 @@ export class Login extends Component {
           <Col smOffset={2} sm={8} md={3} mdOffset={5}>
             {
               this.props.loading ?
-             <i className="fa fa-spinner fa-spin fa-spinner" aria-hidden="true"></i> :
+             <i className="fa fa-spinner fa-spin" aria-hidden="true"></i> :
               <Button type="submit" bsStyle="primary">
                 Log in
               </Button>

@@ -51,8 +51,8 @@ export default class ListNurse extends Component {
   render() {
     let nurses = this.state.nurses
       .filter(nurse => {
-        if(this.state.selectedMedicineId > 0){
-          return nurse.id == this.state.selectedMedicineId
+        if(this.state.selectedNurseId > 0){
+          return nurse.id == this.state.selectedNurseId
         }
         else return nurse;
       })

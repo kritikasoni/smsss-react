@@ -32,7 +32,7 @@ export function loadNurse() {
 export function addNurse(nurse) {
   return {
     types: [ADD_NURSE_REQUEST, ADD_NURSE_SUCCESS, ADD_NURSE_FAILURE],
-    callAPI: () => Http.post(`${BackendUrl}/nurses`, {name}),
+    callAPI: () => Http.post(`${BackendUrl}/nurses`, nurse),
     payload: nurse,
     successMessage: {
       show: true,
