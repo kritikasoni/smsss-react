@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import Http from 'helper/Http';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { addMedicine } from './../medicine.reducer';
 import DropZone from 'react-dropzone';
-import { BackendUrl } from 'Config';
 import classes from './AddMedicine.component.scss';
 import Form from 'react-bootstrap/lib/Form';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -16,7 +16,7 @@ export default class AddMedicine extends Component {
     this.state = {
       scientificName:'',
       informalName:'',
-      image:'', //TODO: upload pic in server--backend and get url
+      image: '',
       detail:''
     };
     this._onSubmit = this._onSubmit.bind(this);
@@ -24,25 +24,16 @@ export default class AddMedicine extends Component {
   }
   _onSubmit(e) {
     e.preventDefault();
-    console.log('submit');
-    Http
-      .post(`${BackendUrl}/medicines`,{
-        scientificName: this.state.scientificName,
-        informalName: this.state.informalName,
-        image: this.state.image,
-        detail:this.state.detail
-      })
-      .then(response => {
-        console.log(response);
-        alert('success');
-      })
-      .catch(err => {
-        console.error(err);
-      })
+    const medicine = {
+      scientificName: this.state.scientificName,
+      informalName: this.state.informalName,
+      image: this.state.image,
+      detail:this.state.detail
+    };
+    this.props.addMedicine(medicine);
   }
 
   _onDrop(file){
-    console.log('file',file);
     this.setState({ image: file[0] });
   }
 
@@ -82,12 +73,15 @@ export default class AddMedicine extends Component {
               <DropZone onDrop={this._onDrop}>
                 <div>Drop medicine pictures here, or click to select files to upload.</div>
               </DropZone></div>
-              {this.state.image ?
+              {this.state.image.preview ?
                 <div>
-                  <div><img src={this.state.image.preview} /></div>
+                  <div><img className={classes['medicine-image__preview']} src={this.state.image.preview} /></div>
                 </div>
                 :
-                null}
+                <div>
+                  <div><img className={classes['medicine-image__preview']} src={'http://placehold.it/350x300'} /></div>
+                </div>
+              }
             </div>
           </div>
           <br />
@@ -108,5 +102,12 @@ export default class AddMedicine extends Component {
     );
   }
 }
+AddMedicine.propTypes = {
+  addMedicine: PropTypes.func.isRequired
+}
+const mapDispatchToProps = {
+  addMedicine
+}
+export default connect(null,mapDispatchToProps)(AddMedicine);
 
 

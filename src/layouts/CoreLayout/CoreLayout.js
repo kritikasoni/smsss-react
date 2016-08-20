@@ -8,11 +8,7 @@ export const CoreLayout = ({ children }) => (
   <div className={`container-fluid text-center ${classes.noPadding}`}>
     <Header />
     <div className={`${classes.mainContainer}`}>
-      <div className={`${classes['notification-bar']} row`}>
-        <div className="col-xs-6 col-sm-3 pull-right">
-          <Notification />
-        </div>
-      </div>
+      <Notification />
       {children}
     </div>
 

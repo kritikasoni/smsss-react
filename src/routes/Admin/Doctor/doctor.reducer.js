@@ -37,6 +37,10 @@ export function addDoctor(doctor) {
     successMessage: {
       show: true,
       message: 'Add new doctor success'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/doctors'
     }
   }
 }
@@ -49,6 +53,10 @@ export function editDoctor(id,doctor) {
     successMessage: {
       show: true,
       message: 'Edit success!'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/doctors'
     }
   }
 }
@@ -61,6 +69,10 @@ export function deleteDoctor(id) {
     successMessage: {
       show: true,
       message: 'Doctor is deleted'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/doctors'
     }
   }
 }

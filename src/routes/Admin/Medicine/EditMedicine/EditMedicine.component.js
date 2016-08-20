@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { editMedicine } from './../medicine.reducer';
+import Http from 'helper/Http';
 import classes from './EditMedicine.component.scss';
 import { BackendUrl } from 'Config';
 import Form from 'react-bootstrap/lib/Form';
@@ -24,28 +26,19 @@ export default class EditMedicine extends Component {
   }
   _onSubmit(e) {
     e.preventDefault();
-    console.log('submit');
-    axios
-      .put(`${BackendUrl}/medicines/`+this.props.params.id,{
-        scientificName: this.state.scientificName,
-        informalName: this.state.informalName,
-        image: this.state.image,
-        detail: this.state.detail
-      })
-      .then(response => {
-        console.log(response);
-        this.props.history.push('/admin/medicines');
-      })
-      .catch(err => {
-        console.error(err);
-      })
+    const medicine = {
+      scientificName: this.state.scientificName,
+      informalName: this.state.informalName,
+      image: this.state.image,
+      detail: this.state.detail
+    };
+    this.props.editMedicine(this.props.params.id, medicine);
   }
 
   componentWillMount() {
-    axios
+    Http
       .get(`${BackendUrl}/medicines/`+this.props.params.id)
       .then(response => {
-        console.log(response.data);
         this.setState({
           scientificName : response.data.scientificName,
           informalName: response.data.informalName,
@@ -100,7 +93,7 @@ export default class EditMedicine extends Component {
                   <div><img src={this.state.image.preview} /></div>
                 </div>
                 : <div className="col-sm-4">
-                <Image src={this.state.image} responsive />
+                <Image className={classes['medicine-image__preview']} src={this.state.image} />
               </div>
               :
               null}
@@ -125,4 +118,9 @@ export default class EditMedicine extends Component {
   }
 }
 
+const mapDispatchToProps = {
+  editMedicine
+}
+
+export default connect(null, mapDispatchToProps)(EditMedicine);
 

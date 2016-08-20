@@ -37,6 +37,10 @@ export function addNurse(nurse) {
     successMessage: {
       show: true,
       message: 'Add new nurse success'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/nurses'
     }
   }
 }
@@ -49,6 +53,10 @@ export function editNurse(id,nurse) {
     successMessage: {
       show: true,
       message: 'Edit success!'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/nurses'
     }
   }
 }
@@ -61,6 +69,10 @@ export function deleteNurse(id) {
     successMessage: {
       show: true,
       message: 'Nurse is deleted'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/nurses'
     }
   }
 }

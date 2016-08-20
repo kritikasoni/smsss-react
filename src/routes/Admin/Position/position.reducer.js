@@ -37,6 +37,10 @@ export function addPosition(name) {
     successMessage: {
       show: true,
       message: 'Add new position success'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/positions'
     }
   }
 }
@@ -49,6 +53,10 @@ export function editPosition(id,name) {
     successMessage: {
       show: true,
       message: 'Edit success!'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/positions'
     }
   }
 }
@@ -61,6 +69,10 @@ export function deletePosition(id) {
     successMessage: {
       show: true,
       message: 'Position is deleted'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/positions'
     }
   }
 }

@@ -20,13 +20,16 @@ export class SelectDepartment extends Component {
       .then(({data}) => {
         if(input) {
           callback(null, {
-            options: data.filter(dep => dep.name.includes(input)).map(dep => toOptionFormat(dep)),
+            options: data
+              .filter(dep => dep.name.includes(input))
+              .filter(dep => dep.name.toUpperCase() != 'ADMIN')
+              .map(dep => toOptionFormat(dep)),
             complete: false
           })
         }
         else {
           callback(null, {
-            options: data.map(dep => toOptionFormat(dep)),
+            options: data.filter(p => p.name.toUpperCase() != 'ADMIN').map(dep => toOptionFormat(dep)),
             complete: true
           })
         }
@@ -55,6 +58,5 @@ SelectDepartment.propTypes = {
 }
 
 export default SelectDepartment;
-
 
 

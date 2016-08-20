@@ -37,6 +37,10 @@ export function addRoom(name) {
     successMessage: {
       show: true,
       message: 'Add new room success'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/rooms'
     }
   }
 }
@@ -49,6 +53,10 @@ export function editRoom(id,name) {
     successMessage: {
       show: true,
       message: 'Edit success!'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/rooms'
     }
   }
 }
@@ -61,6 +69,10 @@ export function deleteRoom(id) {
     successMessage: {
       show: true,
       message: 'Room is deleted'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/rooms'
     }
   }
 }

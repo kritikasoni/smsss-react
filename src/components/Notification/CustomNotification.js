@@ -22,7 +22,7 @@ export class CustomNotification extends Component {
       <Popover
         id="notification"
         title={this.props.title ? this.props.title : 'Message'}
-        style={{position:'relative'}}
+        style={{position:'fixed',zIndex:100}}
         placement="right"
         className={`${this.props.isActive ? "show" : "hidden"}`}
         onClick={this.props.handleOnClick}

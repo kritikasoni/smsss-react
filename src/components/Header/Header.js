@@ -95,6 +95,7 @@ export class Header extends Component {
             (<div>
                 <Nav>
                   <Tab to='/admin/patients' name='Patients' />
+                  <Tab to='/admin/medicines' name='Medicines' />
                 </Nav>
               </div>)
             : null

@@ -19,13 +19,16 @@ export class SelectPosition extends Component {
       .then(({data}) => {
         if(input) {
           callback(null, {
-            options: data.filter(p => p.name.includes(input)).map(p => toOptionFormat(p)),
+            options: data
+              .filter(p => p.name.includes(input))
+              .filter(p => p.name.toUpperCase() != 'ADMIN')
+              .map(p => toOptionFormat(p)),
             complete: false
           })
         }
         else {
           callback(null, {
-            options: data.map(p => toOptionFormat(p)),
+            options: data.filter(p => p.name.toUpperCase() != 'ADMIN').map(p => toOptionFormat(p)),
             complete: true
           })
         }
@@ -52,6 +55,5 @@ SelectPosition.propTypes = {
 }
 
 export default SelectPosition;
-
 
 

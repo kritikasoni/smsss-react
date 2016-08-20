@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import {role} from 'Config';
-import Http from 'helper/Http';
+import { role } from 'Config';
+import { loadMedicine, deleteMedicine } from './../medicine.reducer';
 import Medicine from './Medicine.component';
-import { BackendUrl } from 'Config';
+
 import classes from './ListMedicine.scss';
 import SelectMedicine from 'components/SelectMedicine';
 import Col from 'react-bootstrap/lib/Col';
@@ -23,21 +23,11 @@ export class ListMedicine extends Component {
   }
 
   componentWillMount() {
-    Http
-      .get(`${BackendUrl}/medicines`)
-      .then(({data}) => {
-        this.setState({medicines : data});
-      });
+    this.props.loadMedicine();
   }
 
   _deleteMedicine(id) {
-    Http
-      .delete(`${BackendUrl}/medicines/`+id)
-      .then(response => {
-        let medicines = this.state.medicines.filter(medicine => medicine.id != id);
-        this.setState({medicines});
-      })
-      .catch(error => console.log);
+    this.props.deleteMedicine(id);
   }
 
   _onViewMedicine(id) {
@@ -51,7 +41,7 @@ export class ListMedicine extends Component {
     this.setState({selectedMedicineId: e ? e.value : 0});
   }
   render() {
-    let medicines = this.state.medicines
+    let medicines = this.props.medicines
       .filter(medicine => {
         if(this.state.selectedMedicineId > 0){
           return medicine.id == this.state.selectedMedicineId
@@ -92,13 +82,20 @@ export class ListMedicine extends Component {
   }
 }
 ListMedicine.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  medicines: PropTypes.array.isRequired,
+  loadMedicine: PropTypes.func.isRequired,
+  deleteMedicine: PropTypes.func.isRequired
 }
 ListMedicine.contextTypes = {
   router: PropTypes.any.isRequired
 }
 const mapStateToProps = (state) =>({
-  user: state.auth.user
+  user: state.auth.user,
+  medicines: state.medicines.medicines
 });
-
-export default connect(mapStateToProps)(ListMedicine);
+const mapDispatchToProps = {
+  loadMedicine,
+  deleteMedicine
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ListMedicine);

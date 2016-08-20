@@ -1,4 +1,5 @@
-import {notify} from './../components/Notification/CustomNotification.reducer';
+import { notify } from './../components/Notification/CustomNotification.reducer';
+import { push } from 'react-router-redux';
 function callAPIMiddleware({ dispatch, getState }) {
   return next => action => {
     const {
@@ -9,6 +10,10 @@ function callAPIMiddleware({ dispatch, getState }) {
       successMessage = {
         show: false,
         message: ''
+      },
+          redirectAfterSuccess = {
+              redirect: false,
+              url: ''
       }
     } = action
 
@@ -49,6 +54,9 @@ function callAPIMiddleware({ dispatch, getState }) {
         if(successMessage.show){
           dispatch(notify(successMessage.message,'Success!'));
         }
+        if(redirectAfterSuccess.redirect){
+          dispatch(push(redirectAfterSuccess.url));
+                  }
       })
       .catch(error => {
         dispatch(Object.assign({},{

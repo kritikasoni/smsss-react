@@ -37,6 +37,10 @@ export function addDepartment(name) {
     successMessage: {
       show: true,
       message: 'Add new department success'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/departments'
     }
   }
 }
@@ -49,6 +53,10 @@ export function editDepartment(id,name) {
     successMessage: {
       show: true,
       message: 'Edit success!'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/departments'
     }
   }
 }
@@ -61,6 +69,10 @@ export function deleteDepartment(id) {
     successMessage: {
       show: true,
       message: 'Department is deleted'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/departments'
     }
   }
 }
