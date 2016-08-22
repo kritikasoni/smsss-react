@@ -18,6 +18,7 @@ import SelectRoom from 'components/SelectRoom';
 import SelectMedicine from 'components/SelectMedicine';
 import SelectTimeToTake from 'components/SelectTimeToTake';
 import AddAppointment from 'components/Appointment/AddAppointment.component';
+import ListAppointment from 'components/Appointment/ListAppointment.component';
 
 export class DetailPatient extends Component {
   constructor(props) {
@@ -35,7 +36,8 @@ export class DetailPatient extends Component {
         phone:''
       },
       isModalClosed: true,
-      isAddAppointmentModalClosed: true
+      isAddAppointmentModalClosed: true,
+      isListAppointmentModalClosed: true
     };
 
     this._editPatient = this._editPatient.bind(this);
@@ -67,7 +69,9 @@ export class DetailPatient extends Component {
             <Button className="col-xs-12" onClick={() => this.setState({isAddAppointmentModalClosed: false})}>
               Add appointment
             </Button>
-            <Button className="col-xs-12">View appointments</Button>
+            <Button className="col-xs-12" onClick={() => this.setState({isListAppointmentModalClosed: false})}>
+              View appointments
+            </Button>
             <Button className="col-xs-12">Add symptom</Button>
             <Button className="col-xs-12">View symptoms</Button>
             <Button className="col-xs-12">Add prescription</Button>
@@ -126,6 +130,10 @@ export class DetailPatient extends Component {
         <AddAppointment
           isModalClosed={this.state.isAddAppointmentModalClosed}
           closeModal={() => this.setState({isAddAppointmentModalClosed: true})}
+          patientId={this.props.params.id} />
+        <ListAppointment
+          isModalClosed={this.state.isListAppointmentModalClosed}
+          closeModal={() => this.setState({isListAppointmentModalClosed: true})}
           patientId={this.props.params.id} />
       </Col>
     );

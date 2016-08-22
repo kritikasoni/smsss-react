@@ -14,10 +14,9 @@ import Button from 'react-bootstrap/lib/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import moment from 'moment';
 
-export default class AddAppointment extends Component {
+export class AddAppointment extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       appointment: {
         patient: props.patientId,
