@@ -48,6 +48,10 @@ export function addMedicine(medicine) {
     successMessage: {
       show: true,
       message: 'Add new medicine success'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/medicines'
     }
   }
 }
@@ -77,6 +81,10 @@ export function editMedicine(id,medicine) {
     successMessage: {
       show: true,
       message: 'Edit success!'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/medicines'
     }
   }
 }
@@ -89,6 +97,10 @@ export function deleteMedicine(id) {
     successMessage: {
       show: true,
       message: 'Medicine is deleted'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/medicines'
     }
   }
 }

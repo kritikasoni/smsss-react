@@ -1,130 +1,128 @@
-import React, { Component } from 'react';
-import axios from 'axios'; //library เอาไว้ส่งข้อมูล
-import { todayDateInputValue } from './../../../../helper/Utils';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
-import { BackendUrl } from 'Config';
-import classes from './AddAppointment.scss';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { addAppointment } from './appointment.reducer';
+import SelectRoom from 'components/SelectRoom';
+import TimePicker from 'components/TimePicker';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Form from 'react-bootstrap/lib/Form';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import Col from 'react-bootstrap/lib/Col';
+import Button from 'react-bootstrap/lib/Button';
+import Modal from 'react-bootstrap/lib/Modal';
+import moment from 'moment';
 
 export default class AddAppointment extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
-      room:0,
-      roomList: [],
-      patient:{},
-      doctor:'',
-      date: todayDateInputValue() //ใส่เวลาวันที่ยังไง
-    };
+      appointment: {
+        patient: props.patientId,
+        doctor: props.doctor.id,
+        time: {
+          hour: moment().get('hours'),
+          minute: moment().get('minutes')
+        },
+        date: moment(),
+        room: 0
+      }
+    }
     this._onSubmit = this._onSubmit.bind(this);
+    this._onRoomChange = this._onRoomChange.bind(this);
+    this._onTimeHourChange = this._onTimeHourChange.bind(this);
+    this._onTimeMinuteChange = this._onTimeMinuteChange.bind(this);
+    this._onDateChange = this._onDateChange.bind(this);
   }
-  componentWillMount() {
-    this._loadRoomList();
-    this._loadPatient();
-  }
-  _loadPatient() {
-    axios
-      .get(`${BackendUrl}/patients/`+this.props.params.id)
-      .then(response => {
-        this.setState({
-          patient : response.data
-        });
-        console.log(this.state.patient);
-      })
-      .catch((err) => console.error(err));
-  }
-  _loadRoomList() {
-    axios
-      .get(`${BackendUrl}/rooms`)
-      .then(response => {
-        this.setState({roomList:response.data });
-      })
-      .catch(err => {
-        console.error(err);
-      })
-  }
+
   _onSubmit(e) {
     e.preventDefault();
-    console.log('submit');
-    axios
-      .post(`${BackendUrl}/appointments`,{
-        room: this.state.room,
-        patient: this.state.patient.id,
-        doctor: this.state.doctor,
-        date: this.state.date,
-
-      })
-      .then(response => {
-        console.log(response);
-        alert('success');
-      })
-      .catch(err => {
-        console.error(err);
-      })
+    let appointment = this.state.appointment;
+    let time = appointment.time;
+    appointment.date = appointment.date.set({'hour' :time.hour,'minute': time.minute})
+    this.props.addAppointment(appointment);
+    this.props.closeModal();
   }
+
+  _onRoomChange(e){
+    this.setState({appointment: {...this.state.appointment, room: e ? e.value : 0}});
+  }
+
+  _onTimeHourChange(e) {
+    const time = {...this.state.appointment.time, hour: e.target.value};
+    this.setState({appointment: {...this.state.appointment, time: time}});
+  }
+
+  _onTimeMinuteChange(e) {
+    const time = {...this.state.appointment.time, minute: e.target.value};
+    this.setState({appointment: {...this.state.appointment, time: time}});
+  }
+  _onDateChange(date) {
+    this.setState({appointment: {...this.state.appointment, date: date}});
+  }
+
   render() {
-    let roomOptions = this.state.roomList.map((room) => ({ label: room.name, value: room.id }));
     return (
-      <form role="form" onSubmit={this._onSubmit}>
-
-        <div className={classes.topic6}>
-        <div className="row"> 
-          <div className="col-md-12"> 
-            <div className="col-md-6 text-right"> ROOM :</div>
-            <div className="col-md-4">
-        <Select
-          name="room"
-          options={roomOptions}
-          value = {this.state.room}
-          onChange={(id) => this.setState({room: id })}
-        /></div>
-            </div>
-          </div>
-        <br />
-
-
-          <div className="row"> 
-            <div className="col-md-12"> 
-              <div className="col-md-6 text-right"> PATIENT :</div> 
-              <input className="col-md-3"
-          name="patient"
-          value={this.state.patient.firstName}
-          onChange={(e) => this.setState({patient: {firstName: e.target.value }})}
-          disabled
-        />
-              </div>
-            </div>
-        <br />
-
-          <div className="row">
-            <div className="col-md-12">
-              <div className="col-md-6 text-right"> DOCTOR :</div>
-              <input className="col-md-3"
-          name="doctor"
-          value={this.state.doctor}
-          onChange={(e) => this.setState({doctor: e.target.value})}
-          disabled
-        />
-            </div>
-            </div>
-        <br />
-
-          <div className="row">
-            <div className="col-ma-12">
-              <div className="col-md-6 text-right"> DATE :</div>
-              <input className="col-md-3"
-          name="date"
-          type="date"
-          value={this.state.date}
-          onChange={(e) => this.setState({date: e.target.value})}
-        />
-              </div>
-            </div>
-        </div>
-
-        <button type="submit" className={`btn ${classes.submitbut5}`}>SUBMIT</button>
-      </form>
+      <Modal show={!this.props.isModalClosed} onHide={() => {this.props.closeModal()}}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add appointment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{marginBottom:'30px'}}>
+          <Form horizontal onSubmit={this._onSubmit} role="form">
+            <FormGroup controlId="formHorizontalRoom">
+              <Col componentClass={ControlLabel} xs={2}>
+                Room :
+              </Col>
+              <Col xs={10}>
+                <SelectRoom onChange={this._onRoomChange} value={this.state.appointment.room} />
+              </Col>
+            </FormGroup>
+            <FormGroup controlId="formHorizontalTime">
+              <Col componentClass={ControlLabel} xs={2}>
+                Time :
+              </Col>
+              <Col xs={10} >
+                <TimePicker hour={this.state.appointment.time.hour + ''} minute={this.state.appointment.time.minute + ''}
+                            onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup controlId="formHorizontalDate">
+              <Col componentClass={ControlLabel} xs={2}>
+                Date :
+              </Col>
+              <Col xs={10} >
+                <DatePicker
+                  className={'form-control col-md-6 pull-left'}
+                  dateFormat={'YYYY/MM/DD'}
+                  selected={this.state.appointment.date}
+                  onChange={this._onDateChange} />
+              </Col>
+            </FormGroup>
+            <Col xs={12} >
+              <Button type="submit" bsStyle={'primary'} className={`pull-right`}>SUBMIT</Button>
+            </Col>
+          </Form>
+        </Modal.Body>
+      </Modal>
     );
   }
 }
+const mapStateToProps = (state) => ({
+  doctor: state.auth.user
+})
 
+const mapDispatchToProps = {
+  addAppointment
+}
+
+AddAppointment.propTypes = {
+  patientId: PropTypes.any.isRequired,
+  doctor: PropTypes.object.isRequired,
+  isModalClosed: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddAppointment);

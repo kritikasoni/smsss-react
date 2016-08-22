@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { editMedicine } from './../medicine.reducer';
+import { editMedicine, deleteMedicine } from './../medicine.reducer';
 import Http from 'helper/Http';
 import classes from './EditMedicine.component.scss';
 import { BackendUrl } from 'Config';
@@ -23,6 +23,7 @@ export default class EditMedicine extends Component {
       detail:''
     };
     this._onSubmit = this._onSubmit.bind(this);
+    this._onDelete = this._onDelete.bind(this);
   }
   _onSubmit(e) {
     e.preventDefault();
@@ -33,6 +34,9 @@ export default class EditMedicine extends Component {
       detail: this.state.detail
     };
     this.props.editMedicine(this.props.params.id, medicine);
+  }
+  _onDelete() {
+    this.props.deleteMedicine(this.props.params.id);
   }
 
   componentWillMount() {
@@ -52,10 +56,10 @@ export default class EditMedicine extends Component {
     return (
       <div>
         <div className="pull-right">
-          <Button bsStyle="danger" className={classes['medicine-delete__button']}>DELETE</Button>
+          <Button bsStyle="danger" className={classes['medicine-delete__button']} onClick={this._onDelete}>DELETE</Button>
         </div>
         <Form horizontal onSubmit={this._onSubmit} role="form">
-          <h2>{`Edit medicine: ${this.state.informalName} (${this.state.scientificName})`}</h2>
+          <h2>{`Edit medicine: ${props.scientificName} ${props.informalName ? '(' + props.informalName + ')' : ''}`}</h2>
           <FormGroup controlId="formHorizontalScientificName">
             <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
               SCIENTIFIC NAME :
@@ -70,7 +74,7 @@ export default class EditMedicine extends Component {
 
           <FormGroup controlId="formHorizontalInformalName">
             <Col componentClass={ControlLabel}  xs={2} sm={2} smOffset={3} >
-              SCIENTIFIC NAME :
+              INFORMAL NAME :
             </Col>
             <Col  xs={10} sm={3}>
               <FormControl type="text" placeholder="Informal name"
@@ -119,8 +123,8 @@ export default class EditMedicine extends Component {
 }
 
 const mapDispatchToProps = {
-  editMedicine
+  editMedicine,
+  deleteMedicine
 }
 
 export default connect(null, mapDispatchToProps)(EditMedicine);
-

@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/lib/Image';
 
 export const Medicine = (props) =>  (
   <Card
-    title={`${props.informalName} (${props.scientificName})`}
+    title={`${props.scientificName} ${props.informalName ? '(' + props.informalName + ')' : ''}`}
     cardStyle={`col-xs-12 col-sm-4 col-sm-offset-4`}>
     <Col xs={12} sm={6}>
       <div className={classes['medicine-image__center']}>

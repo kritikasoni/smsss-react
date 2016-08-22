@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
 import Button from 'react-bootstrap/lib/Button';
 import Table from 'react-bootstrap/lib/Table';
@@ -17,13 +17,25 @@ import 'react-datepicker/dist/react-datepicker.css';
 import SelectRoom from 'components/SelectRoom';
 import SelectMedicine from 'components/SelectMedicine';
 import SelectTimeToTake from 'components/SelectTimeToTake';
+import AddAppointment from 'components/Appointment/AddAppointment.component';
 
 export class DetailPatient extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      patient: {},
-      isModalClosed: true
+      patient:  {
+        id: 0,
+        firstName:'',
+        lastName:'',
+        email:'',
+        idCardNo: '',
+        dob: moment(),
+        weight: 0,
+        height: 0,
+        phone:''
+      },
+      isModalClosed: true,
+      isAddAppointmentModalClosed: true
     };
 
     this._editPatient = this._editPatient.bind(this);
@@ -36,7 +48,7 @@ export class DetailPatient extends Component {
   }
 
   componentWillMount() {
-    axios
+    Http
       .get(`${BackendUrl}/patients/${this.props.params.id}`)
       .then(({data}) => {
         this.setState({
@@ -52,7 +64,9 @@ export class DetailPatient extends Component {
       case 'doctor':
         return (
           <div>
-            <Button className="col-xs-12" onClick={this._openModal}>Add appointment</Button>
+            <Button className="col-xs-12" onClick={() => this.setState({isAddAppointmentModalClosed: false})}>
+              Add appointment
+            </Button>
             <Button className="col-xs-12">View appointments</Button>
             <Button className="col-xs-12">Add symptom</Button>
             <Button className="col-xs-12">View symptoms</Button>
@@ -75,7 +89,6 @@ export class DetailPatient extends Component {
 
   render() {
     let actionButtons = this._actionButtons();
-
     return (
       <Col xs={12} sm={10} smOffset={1}>
         <Table responsive bsClass="table table-striped">
@@ -110,101 +123,10 @@ export class DetailPatient extends Component {
           </tr>
           </tbody>
         </Table>
-        <Modal show={!this.state.isModalClosed} onHide={() => {this._closeModal()}}>
-          <Modal.Header closeButton>
-            <Modal.Title>{`Update prescription of patient: ${this.state.patient.firstName} ${this.state.patient.lastName}`}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form horizontal role="form">
-              <Col xs={12} style={{marginBottom:'25px'}}>
-                <Button className="pull-right" bsStyle="danger" onClick={() => { this._closeModal() }}>Remove medicine</Button>
-              </Col>
-              <FormGroup controlId="formHorizontalWeight">
-                <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-                  Medicine:
-                </Col>
-                <Col xs={10} sm={5}>
-                  <SelectMedicine onChange={() => {}} value={1}/>
-                </Col>
-              </FormGroup>
-              <FormGroup controlId="formHorizontalWeight">
-                <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-                  Time to take:
-                </Col>
-                <Col xs={10} sm={5}>
-                  <SelectTimeToTake onChange={() => {}} value={6}/>
-                </Col>
-              </FormGroup>
-              <FormGroup controlId="formHorizontalWeight">
-                <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-                  Dosage:
-                </Col>
-                <Col xs={10} sm={5}>
-                  <FormControl type="number" placeholder="Dosage number"
-                               value={1}
-                               onChange={(e) => this.setState({name: e.target.value})}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup controlId="formHorizontalWeight">
-                <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-                  Remark:
-                </Col>
-                <Col xs={10} sm={5}>
-                <textarea className="form-control">Can stop after you feel better</textarea>
-                </Col>
-              </FormGroup>
-              <hr />
-              <Col xs={12} style={{marginBottom:'25px'}}>
-                <Button className="pull-right" bsStyle="danger" onClick={() => { this._closeModal() }}>Remove medicine</Button>
-              </Col>
-              <FormGroup controlId="formHorizontalWeight">
-                <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-                  Medicine:
-                </Col>
-                <Col xs={10} sm={5}>
-                  <SelectMedicine onChange={() => {}} value={3}/>
-                </Col>
-              </FormGroup>
-              <FormGroup controlId="formHorizontalWeight">
-                <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-                  Time to take:
-                </Col>
-                <Col xs={10} sm={5}>
-                  <SelectTimeToTake onChange={() => {}} value={15}/>
-                </Col>
-              </FormGroup>
-              <FormGroup controlId="formHorizontalWeight">
-                <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-                  Dosage:
-                </Col>
-                <Col xs={10} sm={5}>
-                  <FormControl type="number" placeholder="Dosage number"
-                               value={2}
-                               onChange={(e) => this.setState({name: e.target.value})}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup controlId="formHorizontalWeight">
-                <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
-                  Remark:
-                </Col>
-                <Col xs={10} sm={5}>
-                  <textarea className="form-control">None</textarea>
-                </Col>
-              </FormGroup>
-            </Form>
-            <hr />
-            <Col xs={12}>
-              <Button className="pull-right" bsStyle="primary" onClick={() => { this._closeModal() }}>More medicine</Button>
-            </Col>
-          </Modal.Body>
-          <Modal.Footer style={{marginTop:'50'}}>
-            <Button bsStyle="danger" className="pull-left" onClick={() => { this._closeModal() }}>Delete</Button>
-            <Button bsStyle="danger" onClick={() => { this._closeModal() }}>Close</Button>
-            <Button bsStyle="primary" onClick={() => { this._closeModal() }}>Update</Button>
-          </Modal.Footer>
-        </Modal>
+        <AddAppointment
+          isModalClosed={this.state.isAddAppointmentModalClosed}
+          closeModal={() => this.setState({isAddAppointmentModalClosed: true})}
+          patientId={this.props.params.id} />
       </Col>
     );
   }
