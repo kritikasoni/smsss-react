@@ -1,58 +1,68 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { BackendUrl } from 'Config';
-export default class ListSymptom extends Component {
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { loadSymptom } from './symptom.reducer';
+import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
+import Col from 'react-bootstrap/lib/Col';
+import moment from 'moment';
+export class ListSymptom extends Component {
   constructor(props,context) {
     super(props,context);
-    this.state =  {
-      symptoms: []
-    };
-    this._deleteSymptom = this._deleteSymptom.bind(this);
-    this._editSymptom = this._editSymptom.bind(this);
   }
 
   componentWillMount() {
-    axios
-      .get(`${BackendUrl}/symptoms/patient/` + this.props.params.id)
-      .then(response => {
-        this.setState({
-          symptoms : response.data
-        });
-        console.log(this.state.symptoms);
-      });
+    this.props.loadSymptom(this.props.patientId);
   }
 
-  _deleteSymptom(id) {
-    axios
-      .delete(`${BackendUrl}/symptoms/`+id)
-      .then(response => {
-        let symptoms = this.state.symptoms.filter(symptom => symptom.id != id);
-        this.setState({symptoms});
-      })
-      .catch(error => console.log);
-  }
   _editSymptom(id) {
-    this.context.router.push(`/symptoms/${id}`);
+    this.context.router.push(`/doctor/symptoms/${id}/edit`);
   }
+  _deleteSymptom(id) {
+    this.props.deleteSymptom(id);
+  }
+
   render() {
-    let symptoms = this.state.symptoms.map((symptom) => { //map ทำเพื่อเอาtagไปใส่
+    let symptoms = this.props.symptoms.map((symptom) => {
       return (
-        <div>
-          <h2>{symptom.detail}</h2>
-          <h2>{symptom.patient}</h2>
-          <a href={`/doctor/symptoms/${symptom.id}/edit`} ><button type="button">Edit</button></a>
-          <button type="button" onClick={() => this._deleteSymptom(symptom.id)}>Delete</button>
+        <div key={symptom.id} style={{paddingLeft:'10px'}}>
+          <p>Date time: {moment(symptom.createdAt).format('YYYY/MM/DD HH:mm').toString()}</p>
+          <p>Detail: {symptom.detail}</p>
+          <Col xs={4} xsOffset={8}>
+            <Button bsStyle={'primary'} className="col-xs-12" onClick={() => this._editSymptom(symptom.id)}>
+              Edit
+            </Button>
+          </Col>
         </div>
       );
     });
     return (
-      <div>
-        <h1>Symptoms</h1>
-        {symptoms}
-      </div>
+      <Modal show={!this.props.isModalClosed} onHide={() => {this.props.closeModal()}}>
+        <Modal.Header closeButton>
+          <Modal.Title>Symptoms history</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{marginBottom:'30px'}}>
+          {symptoms}
+        </Modal.Body>
+      </Modal>
     );
   }
-
-
 }
 
+ListSymptom.contextTypes = {
+  router: PropTypes.any.isRequired
+}
+ListSymptom.propTypes = {
+  patientId: PropTypes.any.isRequired,
+  symptoms: PropTypes.array.isRequired,
+  loadSymptom: PropTypes.func.isRequired,
+  isModalClosed: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  symptoms: state.symptoms.symptoms
+})
+const mapDispatchToProps = {
+  loadSymptom
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ListSymptom);

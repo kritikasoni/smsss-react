@@ -10,6 +10,7 @@ import roomReducer from './../routes/Admin/Room';
 import patientReducer from './../routes/Admin/Patient';
 import medicineReducer from './../routes/Admin/Medicine';
 import appointmentReducer from './../components/Appointment/appointment.reducer';
+import symptomReducer from './../components/Symptom/symptom.reducer';
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
@@ -24,6 +25,7 @@ export const makeRootReducer = (asyncReducers) => {
     patients: patientReducer,
     medicines: medicineReducer,
     appointments: appointmentReducer,
+    symptoms: symptomReducer,
     ...asyncReducers
   })
 }

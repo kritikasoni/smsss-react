@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { editAppointment } from './appointment.reducer';
+import { editAppointment } from './symptom.reducer';
 import SelectRoom from 'components/SelectRoom';
 import TimePicker from 'components/TimePicker';
 import DatePicker from 'react-datepicker';

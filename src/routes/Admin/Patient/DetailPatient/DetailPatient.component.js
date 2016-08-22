@@ -5,20 +5,12 @@ import { BackendUrl } from 'Config';
 import Button from 'react-bootstrap/lib/Button';
 import Table from 'react-bootstrap/lib/Table';
 import Col from 'react-bootstrap/lib/Col';
-import Modal from 'react-bootstrap/lib/Modal';
-import Form from 'react-bootstrap/lib/Form';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import moment from 'moment';
-import TimePicker from 'components/TimePicker';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import SelectRoom from 'components/SelectRoom';
-import SelectMedicine from 'components/SelectMedicine';
-import SelectTimeToTake from 'components/SelectTimeToTake';
 import AddAppointment from 'components/Appointment/AddAppointment.component';
 import ListAppointment from 'components/Appointment/ListAppointment.component';
+import AddSymptom from 'components/Symptom/AddSymptom.component';
+import ListSymptom from 'components/Symptom/ListSymptom.component';
 
 export class DetailPatient extends Component {
   constructor(props) {
@@ -37,7 +29,9 @@ export class DetailPatient extends Component {
       },
       isModalClosed: true,
       isAddAppointmentModalClosed: true,
-      isListAppointmentModalClosed: true
+      isListAppointmentModalClosed: true,
+      isAddSymptomModalClosed: true,
+      isListSymptomModalClosed: true,
     };
 
     this._editPatient = this._editPatient.bind(this);
@@ -72,8 +66,8 @@ export class DetailPatient extends Component {
             <Button className="col-xs-12" onClick={() => this.setState({isListAppointmentModalClosed: false})}>
               View appointments
             </Button>
-            <Button className="col-xs-12">Add symptom</Button>
-            <Button className="col-xs-12">View symptoms</Button>
+            <Button className="col-xs-12" onClick={() => this.setState({isAddSymptomModalClosed: false})}>Add symptom</Button>
+            <Button className="col-xs-12" onClick={() => this.setState({isListSymptomModalClosed: false})}>View symptoms</Button>
             <Button className="col-xs-12">Add prescription</Button>
             <Button className="col-xs-12">View prescriptions</Button>
           </div>);
@@ -134,6 +128,14 @@ export class DetailPatient extends Component {
         <ListAppointment
           isModalClosed={this.state.isListAppointmentModalClosed}
           closeModal={() => this.setState({isListAppointmentModalClosed: true})}
+          patientId={this.props.params.id} />
+        <ListSymptom
+          isModalClosed={this.state.isListSymptomModalClosed}
+          closeModal={() => this.setState({isListSymptomModalClosed: true})}
+          patientId={this.props.params.id} />
+        <AddSymptom
+          isModalClosed={this.state.isAddSymptomModalClosed}
+          closeModal={() => this.setState({isAddSymptomModalClosed: true})}
           patientId={this.props.params.id} />
       </Col>
     );
