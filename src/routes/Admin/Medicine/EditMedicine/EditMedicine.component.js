@@ -59,7 +59,7 @@ export default class EditMedicine extends Component {
           <Button bsStyle="danger" className={classes['medicine-delete__button']} onClick={this._onDelete}>DELETE</Button>
         </div>
         <Form horizontal onSubmit={this._onSubmit} role="form">
-          <h2>{`Edit medicine: ${props.scientificName} ${props.informalName ? '(' + props.informalName + ')' : ''}`}</h2>
+          <h2>{`${this.state.scientificName} ${this.state.informalName ? '(' + this.state.informalName + ')' : ''}`}</h2>
           <FormGroup controlId="formHorizontalScientificName">
             <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
               SCIENTIFIC NAME :
