@@ -55,7 +55,7 @@ export default class AddMedicine extends Component {
 
         <FormGroup controlId="formHorizontalInformalName">
           <Col componentClass={ControlLabel}  xs={2} sm={2} smOffset={3} >
-            SCIENTIFIC NAME :
+            INFORMAL NAME :
           </Col>
           <Col  xs={10} sm={3}>
             <FormControl type="text" placeholder="Informal name"
