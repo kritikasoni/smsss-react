@@ -32,10 +32,12 @@ export class AddSymptom extends Component {
     return (
       <Modal show={!this.props.isModalClosed} onHide={() => {this.props.closeModal()}}>
         <Modal.Header closeButton>
-          <Modal.Title>Add symptom</Modal.Title>
+          <Modal.Title>
+            {`Add symptom of patient: ${this.props.patient.firstName} ${this.props.patient.lastName}`}
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{marginBottom:'30px'}}>
-          <Form horizontal onSubmit={this._onSubmit} role="form">
+        <Form horizontal onSubmit={this._onSubmit} role="form">
+          <Modal.Body style={{marginBottom:'30px'}}>
             <FormGroup controlId="formHorizontalDetail">
               <Col componentClass={ControlLabel} xs={2}>
                 Detail :
@@ -48,25 +50,30 @@ export class AddSymptom extends Component {
             />
               </Col>
             </FormGroup>
-            <Col xs={12} >
-              <Button type="submit" bsStyle={'primary'} className={`pull-right`}>SUBMIT</Button>
-            </Col>
-          </Form>
-        </Modal.Body>
+          </Modal.Body>
+          <Modal.Footer style={{marginTop:'50px'}}>
+            <Button bsStyle="danger" onClick={() => { this.props.closeModal() }}>Close</Button>
+            <Button type="submit" bsStyle={'primary'} className={`pull-right`}>Submit</Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     );
   }
 }
 
 AddSymptom.propTypes = {
-  patientId: PropTypes.any.isRequired,
+  patient: PropTypes.object.isRequired,
   addSymptom: PropTypes.func.isRequired,
   isModalClosed: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired
 }
+const mapStateToProps = (state) => ({
+  patient: state.patients.selectedPatient
+})
 
 const mapDispatchToProps = {
   addSymptom
 }
 
-export default connect(null, mapDispatchToProps)(AddSymptom);
+export default connect(mapStateToProps, mapDispatchToProps)(AddSymptom);
+

@@ -11,9 +11,9 @@ function callAPIMiddleware({ dispatch, getState }) {
         show: false,
         message: ''
       },
-          redirectAfterSuccess = {
-              redirect: false,
-              url: ''
+      redirectAfterSuccess = {
+        redirect: false,
+        url: ''
       }
     } = action
 
@@ -52,11 +52,11 @@ function callAPIMiddleware({ dispatch, getState }) {
           type: successType
         }));
         if(successMessage.show){
-          dispatch(notify(successMessage.message,'Success!'));
+          dispatch(notify(successMessage.message,'Success!','success'));
         }
         if(redirectAfterSuccess.redirect){
           dispatch(push(redirectAfterSuccess.url));
-                  }
+        }
       })
       .catch(error => {
         dispatch(Object.assign({},{
@@ -72,12 +72,14 @@ function callAPIMiddleware({ dispatch, getState }) {
             if (error.data.Errors.hasOwnProperty(errorProperty)) {
               // if array, then iterate
               if(Array.isArray(error.data.Errors[errorProperty])){
-               errorMessages.push(error.data.Errors[errorProperty][0].message);
+                error.data.Errors[errorProperty].forEach(e => {
+                  errorMessages.push(e.message);
+                });
               }
               else errorMessages.push(error.data.Errors[errorProperty]);
             }
           }
-          dispatch(notify(errorMessages,'Error'));
+          dispatch(notify(errorMessages.join('\n'),'Error','warn'));
         }
       })
   }

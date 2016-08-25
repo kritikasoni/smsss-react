@@ -19,7 +19,7 @@ export class AddAppointment extends Component {
     super(props);
     this.state = {
       appointment: {
-        patient: props.patientId,
+        patient: props.patient.id,
         doctor: props.doctor.id,
         time: {
           hour: moment().get('hours'),
@@ -64,53 +64,58 @@ export class AddAppointment extends Component {
 
   render() {
     return (
-      <Modal show={!this.props.isModalClosed} onHide={() => {this.props.closeModal()}}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add appointment</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{marginBottom:'30px'}}>
-          <Form horizontal onSubmit={this._onSubmit} role="form">
-            <FormGroup controlId="formHorizontalRoom">
-              <Col componentClass={ControlLabel} xs={2}>
-                Room :
-              </Col>
-              <Col xs={10}>
-                <SelectRoom onChange={this._onRoomChange} value={this.state.appointment.room} />
-              </Col>
-            </FormGroup>
-            <FormGroup controlId="formHorizontalTime">
-              <Col componentClass={ControlLabel} xs={2}>
-                Time :
-              </Col>
-              <Col xs={10} >
-                <TimePicker hour={this.state.appointment.time.hour + ''} minute={this.state.appointment.time.minute + ''}
-                            onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup controlId="formHorizontalDate">
-              <Col componentClass={ControlLabel} xs={2}>
-                Date :
-              </Col>
-              <Col xs={10} >
-                <DatePicker
-                  className={'form-control col-md-6 pull-left'}
-                  dateFormat={'YYYY/MM/DD'}
-                  selected={this.state.appointment.date}
-                  onChange={this._onDateChange} />
-              </Col>
-            </FormGroup>
-            <Col xs={12} >
-              <Button type="submit" bsStyle={'primary'} className={`pull-right`}>SUBMIT</Button>
-            </Col>
-          </Form>
-        </Modal.Body>
-      </Modal>
+    <Modal show={!this.props.isModalClosed} onHide={() => {this.props.closeModal()}}>
+      <Modal.Header closeButton>
+        <Modal.Title>
+          {`Add appointment to patient: ${this.props.patient.firstName} ${this.props.patient.lastName}`}
+        </Modal.Title>
+      </Modal.Header>
+      <Form horizontal onSubmit={this._onSubmit} role="form">
+      <Modal.Body style={{marginBottom:'30px'}}>
+        <FormGroup controlId="formHorizontalRoom">
+          <Col componentClass={ControlLabel} xs={2}>
+            Room :
+          </Col>
+          <Col xs={10}>
+            <SelectRoom onChange={this._onRoomChange} value={this.state.appointment.room} />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalTime">
+         <Col componentClass={ControlLabel} xs={2}>
+            Time :
+          </Col>
+          <Col xs={10} >
+            <TimePicker hour={this.state.appointment.time.hour + ''} minute={this.state.appointment.time.minute + ''}
+                        onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalDate">
+         <Col componentClass={ControlLabel} xs={2}>
+            Date :
+          </Col>
+          <Col xs={10} >
+            <DatePicker
+              className={'form-control col-md-6 pull-left'}
+              dateFormat={'YYYY/MM/DD'}
+              selected={this.state.appointment.date}
+              onChange={this._onDateChange} />
+          </Col>
+        </FormGroup>
+
+      </Modal.Body>
+      <Modal.Footer style={{marginTop:'50px'}}>
+        <Button bsStyle="danger" onClick={() => { this.props.closeModal() }}>Close</Button>
+        <Button type="submit" bsStyle={'primary'} className={`pull-right`}>Submit</Button>
+      </Modal.Footer>
+    </Form>
+    </Modal>
     );
   }
 }
 const mapStateToProps = (state) => ({
-  doctor: state.auth.user
+  doctor: state.auth.user,
+  patient: state.patients.selectedPatient
 })
 
 const mapDispatchToProps = {
@@ -118,10 +123,11 @@ const mapDispatchToProps = {
 }
 
 AddAppointment.propTypes = {
-  patientId: PropTypes.any.isRequired,
+  patient: PropTypes.object.isRequired,
   doctor: PropTypes.object.isRequired,
   isModalClosed: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddAppointment);
+

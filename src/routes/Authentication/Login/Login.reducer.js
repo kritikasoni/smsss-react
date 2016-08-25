@@ -31,6 +31,7 @@ export function onSubmit(email, password) {
         });
       })
       .catch(({data}) => {
+        console.log(data);
         dispatch(notify(data.message,'Login failed'));
         return dispatch({
           type: LOGIN_FAILURE,

@@ -18,6 +18,7 @@ export const DELETE_SYMPTOM_REQUEST = 'DELETE_SYMPTOM_REQUEST';
 export const DELETE_SYMPTOM_SUCCESS = 'DELETE_SYMPTOM_SUCCESS';
 export const DELETE_SYMPTOM_FAILURE = 'DELETE_SYMPTOM_FAILURE';
 
+export const SELECT_SYMPTOM = 'SELECT_SYMPTOM';
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -65,6 +66,14 @@ export function deleteSymptom(id) {
   }
 }
 
+export function selectSymptom(id) {
+  return {
+    type: SELECT_SYMPTOM,
+    payload: { id }
+  }
+}
+
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -95,7 +104,7 @@ const SYMPTOM_ACTION_HANDLERS = {
     return ({
       ...state,
       fetching: false,
-      symptoms: state.symptoms.map(symptom => symptom.id == action.payload.id ? action.payload : symptom)
+      symptoms: [...state.symptoms.map(symptom => symptom.id == action.payload.id ? action.payload.symptom : symptom)]
     })
   },
   [EDIT_SYMPTOM_FAILURE]: (state, action) => {
@@ -109,6 +118,9 @@ const SYMPTOM_ACTION_HANDLERS = {
   },
   [DELETE_SYMPTOM_FAILURE]: (state, action) => {
     return ({ ...state, fetching: false, error: action.error})
+  },
+  [SELECT_SYMPTOM]: (state, action) => {
+    return ({ ...state, selectedSymptom: {...state.symptoms.filter(symptom => symptom.id == action.payload.id).pop()}})
   }
 }
 
@@ -118,6 +130,7 @@ const SYMPTOM_ACTION_HANDLERS = {
 
 const initialState = {
   symptoms: [],
+  selectedSymptom: {},
   fetching: false,
   error: undefined
 }

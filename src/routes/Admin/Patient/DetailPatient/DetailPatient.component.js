@@ -10,9 +10,13 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import AddAppointment from 'components/Appointment/AddAppointment.component';
 import ListAppointment from 'components/Appointment/ListAppointment.component';
+import EditAppointment from 'components/Appointment/EditAppointment.component';
 import AddSymptom from 'components/Symptom/AddSymptom.component';
 import ListSymptom from 'components/Symptom/ListSymptom.component';
+import EditSymptom from 'components/Symptom/EditSymptom.component';
 import UpdatePreliminary from 'components/Preliminary';
+import AddPrescription from 'components/Prescription/AddPrescription.component';
+import ListPrescription from 'components/Prescription/ListPrescription.component';
 import FontAwesome from 'react-fontawesome';
 
 export class DetailPatient extends Component {
@@ -22,23 +26,38 @@ export class DetailPatient extends Component {
       isModalClosed: true,
       isAddAppointmentModalClosed: true,
       isListAppointmentModalClosed: true,
+      isEditAppointmentModalClosed: true,
       isAddSymptomModalClosed: true,
       isListSymptomModalClosed: true,
-      isUpdatePreliminaryModalClosed: true
+      isEditSymptomModalClosed: true,
+      isUpdatePreliminaryModalClosed: true,
+      isAddPrescriptionModalClosed: true,
+      isListPrescriptionModalClosed: true
     };
 
     this._editPatient = this._editPatient.bind(this);
     this._openModal = this._openModal.bind(this);
     this._closeModal = this._closeModal.bind(this);
+    this._onEditAppointment = this._onEditAppointment.bind(this);
+    this._onEdiSymptom = this._onEdiSymptom.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.loadPatientById(this.props.params.id);
   }
 
   _editPatient() {
     this.context.router.push(`/admin/patients/${this.props.patient.id}/edit`);
   }
 
-  componentWillMount() {
-    this.props.loadPatientById(this.props.params.id);
+  _onEditAppointment(id) {
+    this.setState({isListAppointmentModalClosed: true, isEditAppointmentModalClosed: false});
   }
+
+  _onEdiSymptom(id) {
+    this.setState({isListSymptomModalClosed: true, isEditSymptomModalClosed: false});
+  }
+
   _actionButtons(){
     switch(this.props.authRole){
       case role.ADMIN:
@@ -52,10 +71,18 @@ export class DetailPatient extends Component {
             <Button className="col-xs-12" onClick={() => this.setState({isListAppointmentModalClosed: false})}>
               View appointments
             </Button>
-            <Button className="col-xs-12" onClick={() => this.setState({isAddSymptomModalClosed: false})}>Add symptom</Button>
-            <Button className="col-xs-12" onClick={() => this.setState({isListSymptomModalClosed: false})}>View symptoms</Button>
-            <Button className="col-xs-12">Add prescription</Button>
-            <Button className="col-xs-12">View prescriptions</Button>
+            <Button className="col-xs-12" onClick={() => this.setState({isAddSymptomModalClosed: false})}>
+              Add symptom
+            </Button>
+            <Button className="col-xs-12" onClick={() => this.setState({isListSymptomModalClosed: false})}>
+              View symptoms
+            </Button>
+            <Button className="col-xs-12" onClick={() => this.setState({isAddPrescriptionModalClosed: false})}>
+              Add prescription
+            </Button>
+            <Button className="col-xs-12" onClick={() => this.setState({isListPrescriptionModalClosed: false})}>
+              View prescriptions
+            </Button>
           </div>);
       case role.NURSE:
         return (<Button onClick={() => this.setState({isUpdatePreliminaryModalClosed: false})}>Update preliminary checkup</Button>);
@@ -77,15 +104,30 @@ export class DetailPatient extends Component {
           <ListAppointment
             isModalClosed={this.state.isListAppointmentModalClosed}
             closeModal={() => this.setState({isListAppointmentModalClosed: true})}
-            patientId={this.props.params.id} />
+            onEditAppointment={this._onEditAppointment} />
+          <EditAppointment
+            isModalClosed={this.state.isEditAppointmentModalClosed}
+            closeModal={() => this.setState({isEditAppointmentModalClosed: true})} />
           <ListSymptom
             isModalClosed={this.state.isListSymptomModalClosed}
             closeModal={() => this.setState({isListSymptomModalClosed: true})}
-            patientId={this.props.params.id} />
+            patientId={this.props.params.id}
+            onEditSymptom={this._onEdiSymptom} />
           <AddSymptom
             isModalClosed={this.state.isAddSymptomModalClosed}
             closeModal={() => this.setState({isAddSymptomModalClosed: true})}
             patientId={this.props.params.id} />
+          <EditSymptom
+            isModalClosed={this.state.isEditSymptomModalClosed}
+            closeModal={() => this.setState({isEditSymptomModalClosed: true})} />
+          <AddPrescription
+            isModalClosed={this.state.isAddPrescriptionModalClosed}
+            closeModal={() => this.setState({isAddPrescriptionModalClosed: true})}
+            patient={this.props.patient} />
+          <ListPrescription
+            isModalClosed={this.state.isListPrescriptionModalClosed}
+            closeModal={() => this.setState({isListPrescriptionModalClosed: true})}
+            patient={this.props.patient} />
         </div>);
       case role.NURSE:
         return (
@@ -157,12 +199,12 @@ DetailPatient.contextTypes = {
 DetailPatient.propTypes = {
   authRole: PropTypes.string,
   loadPatientById: PropTypes.func.isRequired,
-  patient: PropTypes.object
+  patient: PropTypes.object,
 };
 const mapStateToProps = (state) => ({
   authRole: state.auth.user.role.name,
   patient: state.patients.selectedPatient,
-  fetching: state.patients.fetching
+  fetching: state.patients.fetching,
 });
 
 const mapDispatchToProps = {

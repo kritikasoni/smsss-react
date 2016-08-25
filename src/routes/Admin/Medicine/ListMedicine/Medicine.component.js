@@ -10,7 +10,7 @@ export const Medicine = (props) =>  (
     cardStyle={`col-xs-12 col-sm-4 col-sm-offset-4`}>
     <Col xs={12} sm={6}>
       <div className={classes['medicine-image__center']}>
-        <Image src={props.image} responsive />
+        <Image src={props.image} responsive className={`${classes['medicine-image']}`} />
       </div>
     </Col>
     <Col xs={12} sm={6}>

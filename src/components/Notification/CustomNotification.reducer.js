@@ -7,12 +7,13 @@ export const CANCEL_NOTIFICATION = 'CANCEL_NOTIFICATION'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function notify(message, title) {
+export function notify(message, title, type) {
   return {
     type: SHOW_NOTIFICATION,
     payload: {
       message: message,
-      title: title
+      title: title,
+      type: type || ''
     }
   }
 }
@@ -29,7 +30,7 @@ export function cancelNotify() {
 
 const NOTIFICATION_ACTION_HANDLERS = {
   [SHOW_NOTIFICATION]: (state, action) => {
-    return ({ ...state, show: true, message: action.payload.message, title: action.payload.title })
+    return ({ ...state, show: true, message: action.payload.message, title: action.payload.title, type: action.payload.type })
   },
   [CANCEL_NOTIFICATION]: (state, action) => {
     return ({ ...state, show: false, message: '', title: '' })
@@ -40,7 +41,7 @@ const NOTIFICATION_ACTION_HANDLERS = {
 // Reducers
 // ------------------------------------
 
-const initialState = { show: false, message: '',title:'' }
+const initialState = { show: false, message: '',title:'', type: '' }
 
 export function notificationReducer (state = initialState, action) {
   const handler = NOTIFICATION_ACTION_HANDLERS[action.type]

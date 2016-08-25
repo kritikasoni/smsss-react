@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { editAppointment } from './appointment.reducer';
+import { editAppointment, deleteAppointment } from './appointment.reducer';
 import SelectRoom from 'components/SelectRoom';
 import TimePicker from 'components/TimePicker';
 import DatePicker from 'react-datepicker';
@@ -14,20 +14,20 @@ import Button from 'react-bootstrap/lib/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import moment from 'moment';
 
+
 export class EditAppointment extends Component {
   constructor(props) {
     super(props);
     this.state = {
       appointment: {
-        id: props.appointmentId,
-        patient: props.patientId,
+        patient: props.patient.id,
         doctor: props.doctor.id,
         time: {
-          hour: props.time.hour,
-          minute: props.time.minute
+          hour: moment(props.appointment.date).get('hours'),
+          minute: moment(props.appointment.date).get('minutes')
         },
-        date: props.date,
-        room: props.room
+        date: moment(props.appointment.date),
+        room: props.appointment.room ? props.appointment.room.id : 0
       }
     }
     this._onSubmit = this._onSubmit.bind(this);
@@ -35,14 +35,16 @@ export class EditAppointment extends Component {
     this._onTimeHourChange = this._onTimeHourChange.bind(this);
     this._onTimeMinuteChange = this._onTimeMinuteChange.bind(this);
     this._onDateChange = this._onDateChange.bind(this);
+    this._onDeleteAppointment = this._onDeleteAppointment.bind(this);
   }
 
   _onSubmit(e) {
     e.preventDefault();
     let appointment = this.state.appointment;
     let time = appointment.time;
-    appointment.date = appointment.date.set({'hour' :time.hour,'minute': time.minute})
-    this.props.editAppointment(this.props.appointmentId,appointment);
+    appointment.date = appointment.date.set({'hour' :time.hour,'minute': time.minute});
+    delete appointment.time;
+    this.props.editAppointment(this.props.appointment.id,appointment);
     this.props.closeModal();
   }
 
@@ -62,14 +64,36 @@ export class EditAppointment extends Component {
   _onDateChange(date) {
     this.setState({appointment: {...this.state.appointment, date: date}});
   }
+  _onDeleteAppointment() {
+    this.props.deleteAppointment(this.props.appointment.id);
+    this.props.closeModal();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      appointment: {
+        patient: nextProps.patient.id,
+        doctor: nextProps.doctor.id,
+        time: {
+          hour: moment(nextProps.appointment.date).get('hours'),
+          minute: moment(nextProps.appointment.date).get('minutes')
+        },
+        date: moment(nextProps.appointment.date),
+        room: nextProps.appointment.room ? nextProps.appointment.room.id : 0
+      }
+    })
+  }
 
   render() {
     return (
       <Modal show={!this.props.isModalClosed} onHide={() => {this.props.closeModal()}}>
         <Modal.Header closeButton>
-          <Modal.Title>Add appointment</Modal.Title>
+          <Modal.Title>
+            {`Update appointment of patient: ${this.props.patient.firstName} ${this.props.patient.lastName}`}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{marginBottom:'30px'}}>
+          <Button bsStyle={'danger'} className={`pull-right`} onClick={this._onDeleteAppointment}>Delete</Button>
           <Form horizontal onSubmit={this._onSubmit} role="form">
             <FormGroup controlId="formHorizontalRoom">
               <Col componentClass={ControlLabel} xs={2}>
@@ -106,27 +130,32 @@ export class EditAppointment extends Component {
             </Col>
           </Form>
         </Modal.Body>
+        <Modal.Footer style={{marginTop:'50px'}}>
+          <Button bsStyle="danger" onClick={() => { this.props.closeModal() }}>Close</Button>
+        </Modal.Footer>
       </Modal>
     );
   }
 }
 const mapStateToProps = (state) => ({
-  doctor: state.auth.user
+  doctor: state.auth.user,
+  patient: state.patients.selectedPatient,
+  appointment: state.appointments.selectedAppointment
 })
 
+
 const mapDispatchToProps = {
-  editAppointment
+  editAppointment,
+  deleteAppointment
 }
 
 EditAppointment.propTypes = {
-  appointmentId: PropTypes.any.isRequired,
-  patientId: PropTypes.any.isRequired,
+  appointment: PropTypes.object.isRequired,
+  patient: PropTypes.object.isRequired,
   doctor: PropTypes.object.isRequired,
   isModalClosed: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  time: PropTypes.object.isRequired,
-  date: PropTypes.any.isRequired,
-  room: PropTypes.number.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditAppointment);
+

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { editAppointment } from './symptom.reducer';
+import { editSymptom, deleteSymptom } from './symptom.reducer';
 import SelectRoom from 'components/SelectRoom';
 import TimePicker from 'components/TimePicker';
 import DatePicker from 'react-datepicker';
@@ -14,119 +14,97 @@ import Button from 'react-bootstrap/lib/Button';
 import Modal from 'react-bootstrap/lib/Modal';
 import moment from 'moment';
 
-export class EditAppointment extends Component {
+
+export class EditSymptom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      appointment: {
-        id: props.appointmentId,
-        patient: props.patientId,
-        doctor: props.doctor.id,
-        time: {
-          hour: props.time.hour,
-          minute: props.time.minute
-        },
-        date: props.date,
-        room: props.room
+      symptom: {
+        patient: props.patient.id,
+        detail: props.symptom.detail
       }
     }
     this._onSubmit = this._onSubmit.bind(this);
-    this._onRoomChange = this._onRoomChange.bind(this);
-    this._onTimeHourChange = this._onTimeHourChange.bind(this);
-    this._onTimeMinuteChange = this._onTimeMinuteChange.bind(this);
-    this._onDateChange = this._onDateChange.bind(this);
+    this._onDetailChange = this._onDetailChange.bind(this);
+    this._onDeleteSymptom = this._onDeleteSymptom.bind(this);
   }
 
   _onSubmit(e) {
     e.preventDefault();
-    let appointment = this.state.appointment;
-    let time = appointment.time;
-    appointment.date = appointment.date.set({'hour' :time.hour,'minute': time.minute})
-    this.props.editAppointment(this.props.appointmentId,appointment);
+    let symptom = this.state.symptom;
+    this.props.editSymptom(this.props.symptom.id,symptom);
     this.props.closeModal();
   }
 
-  _onRoomChange(e){
-    this.setState({appointment: {...this.state.appointment, room: e ? e.value : 0}});
+  _onDeleteSymptom() {
+    this.props.deleteSymptom(this.props.symptom.id);
+    this.props.closeModal();
   }
 
-  _onTimeHourChange(e) {
-    const time = {...this.state.appointment.time, hour: e.target.value};
-    this.setState({appointment: {...this.state.appointment, time: time}});
+  _onDetailChange(e) {
+    this.setState({symptom: {...this.state.symptom, detail: e.target.value}});
   }
 
-  _onTimeMinuteChange(e) {
-    const time = {...this.state.appointment.time, minute: e.target.value};
-    this.setState({appointment: {...this.state.appointment, time: time}});
-  }
-  _onDateChange(date) {
-    this.setState({appointment: {...this.state.appointment, date: date}});
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      symptom: {
+        id: nextProps.symptom.id,
+        patient: nextProps.patient.id,
+        detail: nextProps.symptom.detail
+      }
+    })
   }
 
   render() {
     return (
       <Modal show={!this.props.isModalClosed} onHide={() => {this.props.closeModal()}}>
         <Modal.Header closeButton>
-          <Modal.Title>Add appointment</Modal.Title>
+          <Modal.Title>
+            {`Update symptom of patient: ${this.props.patient.firstName} ${this.props.patient.lastName}`}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{marginBottom:'30px'}}>
+          <Button bsStyle={'danger'} className={`pull-right`} onClick={this._onDeleteSymptom}>Delete</Button>
           <Form horizontal onSubmit={this._onSubmit} role="form">
             <FormGroup controlId="formHorizontalRoom">
               <Col componentClass={ControlLabel} xs={2}>
-                Room :
+                Detail :
               </Col>
               <Col xs={10}>
-                <SelectRoom onChange={this._onRoomChange} value={this.state.appointment.room} />
+                <textarea className="form-control" value={this.state.symptom.detail} onChange={this._onDetailChange}>
+                </textarea>
               </Col>
             </FormGroup>
-            <FormGroup controlId="formHorizontalTime">
-              <Col componentClass={ControlLabel} xs={2}>
-                Time :
-              </Col>
-              <Col xs={10} >
-                <TimePicker hour={this.state.appointment.time.hour + ''} minute={this.state.appointment.time.minute + ''}
-                            onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup controlId="formHorizontalDate">
-              <Col componentClass={ControlLabel} xs={2}>
-                Date :
-              </Col>
-              <Col xs={10} >
-                <DatePicker
-                  className={'form-control col-md-6 pull-left'}
-                  dateFormat={'YYYY/MM/DD'}
-                  selected={this.state.appointment.date}
-                  onChange={this._onDateChange} />
-              </Col>
-            </FormGroup>
+            <hr />
             <Col xs={12} >
               <Button type="submit" bsStyle={'primary'} className={`pull-right`}>SUBMIT</Button>
             </Col>
           </Form>
         </Modal.Body>
+        <Modal.Footer style={{marginTop:'50px'}}>
+          <Button bsStyle="danger" onClick={() => { this.props.closeModal() }}>Close</Button>
+        </Modal.Footer>
       </Modal>
     );
   }
 }
 const mapStateToProps = (state) => ({
-  doctor: state.auth.user
+  patient: state.patients.selectedPatient,
+  symptom: state.symptoms.selectedSymptom
 })
 
+
 const mapDispatchToProps = {
-  editAppointment
+  editSymptom,
+  deleteSymptom
 }
 
-EditAppointment.propTypes = {
-  appointmentId: PropTypes.any.isRequired,
-  patientId: PropTypes.any.isRequired,
-  doctor: PropTypes.object.isRequired,
+EditSymptom.propTypes = {
+  symptom: PropTypes.object.isRequired,
+  patient: PropTypes.object.isRequired,
   isModalClosed: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  time: PropTypes.object.isRequired,
-  date: PropTypes.any.isRequired,
-  room: PropTypes.number.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditAppointment);
+export default connect(mapStateToProps, mapDispatchToProps)(EditSymptom);
+

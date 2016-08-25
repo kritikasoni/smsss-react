@@ -18,6 +18,8 @@ export const DELETE_APPOINTMENT_REQUEST = 'DELETE_APPOINTMENT_REQUEST';
 export const DELETE_APPOINTMENT_SUCCESS = 'DELETE_APPOINTMENT_SUCCESS';
 export const DELETE_APPOINTMENT_FAILURE = 'DELETE_APPOINTMENT_FAILURE';
 
+export const SELECT_APPOINTMENT = 'SELECT_APPOINTMENT';
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -65,6 +67,13 @@ export function deleteAppointment(id) {
   }
 }
 
+export function selectAppointment(id) {
+  return {
+    type: SELECT_APPOINTMENT,
+    payload: { id }
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -95,7 +104,9 @@ const APPOINTMENT_ACTION_HANDLERS = {
     return ({
       ...state,
       fetching: false,
-      appointments: state.appointments.map(appointment => appointment.id == action.payload.id ? action.payload : appointment)
+      appointments: [
+        ...state.appointments.map(appointment => appointment.id == action.payload.id ? action.data : appointment)
+      ]
     })
   },
   [EDIT_APPOINTMENT_FAILURE]: (state, action) => {
@@ -109,7 +120,10 @@ const APPOINTMENT_ACTION_HANDLERS = {
   },
   [DELETE_APPOINTMENT_FAILURE]: (state, action) => {
     return ({ ...state, fetching: false, error: action.error})
-  }
+  },
+  [SELECT_APPOINTMENT] : (state, action) => {
+    return ({ ...state, selectedAppointment: {...state.appointments.filter(appointment => appointment.id == action.payload.id).pop()}})
+  },
 }
 
 // ------------------------------------
@@ -118,6 +132,7 @@ const APPOINTMENT_ACTION_HANDLERS = {
 
 const initialState = {
   appointments: [],
+  selectedAppointment: {},
   fetching: false,
   error: undefined
 }
