@@ -27,6 +27,7 @@ export class EditDoctor extends Component {
     this._onSubmit = this._onSubmit.bind(this);
     this._onPositionChange = this._onPositionChange.bind(this);
     this._onDepartmentChange = this._onDepartmentChange.bind(this);
+    this._onDelete = this._onDelete.bind(this);
   }
   _onSubmit(e) {
     e.preventDefault();

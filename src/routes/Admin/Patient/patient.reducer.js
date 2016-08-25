@@ -52,6 +52,10 @@ export function addPatient(patient) {
     successMessage: {
       show: true,
       message: 'Add new patient success'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/patients'
     }
   }
 }
@@ -64,6 +68,10 @@ export function editPatient(id,patient) {
     successMessage: {
       show: true,
       message: 'Edit success!'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/patients'
     }
   }
 }
@@ -76,6 +84,10 @@ export function deletePatient(id) {
     successMessage: {
       show: true,
       message: 'Patient is deleted'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: '/admin/patients'
     }
   }
 }

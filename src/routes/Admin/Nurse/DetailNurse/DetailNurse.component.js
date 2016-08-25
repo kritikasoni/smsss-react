@@ -53,7 +53,7 @@ export class DetailNurse extends Component {
             <td>{this.state.nurse.department ? this.state.nurse.department.name : ''}</td>
             <td>{this.state.nurse.position? this.state.nurse.position.name: ''}</td>
             <td>
-              <Button bsStyle="primary">Edit</Button>
+              <Button bsStyle="primary" onClick={this._editNurse}>Edit</Button>
             </td>
           </tr>
           </tbody>

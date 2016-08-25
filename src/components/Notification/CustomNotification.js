@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Popover from 'react-bootstrap/lib/Popover';
 import classes from './CustomNotification.scss';
 import { cancelNotify } from './CustomNotification.reducer';
+import FontAwesome from 'react-fontawesome';
 
 export class CustomNotification extends Component {
 
@@ -11,6 +12,14 @@ export class CustomNotification extends Component {
   }
 
   render() {
+    let messages = Array.isArray(this.props.message) ?
+      this.props.message.map((message,index) => {
+        return <div className="row text-left" key={index}>
+          <span style={{marginRight:'5px'}}><FontAwesome name='exclamation-circle' /></span>
+          {message}
+        </div>
+      })
+      : this.props.message;
     return (
       <Popover
         id="notification"
@@ -24,7 +33,7 @@ export class CustomNotification extends Component {
         `}
         onClick={this.props.handleOnClick}
       >
-        {this.props.message}
+        {messages}
       </Popover>
     );
   }
