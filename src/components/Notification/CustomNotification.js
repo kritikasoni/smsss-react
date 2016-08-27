@@ -28,6 +28,7 @@ export class CustomNotification extends Component {
         placement="right"
         className={`
           ${this.props.isActive ? "show" : "hidden"}
+          ${this.props.type == 'error' ? classes.error : ''}
           ${this.props.type == 'warn' ? classes.warn : ''}
           ${this.props.type == 'success' ? classes.success : ''}
         `}

@@ -79,7 +79,7 @@ function callAPIMiddleware({ dispatch, getState }) {
               else errorMessages.push(error.data.Errors[errorProperty]);
             }
           }
-          dispatch(notify(errorMessages,'Error','warn'));
+          dispatch(notify(errorMessages,'Error','error'));
         }
       })
   }

@@ -1,10 +1,18 @@
-.warn {
+.error {
   h3 {
     color: whitesmoke;
     background-color: #FF5722;
     font-weight: 600;
   }
 }
+.warn {
+  h3 {
+    color: whitesmoke;
+    background-color: #FF9800;
+    font-weight: 600;
+  }
+}
+
 .success {
   h3 {
     color: whitesmoke;
