@@ -52,7 +52,7 @@ const mapStateToProps = (state) => ({
 
 CustomNotification.propTypes = {
   isActive: PropTypes.bool.isRequired,
-  message: PropTypes.string,
+  message: PropTypes.any,
   title: PropTypes.string,
   handleOnClick: PropTypes.func.isRequired
 }

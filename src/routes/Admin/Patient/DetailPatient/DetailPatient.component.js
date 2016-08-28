@@ -17,6 +17,7 @@ import EditSymptom from 'components/Symptom/EditSymptom.component';
 import UpdatePreliminary from 'components/Preliminary';
 import AddPrescription from 'components/Prescription/AddPrescription.component';
 import ListPrescription from 'components/Prescription/ListPrescription.component';
+import EditPrescription from 'components/Prescription/EditPrescription.component';
 import FontAwesome from 'react-fontawesome';
 
 export class DetailPatient extends Component {
@@ -32,7 +33,8 @@ export class DetailPatient extends Component {
       isEditSymptomModalClosed: true,
       isUpdatePreliminaryModalClosed: true,
       isAddPrescriptionModalClosed: true,
-      isListPrescriptionModalClosed: true
+      isListPrescriptionModalClosed: true,
+      isEditPrescriptionModalClosed: true,
     };
 
     this._editPatient = this._editPatient.bind(this);
@@ -40,6 +42,7 @@ export class DetailPatient extends Component {
     this._closeModal = this._closeModal.bind(this);
     this._onEditAppointment = this._onEditAppointment.bind(this);
     this._onEdiSymptom = this._onEdiSymptom.bind(this);
+    this._onEditPrescription = this._onEditPrescription.bind(this);
   }
 
   componentWillMount() {
@@ -52,6 +55,10 @@ export class DetailPatient extends Component {
 
   _onEditAppointment(id) {
     this.setState({isListAppointmentModalClosed: true, isEditAppointmentModalClosed: false});
+  }
+
+  _onEditPrescription(id) {
+    this.setState({isListPrescriptionModalClosed: true, isEditPrescriptionModalClosed: false});
   }
 
   _onEdiSymptom(id) {
@@ -127,6 +134,11 @@ export class DetailPatient extends Component {
           <ListPrescription
             isModalClosed={this.state.isListPrescriptionModalClosed}
             closeModal={() => this.setState({isListPrescriptionModalClosed: true})}
+            onEditPrescription={this._onEditPrescription}
+            patient={this.props.patient} />
+          <EditPrescription
+            isModalClosed={this.state.isEditPrescriptionModalClosed}
+            closeModal={() => this.setState({isEditPrescriptionModalClosed: true})}
             patient={this.props.patient} />
         </div>);
       case role.NURSE:
