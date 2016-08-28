@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { notify } from 'components/Notification';
 import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
 import { editDoctor, deleteDoctor } from './../doctor.reducer';
@@ -34,15 +35,35 @@ export class EditDoctor extends Component {
     let doctor = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      department: this.state.department.id,
+      department: this.state.department,
       email:this.state.email,
-      position:this.state.position.id,
+      position:this.state.position,
       password:this.state.password
     };
     if(this.state.password === ''){
       delete doctor.password;
     }
-    this.props.editDoctor(this.props.params.id, doctor);
+    if(this._validate()){
+      this.props.editDoctor(this.props.params.id, doctor);
+    }
+  }
+
+  _validate() {
+    let isValid = true;
+    let warningMessages = [];
+
+    if(parseInt(this.state.position) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Position is required`];
+    }
+    if(parseInt(this.state.department) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Department is required`];
+    }
+    if(!isValid) {
+      this.props.notify(warningMessages,'Warning!','warn');
+    }
+    return isValid;
   }
 
   _onDelete() {
@@ -159,14 +180,15 @@ EditDoctor.contextTypes = {
 };
 EditDoctor.propTypes = {
   user: PropTypes.object,
-  fetching: PropTypes.bool.isRequired
+  fetching: PropTypes.bool.isRequired,
+  notify: PropTypes.func.isRequired
 };
 const mapStateToProps = (state) => ({
   fetching: state.doctors.fetching
 })
 const mapDispatchToProps = {
   editDoctor,
-  deleteDoctor
+  deleteDoctor,
+  notify
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EditDoctor);
-

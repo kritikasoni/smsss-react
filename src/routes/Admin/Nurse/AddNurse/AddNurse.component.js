@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addNurse } from "../nurse.reducer";
+import { notify } from 'components/Notification';
 import classes from './AddNurse.component.scss';
 import SelectPosition from 'components/SelectPosition';
 import SelectDepartment from 'components/SelectDepartment';
@@ -18,7 +19,7 @@ export class AddNurse extends Component {
       lastName:'',
       department:0,
       email:'',
-      position:'',
+      position:0,
       password:''
     };
     this._onSubmit = this._onSubmit.bind(this);
@@ -35,7 +36,10 @@ export class AddNurse extends Component {
       position: this.state.position,
       password: this.state.password
     };
-    this.props.addNurse(nurse);
+    if(this._validate()){
+      this.props.addNurse(nurse);
+    }
+
   }
 
   _onPositionChange(e) {
@@ -43,6 +47,24 @@ export class AddNurse extends Component {
   }
   _onDepartmentChange(e) {
     this.setState({department: e ? e.value : 0 });
+  }
+
+  _validate() {
+    let isValid = true;
+    let warningMessages = [];
+
+    if(parseInt(this.state.position) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Position is required`];
+    }
+    if(parseInt(this.state.department) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Department is required`];
+    }
+    if(!isValid) {
+      this.props.notify(warningMessages,'Warning!','warn');
+    }
+    return isValid;
   }
 
   render() {
@@ -127,13 +149,15 @@ export class AddNurse extends Component {
 
 AddNurse.propTypes = {
   addNurse: PropTypes.func.isRequired,
-  fetching: PropTypes.bool.isRequired
+  fetching: PropTypes.bool.isRequired,
+  notify: PropTypes.func.isRequired
 };
 const mapStateToProps = (state) => ({
   fetching: state.nurses.fetching
 })
 const mapDispatchToProps = {
-  addNurse
+  addNurse,
+  notify
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(AddNurse);

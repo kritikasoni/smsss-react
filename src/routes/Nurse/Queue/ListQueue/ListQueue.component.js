@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
+import { notify } from 'components/Notification';
+import { addQueue } from './../queue.reducer';
 import Socket from 'helper/Socket';
 import Card from 'components/Card';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+import SelectPatient from 'components/SelectPatient';
 import moment from 'moment';
 import TimePicker from 'components/TimePicker';
 
@@ -34,10 +36,6 @@ export default class ListQueue extends Component {
     this._onTimeMinuteChange = this._onTimeMinuteChange.bind(this)
     this._onPatientChange = this._onPatientChange.bind(this);
   }
-
-  static contextTypes = {
-    router: PropTypes.object,
-  };
 
   componentWillMount() {
     const self = this;
@@ -108,55 +106,32 @@ export default class ListQueue extends Component {
   }
 
   _addQueue() {
-    const self = this;
-    Http
-      .post(`${BackendUrl}/queues`,
-        {
-          room: self.state.selectedRoom.id,
-          patient: self.state.selectedPatientId,
-          time: moment().set({'hour' :self.state.time.hour,'minute': self.state.time.minute})
-        }
-      )
-      .then(({data}) => {
-        this._closeAddModal();
-      });
+    const queue =  {
+      room: this.state.selectedRoom.id,
+      patient: this.state.selectedPatientId,
+      time: moment().set({'hour': this.state.time.hour,'minute': this.state.time.minute})
+    };
+    if(this._validateQueue()){
+      this.props.addQueue(queue);
+      this._closeAddModal();
+    }
   }
 
-  _getPatientOptions(input, callback) {
-    const toOptionFormat = (patient) => ({
-      label: `${patient.idCardNo} ${patient.firstName} ${patient.lastName}`,
-      value: patient.id,
-      data: patient
-    });
-    if(input){
-      Http.get(`${BackendUrl}/patients/search/idCardNo/${input}`)
-        .then(({data}) => {
-          callback(null, {
-            options: data.map(patient => toOptionFormat(patient)),
-            complete: false
-          })
-        })
-        .catch(err => {
-          throw err;
-        });
+  _validateQueue() {
+    let isValid = true;
+    let warningMessages = [];
+    if(parseInt(this.state.selectedPatientId) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Patient is required`];
     }
-    else{
-      Http.get(`${BackendUrl}/patients`)
-        .then(({data}) => {
-          callback(null, {
-            options: data.map(patient => toOptionFormat(patient)),
-            complete: true
-          })
-        })
-        .catch(err => {
-          throw err;
-        });
+    if(!isValid) {
+      this.props.notify(warningMessages,'Warning!','warn');
     }
+    return isValid;
   }
 
   _onPatientChange(e) {
-    this.setState({selectedPatientId: e.value});
-    console.log(this.state.selectedPatientId);
+    this.setState({selectedPatientId: e ? e.value : 0});
   }
 
   _onTimeHourChange(e) {
@@ -215,14 +190,7 @@ export default class ListQueue extends Component {
           </Modal.Header>
           <Modal.Body>
             <h4>Patient</h4>
-            <Select.Async
-              name="patient"
-              loadOptions={this._getPatientOptions}
-              onChange={this._onPatientChange}
-              value={this.state.selectedPatientId}
-              placeholder="Search patient"
-            />
-
+            <SelectPatient onChange={this._onPatientChange} value={this.state.selectedPatientId} />
             <h4>Room</h4>
             <input type="text" disabled="true" value={this.state.selectedRoom.name} />
 
@@ -241,3 +209,14 @@ export default class ListQueue extends Component {
     );
   }
 }
+ListQueue.propTypes = {
+  notify: PropTypes.func.isRequired
+}
+ListQueue.contextTypes = {
+  router: PropTypes.object,
+}
+const mapDispatchToProps = {
+  notify,
+  addQueue
+}
+export default connect(null,mapDispatchToProps)(ListQueue);

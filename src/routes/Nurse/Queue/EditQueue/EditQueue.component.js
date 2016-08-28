@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { editQueue } from './../queue.reducer';
 import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
+import { notify } from 'components/Notification';
 import Button from 'react-bootstrap/lib/Button';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
 import moment from 'moment';
 import TimePicker from 'components/TimePicker';
+import SelectRoom from 'components/SelectRoom';
 
-export default class Edit extends Component {
+export class EditQueue extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,25 +24,33 @@ export default class Edit extends Component {
     }
     ;
     this._onSubmit = this._onSubmit.bind(this);
-    this._getRoomsOptions = this._getRoomsOptions.bind(this);
     this._onRoomChange = this._onRoomChange.bind(this);
     this._onTimeHourChange = this._onTimeHourChange.bind(this);
     this._onTimeMinuteChange = this._onTimeMinuteChange.bind(this);
   }
   _onSubmit(e) {
     e.preventDefault();
-    Http
-      .put(`${BackendUrl}/queues/`+this.props.params.id,{
+    if(this._validate()){
+      const queue = {
         patient: this.state.patient.id,
         room: this.state.room,
-        time: moment().set({'hour' :this.state.time.hour,'minute': this.state.time.minute})
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.error(err);
-      })
+        time: moment().set({'hour': this.state.time.hour, 'minute': this.state.time.minute})
+      }
+      this.props.editQueue(this.props.params.id, queue);
+    }
+  }
+
+  _validate() {
+    let isValid = true;
+    let warningMessages = [];
+    if(parseInt(this.state.room) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Room is required`];
+    }
+    if(!isValid) {
+      this.props.notify(warningMessages,'Warning!','warn');
+    }
+    return isValid;
   }
 
   componentWillMount(){
@@ -61,47 +71,18 @@ export default class Edit extends Component {
       });
   }
 
-  _getRoomsOptions(input, callback) {
-    const toOptionFormat = (room) => ({
-      label: `${room.name}`,
-      value: room.id
-    });
-    if(input){
-      Http.get(`${BackendUrl}/rooms`)
-        .then(({data}) => {
-          callback(null, {
-            options: data.filter(room => room.name.includes(input)).map(room => toOptionFormat(room)),
-            complete: false
-          })
-        })
-        .catch(err => {
-          throw err;
-        });
-    }
-    else{
-      Http.get(`${BackendUrl}/rooms`)
-        .then(({data}) => {
-          callback(null, {
-            options: data.map(room => toOptionFormat(room)),
-            complete: true
-          })
-        })
-        .catch(err => {
-          throw err;
-        });
-    }
-  }
-
   _onRoomChange(e) {
-    this.setState({room: e.value})
+    this.setState({room: e ? e.value : 0})
   }
 
   _onTimeHourChange(e) {
-    this.setState({time: {hour: e.target.value}});
+    const time = {...this.state.time, hour: e.target.value};
+    this.setState({time: time});
   }
 
   _onTimeMinuteChange(e) {
-    this.setState({time: {minute: e.target.value}});
+    const time = {...this.state.time, minute: e.target.value};
+    this.setState({time: time});
   }
 
   render() {
@@ -121,13 +102,7 @@ export default class Edit extends Component {
           </div>
           <div>
             Room:
-            <Select.Async
-              name="room"
-              loadOptions={this._getRoomsOptions}
-              onChange={this._onRoomChange}
-              value={this.state.room}
-              placeHolder="Select room"
-            />
+            <SelectRoom onChange={this._onRoomChange} value={this.state.room} />
           </div>
           <div>
             Time:
@@ -135,10 +110,19 @@ export default class Edit extends Component {
                         onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
             />
           </div>
-          <button type="submit" >Submit</button>
+          <Button bsStyle={'primary'} type="submit" >Submit</Button>
         </form>
       </div>
     );
   }
 }
 
+EditQueue.propTypes = {
+  notify: PropTypes.func.isRequired,
+  editQueue: PropTypes.func.isRequired
+}
+const mapDispatchToProps = {
+  notify,
+  editQueue
+}
+export default connect(null, mapDispatchToProps)(EditQueue);

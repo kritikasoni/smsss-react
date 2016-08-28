@@ -107,7 +107,7 @@ const DOCTOR_ACTION_HANDLERS = {
     return ({
       ...state,
       fetching: false,
-      doctors: state.doctors.map(doctor => doctor.id == action.payload.id ? action.payload : doctor)
+      doctors: [...state.doctors.map(doctor => doctor.id == action.payload.id ? action.data : doctor)]
     })
   },
   [EDIT_DOCTOR_FAILURE]: (state, action) => {

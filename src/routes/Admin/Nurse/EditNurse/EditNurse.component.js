@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { notify } from 'components/Notification';
 import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
 import { editNurse, deleteNurse } from './../nurse.reducer';
@@ -34,15 +35,35 @@ export class EditNurse extends Component {
     let nurse = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      department: this.state.department.id,
+      department: this.state.department,
       email:this.state.email,
-      position:this.state.position.id,
+      position:this.state.position,
       password:this.state.password
     };
     if(this.state.password === ''){
       delete nurse.password;
     }
-    this.props.editNurse(this.props.params.id, nurse);
+    if(this._validate()){
+      this.props.editNurse(this.props.params.id, nurse);
+    }
+  }
+
+  _validate() {
+    let isValid = true;
+    let warningMessages = [];
+
+    if(parseInt(this.state.position) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Position is required`];
+    }
+    if(parseInt(this.state.department) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Department is required`];
+    }
+    if(!isValid) {
+      this.props.notify(warningMessages,'Warning!','warn');
+    }
+    return isValid;
   }
 
   _onDelete(id) {
@@ -154,15 +175,16 @@ EditNurse.propTypes = {
   user: PropTypes.object,
   fetching: PropTypes.bool.isRequired,
   editNurse: PropTypes.func.isRequired,
-  deleteNurse: PropTypes.func.isRequired
+  deleteNurse: PropTypes.func.isRequired,
+  notify: PropTypes.func.isRequired
 };
 const mapStateToProps = (state) => ({
   fetching: state.nurses.fetching
 })
 const mapDispatchToProps = {
   editNurse,
-  deleteNurse
+  deleteNurse,
+  notify
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EditNurse);
-
 

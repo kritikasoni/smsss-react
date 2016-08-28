@@ -10,10 +10,9 @@ export default (store) => ({
       /*  Webpack - use require callback to define
        dependencies for bundling   */
       const ManageQueue = require('./ManageQueue.component').default
-      const reducer = require('./ManageQueue.reducer').default
-
+      // const reducer = null;
       /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'queues', reducer })
+      // injectReducer(store, { key: 'queues', reducer })
 
       /*  Return getComponent   */
       cb(null, ManageQueue)

@@ -1,16 +1,20 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { notify } from 'components/Notification';
 import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
+import SelectPatient from 'components/SelectPatient';
+import SelectRoom from 'components/SelectRoom';
+import { addQueue } from './../queue.reducer';
 import Socket from 'helper/Socket';
 import Card from 'components/Card';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
-import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import moment from 'moment';
 import TimePicker from 'components/TimePicker';
 
-export default class ManageQueue extends Component {
+export class ManageQueue extends Component {
   constructor(props,context) {
     super(props,context);
     this.state =  {
@@ -39,7 +43,7 @@ export default class ManageQueue extends Component {
     const self = this;
     Http.get(`${BackendUrl}/rooms`)
       .then(({data}) => {
-        self.setState({rooms: data, selectedRoom: data.filter(room => room.id == self.props.params.id).pop()});
+        this.setState({rooms: data});
       })
       .catch(err => {
         throw err;
@@ -47,21 +51,23 @@ export default class ManageQueue extends Component {
 
     Socket.on('queue', function(e){
       console.log(e);
-      if(e.data.room.id == this.props.params.id){
-        switch(e.verb){
-          case 'created':
-            self.setState({queues: [...self.state.queues, e.data ]})
-            break;
-          case 'updated':
-            self.setState({
-              queues: self.state.queues.map(q => (q.id == e.id ? e.data : q))
-            });
-            break;
-          case 'destroyed':
-            self.setState({queues: self.state.queues.filter(q => (q.id != e.id))});
-            break;
-          default:
-            console.warn('Unrecognized socket event (`%s`) from server:',e.verb, e);
+      if(e.data){
+        if(e.data.room.id == self.props.params.id){
+          switch(e.verb){
+            case 'created':
+              self.setState({queues: [...self.state.queues, e.data ]})
+              break;
+            case 'updated':
+              self.setState({
+                queues: self.state.queues.map(q => (q.id == e.id ? e.data : q))
+              });
+              break;
+            case 'destroyed':
+              self.setState({queues: self.state.queues.filter(q => (q.id != e.id))});
+              break;
+            default:
+              console.warn('Unrecognized socket event (`%s`) from server:',e.verb, e);
+          }
         }
       }
     });
@@ -107,55 +113,37 @@ export default class ManageQueue extends Component {
   }
 
   _addQueue() {
-    const self = this;
-    Http
-      .post(`${BackendUrl}/queues`,
-        {
-          room: self.state.selectedRoom.id,
-          patient: self.state.selectedPatientId,
-          time: moment().set({'hour' :self.state.time.hour,'minute': self.state.time.minute})
-        }
-      )
-      .then(({data}) => {
-        this._closeAddModal();
-      });
+    const queue =  {
+      room: this.state.selectedRoom.id,
+      patient: this.state.selectedPatientId,
+      time: moment().set({'hour': this.state.time.hour,'minute': this.state.time.minute})
+    };
+    console.log(this._validateQueue());
+    if(this._validateQueue()){
+      this.props.addQueue(queue);
+      this._closeAddModal();
+    }
   }
 
-  _getPatientOptions(input, callback) {
-    const toOptionFormat = (patient) => ({
-      label: `${patient.idCardNo} ${patient.firstName} ${patient.lastName}`,
-      value: patient.id,
-      data: patient
-    });
-    if(input){
-      Http.get(`${BackendUrl}/patients/search/idCardNo/${input}`)
-        .then(({data}) => {
-          callback(null, {
-            options: data.map(patient => toOptionFormat(patient)),
-            complete: false
-          })
-        })
-        .catch(err => {
-          throw err;
-        });
+  _validateQueue() {
+    let isValid = true;
+    let warningMessages = [];
+    if(parseInt(this.state.selectedRoom.id) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Room is required`];
     }
-    else{
-      Http.get(`${BackendUrl}/patients`)
-        .then(({data}) => {
-          callback(null, {
-            options: data.map(patient => toOptionFormat(patient)),
-            complete: true
-          })
-        })
-        .catch(err => {
-          throw err;
-        });
+    if(parseInt(this.state.selectedPatientId) < 1) {
+      isValid = false;
+      warningMessages = [...warningMessages, `Patient is required`];
     }
+    if(!isValid) {
+      this.props.notify(warningMessages,'Warning!','warn');
+    }
+    return isValid;
   }
 
   _onPatientChange(e) {
-    this.setState({selectedPatientId: e.value});
-    console.log(this.state.selectedPatientId);
+    this.setState({selectedPatientId: e ? e.value : 0 });
   }
 
   _onTimeHourChange(e) {
@@ -167,18 +155,18 @@ export default class ManageQueue extends Component {
 
   render() {
     const room = this.state.rooms.filter(room => room.id == this.props.params.id).pop();
-      const queues = this.state.queues.filter(queue => (queue.room.id == room.id))
-        .map((queue, index) => {
-          return (
-            <div key={index}>
-              <h2>No. {index + 1}</h2>
-              <h4>Time: {`${moment(queue.time).get('hours')}:${moment(queue.time).get('minutes')}`}</h4>
-              <h5>{`${queue.patient.firstName} ${queue.patient.lastName}`}</h5>
-              <a href={`/nurse/queues/${queue.id}/edit`}><Button>Edit</Button></a>
-              <Button onClick={() => this._deleteQueue(queue.id)}>Delete</Button>
-            </div>
-          );
-        });
+    const queues = this.state.queues.filter(queue => (queue.room.id == this.props.params.id))
+      .map((queue, index) => {
+        return (
+          <div key={index}>
+            <h2>No. {index + 1}</h2>
+            <h4>Time: {`${moment(queue.time).get('hours')}:${moment(queue.time).get('minutes')}`}</h4>
+            <h5>{`${queue.patient.firstName} ${queue.patient.lastName}`}</h5>
+            <a href={`/nurse/queues/${queue.id}/edit`}><Button>Edit</Button></a>
+            <Button onClick={() => this._deleteQueue(queue.id)}>Delete</Button>
+          </div>
+        );
+      });
     return (
       <div>
         <h1>{`Queues of Room ${this.state.selectedRoom.name}`}</h1>
@@ -196,13 +184,8 @@ export default class ManageQueue extends Component {
           </Modal.Header>
           <Modal.Body>
             <h4>Patient</h4>
-            <Select.Async
-              name="patient"
-              loadOptions={this._getPatientOptions}
-              onChange={this._onPatientChange}
-              value={this.state.selectedPatientId}
-            />
-
+            <SelectPatient onChange={this._onPatientChange}
+                           value={this.state.selectedPatientId} />
             <h4>Room</h4>
             <input type="text" disabled="true" value={this.state.selectedRoom.name} />
 
@@ -213,11 +196,19 @@ export default class ManageQueue extends Component {
             <hr />
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => { this._closeAddModal() }}>Close</Button>
-            <Button onClick={() => { this._addQueue() }}>Add</Button>
+            <Button onClick={this._closeAddModal}>Close</Button>
+            <Button onClick={this._addQueue}>Add</Button>
           </Modal.Footer>
         </Modal>
       </div>
     );
   }
 }
+ManageQueue.propTypes = {
+  notify: PropTypes.func.isRequired
+}
+const mapDispatchToProps = {
+  notify,
+  addQueue
+}
+export default connect(null,mapDispatchToProps)(ManageQueue);
