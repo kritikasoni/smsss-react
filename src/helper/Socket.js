@@ -1,7 +1,15 @@
 import { BackendUrl } from 'Config'
 const socketIOClient = require('socket.io-client')
 const sailsIOClient = require('sails.io.js')
-const io = sailsIOClient(socketIOClient)
+const store = require('store');
 
-io.sails.url = BackendUrl
-module.exports = io.socket;
+function create(){
+  const io = sailsIOClient(socketIOClient)
+  io.sails.url = BackendUrl
+  io.sails.headers = {
+    Authorization: `Bearer ${store.get('token') || ''}`
+  }
+  return io.socket;
+}
+
+module.exports = create;

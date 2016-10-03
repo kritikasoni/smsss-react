@@ -28,6 +28,7 @@ export class ManageQueue extends Component {
       },
       selectedPatientId: 0
     };
+    this.socket = null;
     this._deleteQueue = this._deleteQueue.bind(this);
     this._editQueue = this._editQueue.bind(this);
     this._viewQueue = this._viewQueue.bind(this);
@@ -48,8 +49,8 @@ export class ManageQueue extends Component {
       .catch(err => {
         throw err;
       });
-
-    Socket.on('queue', function(e){
+    this.socket = Socket();
+    this.socket.on('queue', function(e){
       console.log(e);
       if(e.data){
         if(e.data.room.id == self.props.params.id){
@@ -71,7 +72,7 @@ export class ManageQueue extends Component {
         }
       }
     });
-    Socket.get(`/queues/searchByRoom/${this.props.params.id}`, (body, JWR) => {
+    this.socket.get(`/queues/searchByRoom/${this.props.params.id}`, (body, JWR) => {
       self.setState({queues: body});
     });
 

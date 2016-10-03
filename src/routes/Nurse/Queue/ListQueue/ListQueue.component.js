@@ -26,6 +26,7 @@ export default class ListQueue extends Component {
       },
       selectedPatientId: 0
     };
+    this.socket = null;
     this._deleteQueue = this._deleteQueue.bind(this);
     this._editQueue = this._editQueue.bind(this);
     this._manageQueue = this._manageQueue.bind(this);
@@ -46,8 +47,8 @@ export default class ListQueue extends Component {
       .catch(err => {
         throw err;
       });
-
-    Socket.on('queue', function(e){
+    this.socket = Socket();
+    this.socket.on('queue', function(e){
       console.log(e);
       switch(e.verb){
         case 'created':
@@ -65,7 +66,7 @@ export default class ListQueue extends Component {
           console.warn('Unrecognized socket event (`%s`) from server:',e.verb, e);
       }
     });
-    Socket.get('/queues', (body, JWR) => {
+    this.socket.get('/queues', (body, JWR) => {
       self.setState({queues: body});
     });
 
