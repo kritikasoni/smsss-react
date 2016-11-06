@@ -23,7 +23,8 @@ export class AddPatient extends Component {
       dob: moment(),
       weight: 0,
       height: 0,
-      phone:''
+      phone:'',
+      password: ''
     };
     this._onSubmit = this._onSubmit.bind(this);
     this._handleDobChange = this._handleDobChange.bind(this);
@@ -38,7 +39,8 @@ export class AddPatient extends Component {
       dob:this.state.dob,
       weight:this.state.weight,
       height:this.state.height,
-      phone:this.state.phone
+      phone:this.state.phone,
+      password: this.state.password
     }
     this.props.addPatient(patient);
   }
@@ -81,6 +83,17 @@ export class AddPatient extends Component {
             <FormControl type="email" placeholder="Email"
                          value={this.state.email}
                          onChange={(e) => this.setState({email: e.target.value})}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalPassword">
+          <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+            Password :
+          </Col>
+          <Col xs={10} sm={3}>
+            <FormControl type="password" placeholder="Password"
+                         value={this.state.password}
+                         onChange={(e) => this.setState({password: e.target.value})}
             />
           </Col>
         </FormGroup>

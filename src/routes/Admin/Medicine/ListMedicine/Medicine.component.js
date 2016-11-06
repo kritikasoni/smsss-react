@@ -14,7 +14,8 @@ export const Medicine = (props) =>  (
       </div>
     </Col>
     <Col xs={12} sm={6}>
-      <h4>Details:</h4>
+      <h3>Details:</h3>
+      <h6>Medicine is a pill: {props.isPill ? 'Yes' : 'No'}</h6>
       <p>{props.detail}</p>
     </Col>
     <Col xs={12} className={classes['medicine-children__spaceUp']}>
@@ -26,7 +27,8 @@ Medicine.propTypes = {
   scientificName: React.PropTypes.string.isRequired,
   informalName: React.PropTypes.string.isRequired,
   image: React.PropTypes.string.isRequired,
-  detail: React.PropTypes.string.isRequired
+  detail: React.PropTypes.string.isRequired,
+  isPill: React.PropTypes.bool.isRequired
 }
 
 export default Medicine;

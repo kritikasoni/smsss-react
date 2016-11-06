@@ -25,10 +25,10 @@ export const SELECT_PRESCRIPTION = 'SELECT_PRESCRIPTION';
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function loadPrescription() {
+export function loadPrescription(id) {
   return {
     types: [LOAD_PRESCRIPTION_REQUEST, LOAD_PRESCRIPTION_SUCCESS, LOAD_PRESCRIPTION_FAILURE],
-    callAPI: () => Http.get(`${BackendUrl}/prescriptions`),
+    callAPI: () => Http.get(`${BackendUrl}/prescriptions/patient/${id}`),
     payload: {}
   }
 }

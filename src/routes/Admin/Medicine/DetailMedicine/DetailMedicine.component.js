@@ -16,7 +16,8 @@ export default class DetailMedicine extends Component {
         scientificName: '',
         informalName: '',
         image: '',
-        detail: ''
+        detail: '',
+        isPill: true
       }
     };
 
@@ -42,7 +43,8 @@ export default class DetailMedicine extends Component {
       <Medicine scientificName={this.state.medicine.scientificName}
                 informalName={this.state.medicine.informalName}
                 image={this.state.medicine.image}
-                detail={this.state.medicine.detail}>
+                detail={this.state.medicine.detail}
+                isPill={this.state.medicine.isPill} >
         {
           (this.props.user.role.name == role.ADMIN) ?
             (<Button

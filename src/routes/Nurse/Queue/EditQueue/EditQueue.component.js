@@ -10,6 +10,7 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 import moment from 'moment';
 import TimePicker from 'components/TimePicker';
 import SelectRoom from 'components/SelectRoom';
+import SelectPatient from 'components/SelectPatient';
 
 export class EditQueue extends Component {
   constructor(props) {
@@ -20,7 +21,10 @@ export class EditQueue extends Component {
         hour:moment().get('hours'),
         minute:moment().get('minutes')
       },
-      room: 0
+      room: {name: undefined,id: undefined},
+      priority: 0,
+      selectedRoom: {name: undefined,id: undefined},
+      queueId: -1
     }
     ;
     this._onSubmit = this._onSubmit.bind(this);
@@ -31,10 +35,13 @@ export class EditQueue extends Component {
   _onSubmit(e) {
     e.preventDefault();
     if(this._validate()){
+      console.log(this.state.room);
       const queue = {
-        patient: this.state.patient.id,
+        id: this.state.queueId,
+        patientId: this.state.patient.id,
         room: this.state.room,
-        time: moment().set({'hour': this.state.time.hour, 'minute': this.state.time.minute})
+        time: moment().set({'hour': this.state.time.hour, 'minute': this.state.time.minute}),
+        priority: this.state.priority
       }
       this.props.editQueue(this.props.params.id, queue);
     }
@@ -60,19 +67,26 @@ export class EditQueue extends Component {
         const time = moment(data.time);
         const hour = time.get('hours');
         const minute = time.get('minutes');
-        this.setState({
-          patient: data.patient,
-          room: data.room.id,
-          time: {
-            hour: hour,
-            minute: minute
-          }
+        Http.get(`${BackendUrl}/patients/${data.patientId}`).then(response => {
+
+          this.setState({
+            queueId: data.id,
+            patient: response.data,
+            room: data.room,
+            time: {
+              hour: hour,
+              minute: minute
+            }
+          });
         });
+      })
+      .catch(err => {
+        this.props.notify(err.message,'Warning!','warn');
       });
   }
 
   _onRoomChange(e) {
-    this.setState({room: e ? e.value : 0})
+    this.setState({room: {name: e.label, id: e ? e.value : 0 }});
   }
 
   _onTimeHourChange(e) {
@@ -102,7 +116,7 @@ export class EditQueue extends Component {
           </div>
           <div>
             Room:
-            <SelectRoom onChange={this._onRoomChange} value={this.state.room} />
+            <SelectRoom onChange={this._onRoomChange} value={this.state.room.id} />
           </div>
           <div>
             Time:
@@ -110,6 +124,14 @@ export class EditQueue extends Component {
                         onHourChange={this._onTimeHourChange} onMinuteChange={this._onTimeMinuteChange}
             />
           </div>
+          <FormGroup controlId="formHorizontalPriority">
+            Priority :
+            <FormControl type="number" placeholder="Priority(higher is better)"
+                         step="1" min="0"
+                         value={this.state.priority}
+                         onChange={(e) => this.setState({priority: e.target.value})}
+            />
+          </FormGroup>
           <Button bsStyle={'primary'} type="submit" >Submit</Button>
         </form>
       </div>

@@ -101,6 +101,7 @@
     "html-webpack-plugin": "^2.7.1",
     "imports-loader": "^0.6.5",
     "ip": "^1.1.2",
+    "javascript-natural-sort": "^0.7.1",
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.1.6",
     "koa": "^2.0.0-alpha.3",

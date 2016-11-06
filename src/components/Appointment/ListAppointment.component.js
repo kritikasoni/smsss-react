@@ -29,7 +29,6 @@ export class ListAppointment extends Component {
       return (
         <div key={`appointment${appointment.id}`} style={{paddingLeft:'10px'}}>
           <p>Date time: {moment(appointment.date).format('YYYY/MM/DD HH:mm').toString()}</p>
-          <p>Room: {appointment.room.name}</p>
          <Col xs={4} xsOffset={8}>
            <Button bsStyle={'primary'} className="col-xs-12" onClick={() => this._editAppointment(appointment.id)}>
              Edit

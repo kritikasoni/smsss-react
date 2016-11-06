@@ -9,6 +9,21 @@ export class SelectPatient extends Component {
     super(props, context);
     this._getPatientOptions = this._getPatientOptions.bind(this);
   }
+  dataSourceSearchUrl() {
+    let dataSourceSearchUrl = `${BackendUrl}/patients/search/idCardNo/${input}`;
+
+    if(this.props.dataSourceSearchUrl){
+      dataSourceSearchUrl = `${this.props.dataSourceSearchUrl}/${input}`
+    }
+    return dataSourceSearchUrl;
+  }
+  dataSourceUrl() {
+    let dataSourceUrl = `${BackendUrl}/patients`;
+    if(this.props.dataSourceUrl){
+      dataSourceUrl = this.props.dataSourceUrl;
+    }
+    return dataSourceUrl;
+  }
   _getPatientOptions(input, callback) {
     const toOptionFormat = (patient) => ({
       label: `${patient.idCardNo} ${patient.firstName} ${patient.lastName}`,
@@ -16,7 +31,7 @@ export class SelectPatient extends Component {
       data: patient
     });
     if(input){
-      Http.get(`${BackendUrl}/patients/search/idCardNo/${input}`)
+      Http.get(this.dataSourceSearchUrl())
         .then(({data}) => {
           callback(null, {
             options: data.map(patient => toOptionFormat(patient)),
@@ -28,7 +43,8 @@ export class SelectPatient extends Component {
         });
     }
     else{
-      Http.get(`${BackendUrl}/patients`)
+
+      Http.get(this.dataSourceUrl())
         .then(({data}) => {
           callback(null, {
             options: data.map(patient => toOptionFormat(patient)),
@@ -55,7 +71,9 @@ export class SelectPatient extends Component {
 
 SelectPatient.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.any
+  value: PropTypes.any,
+  dataSourceUrl: PropTypes.string,
+  dataSourceSearchUrl: PropTypes.string
 }
 
 export default SelectPatient;

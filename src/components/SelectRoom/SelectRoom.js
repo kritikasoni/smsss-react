@@ -3,6 +3,7 @@ import Http from 'helper/Http';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import { BackendUrl } from 'Config';
+import naturalSort from 'javascript-natural-sort';
 
 export class SelectRoom extends Component {
   constructor(props, context) {
@@ -17,6 +18,7 @@ export class SelectRoom extends Component {
     Http
       .get(`${BackendUrl}/rooms`)
       .then(({data}) => {
+        data.sort((room1,room2) => naturalSort(room1.name,room2.name));
         if(input) {
           callback(null, {
             options: data.filter(p => p.name.includes(input)).map(p => toOptionFormat(p)),

@@ -20,10 +20,15 @@ export default class EditMedicine extends Component {
       scientificName:'',
       informalName:'',
       image:'',
-      detail:''
+      detail:'',
+      isPill: true
     };
+    this._onIsPillCheckboxUpdate = this._onIsPillCheckboxUpdate.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
     this._onDelete = this._onDelete.bind(this);
+  }
+  _onIsPillCheckboxUpdate(e){
+    this.setState({isPill: e.target.checked});
   }
   _onSubmit(e) {
     e.preventDefault();
@@ -31,7 +36,8 @@ export default class EditMedicine extends Component {
       scientificName: this.state.scientificName,
       informalName: this.state.informalName,
       image: this.state.image,
-      detail: this.state.detail
+      detail: this.state.detail,
+      isPill: this.state.isPill
     };
     this.props.editMedicine(this.props.params.id, medicine);
   }
@@ -47,7 +53,8 @@ export default class EditMedicine extends Component {
           scientificName : response.data.scientificName,
           informalName: response.data.informalName,
           image: response.data.image,
-          detail:response.data.detail
+          detail:response.data.detail,
+          isPill: response.data.isPill
         });
       });
   }
@@ -81,6 +88,14 @@ export default class EditMedicine extends Component {
                            value={this.state.informalName}
                            onChange={(e) => this.setState({informalName: e.target.value})}
               />
+            </Col>
+          </FormGroup>
+          <FormGroup controlId="formHorizontalIsPill">
+            <Col componentClass={ControlLabel}  xs={2} sm={2} smOffset={3} >
+              This medicine is a pill:
+            </Col>
+            <Col  xs={10} sm={3}>
+              <input type="checkbox" onChange={this._onIsPillCheckboxUpdate} checked={this.state.isPill} className="pull-left"/>
             </Col>
           </FormGroup>
           <div className="row">

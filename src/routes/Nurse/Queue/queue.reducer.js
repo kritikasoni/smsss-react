@@ -41,14 +41,18 @@ export function addQueue(queue) {
   }
 }
 
-export function editQueue(id,name) {
+export function editQueue(id,queue) {
   return {
     types: [EDIT_QUEUE_REQUEST, EDIT_QUEUE_SUCCESS, EDIT_QUEUE_FAILURE],
-    callAPI: () => Http.put(`${BackendUrl}/queues/${id}`, {name}),
+    callAPI: () => Http.put(`${BackendUrl}/queues/${id}`, queue),
     payload: { id,name },
     successMessage: {
       show: true,
       message: 'Edit success!'
+    },
+    redirectAfterSuccess: {
+      redirect: true,
+      url: `/nurse/queues/room/${queue.room.id}`
     }
   }
 }

@@ -26,12 +26,10 @@ export class AddAppointment extends Component {
           hour: moment().get('hours'),
           minute: moment().get('minutes')
         },
-        date: moment(),
-        room: 0
+        date: moment()
       }
     }
     this._onSubmit = this._onSubmit.bind(this);
-    this._onRoomChange = this._onRoomChange.bind(this);
     this._onTimeHourChange = this._onTimeHourChange.bind(this);
     this._onTimeMinuteChange = this._onTimeMinuteChange.bind(this);
     this._onDateChange = this._onDateChange.bind(this);
@@ -43,7 +41,7 @@ export class AddAppointment extends Component {
     if(this._validate()){
       let appointment = this.state.appointment;
       let time = appointment.time;
-      appointment.date = appointment.date.set({'hour' :time.hour,'minute': time.minute})
+      appointment.date = moment(appointment.date).set({'hour' :time.hour,'minute': time.minute})
       this.props.addAppointment(appointment);
       this.props.closeModal();
     }
@@ -53,11 +51,7 @@ export class AddAppointment extends Component {
   }
 
   _validate() {
-    let isValid = parseInt(this.state.appointment.room) > 0;
-    return isValid;
-  }
-  _onRoomChange(e){
-    this.setState({appointment: {...this.state.appointment, room: e ? e.value : 0}});
+    return true;
   }
 
   _onTimeHourChange(e) {
@@ -83,14 +77,6 @@ export class AddAppointment extends Component {
         </Modal.Header>
         <Form horizontal onSubmit={this._onSubmit} role="form">
           <Modal.Body style={{marginBottom:'30px'}}>
-            <FormGroup controlId="formHorizontalRoom">
-              <Col componentClass={ControlLabel} xs={2}>
-                Room :
-              </Col>
-              <Col xs={10}>
-                <SelectRoom onChange={this._onRoomChange} value={this.state.appointment.room} />
-              </Col>
-            </FormGroup>
             <FormGroup controlId="formHorizontalTime">
               <Col componentClass={ControlLabel} xs={2}>
                 Time :

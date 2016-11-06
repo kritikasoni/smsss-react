@@ -11,6 +11,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
+import Checkbox from 'react-bootstrap/lib/Checkbox';
 import Modal from 'react-bootstrap/lib/Modal';
 import moment from 'moment';
 
@@ -28,6 +29,7 @@ export class AddPrescription extends Component {
           prescription: 0,
           timeToTake: 0,
           dosage: 1,
+          amount: 1,
           remark: ''
         }
       ]
@@ -38,6 +40,8 @@ export class AddPrescription extends Component {
     this._onTimeToTakeChange = this._onTimeToTakeChange.bind(this);
     this._onRemoveMedPres = this._onRemoveMedPres.bind(this);
     this._onDosageChange = this._onDosageChange.bind(this);
+    this._onAmountChange = this._onAmountChange.bind(this);
+    this._onAmountStatus = this._onAmountStatus.bind(this);
     this._validate = this._validate.bind(this);
   }
 
@@ -88,6 +92,14 @@ export class AddPrescription extends Component {
     newMedPres[index].dosage = e ? e.target.value : 0;
     this.setState({medicinePrescription: newMedPres});
   }
+  _onAmountChange(e, index) {
+    let newMedPres = [...this.state.medicinePrescription];
+    newMedPres[index].amount = e ? e.target.value : 0;
+    this.setState({medicinePrescription: newMedPres});
+  }
+  _onAmountStatus(e, index) {
+    console.log('amount status',e,index);
+  }
   _onRemoveMedPres(index) {
     this.setState({medicinePrescription: this.state.medicinePrescription.filter((medPres,i) => i != index)})
   }
@@ -100,6 +112,7 @@ export class AddPrescription extends Component {
           prescription: 0,
           timeToTake: 0,
           dosage: 1,
+          amount: 1,
           remark: ''
         }
       ]
@@ -149,6 +162,23 @@ export class AddPrescription extends Component {
                            value={medPres.dosage}
                            min={0}
                            onChange={(e) => this._onDosageChange(e,index)} />
+            </Col>
+          </FormGroup>
+          <FormGroup controlId={`formHorizontalAmount${index}`}>
+            <Col componentClass={ControlLabel} xs={3}  >
+              Amount:
+            </Col>
+            <Col xs={9}>
+              <FormControl type="number" placeholder="Amount"
+                           value={medPres.amount}
+                           min={0}
+                           onChange={(e) => this._onAmountChange(e,index)} />
+            </Col>
+            <Col componentClass={ControlLabel} xs={3}  >
+              Amount is not a pill:
+            </Col>
+            <Col xs={9}>
+              <Checkbox onChange={e => this._onAmountStatus(e,index)} />
             </Col>
           </FormGroup>
           <FormGroup controlId={`formHorizontalRemark${index}`}>

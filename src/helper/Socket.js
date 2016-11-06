@@ -14,5 +14,14 @@ function create(){
   }
   return io.socket;
 }
-
+export function unsubscribe(event) {
+  io.socket.off(event, (err) => {
+    if(err){
+      console.error(err);
+    }
+    else{
+      console.log('successfully unsubscribe event', event);
+    }
+  });
+}
 module.exports = create;

@@ -26,12 +26,10 @@ export class EditAppointment extends Component {
           hour: moment(props.appointment.date).get('hours'),
           minute: moment(props.appointment.date).get('minutes')
         },
-        date: moment(props.appointment.date),
-        room: props.appointment.room ? props.appointment.room.id : 0
+        date: moment(props.appointment.date)
       }
     }
     this._onSubmit = this._onSubmit.bind(this);
-    this._onRoomChange = this._onRoomChange.bind(this);
     this._onTimeHourChange = this._onTimeHourChange.bind(this);
     this._onTimeMinuteChange = this._onTimeMinuteChange.bind(this);
     this._onDateChange = this._onDateChange.bind(this);
@@ -42,14 +40,10 @@ export class EditAppointment extends Component {
     e.preventDefault();
     let appointment = this.state.appointment;
     let time = appointment.time;
-    appointment.date = appointment.date.set({'hour' :time.hour,'minute': time.minute});
+    appointment.date = appointment.date.set({'hour' :time.hour,'minute': time.minute}).toISOString();
     delete appointment.time;
     this.props.editAppointment(this.props.appointment.id,appointment);
     this.props.closeModal();
-  }
-
-  _onRoomChange(e){
-    this.setState({appointment: {...this.state.appointment, room: e ? e.value : 0}});
   }
 
   _onTimeHourChange(e) {
@@ -78,8 +72,7 @@ export class EditAppointment extends Component {
           hour: moment(nextProps.appointment.date).get('hours'),
           minute: moment(nextProps.appointment.date).get('minutes')
         },
-        date: moment(nextProps.appointment.date),
-        room: nextProps.appointment.room ? nextProps.appointment.room.id : 0
+        date: moment(nextProps.appointment.date)
       }
     })
   }
@@ -95,14 +88,6 @@ export class EditAppointment extends Component {
         <Modal.Body style={{marginBottom:'30px'}}>
           <Button bsStyle={'danger'} className={`pull-right`} onClick={this._onDeleteAppointment}>Delete</Button>
           <Form horizontal onSubmit={this._onSubmit} role="form">
-            <FormGroup controlId="formHorizontalRoom">
-              <Col componentClass={ControlLabel} xs={2}>
-                Room :
-              </Col>
-              <Col xs={10}>
-                <SelectRoom onChange={this._onRoomChange} value={this.state.appointment.room} />
-              </Col>
-            </FormGroup>
             <FormGroup controlId="formHorizontalTime">
               <Col componentClass={ControlLabel} xs={2}>
                 Time :
