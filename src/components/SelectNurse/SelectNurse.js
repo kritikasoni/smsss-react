@@ -51,6 +51,7 @@ export class SelectNurse extends Component {
         value={this.props.value}
         loadOptions={this._getNurseOptions}
         placeholder="Search nurse"
+        cache={false}
       />
     )
   }

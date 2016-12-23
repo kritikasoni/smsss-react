@@ -43,6 +43,7 @@ export class SelectRoom extends Component {
         onChange={this.props.onChange}
         value={this.props.value}
         loadOptions={this._getRoomOptions}
+        cache={false}
       />
     )
   }

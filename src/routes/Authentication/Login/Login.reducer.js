@@ -1,4 +1,4 @@
-import Http, { reloadAuthorizationHeader } from 'helper/Http';
+import Http, { setAuthorizationHeader } from 'helper/Http';
 import { BackendUrl } from 'Config';
 const store = require('store');
 import { notify,cancelNotify } from 'components/Notification/CustomNotification.reducer';
@@ -25,7 +25,7 @@ export function onSubmit(email, password) {
         store.set('token', data.token);
         store.set('user', data.user);
         dispatch(cancelNotify())
-        reloadAuthorizationHeader();
+        setAuthorizationHeader(data.token);
         return dispatch({
           type: LOGIN_SUCCESS,
           payload: data

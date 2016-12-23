@@ -13,7 +13,7 @@ import Button from 'react-bootstrap/lib/Button';
 import DropZone from 'react-dropzone';
 import Image from 'react-bootstrap/lib/Image';
 
-export default class EditMedicine extends Component {
+export class EditMedicine extends Component {
   constructor(props) {
     super(props);
     this.state = {

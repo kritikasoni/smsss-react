@@ -47,6 +47,7 @@ export class SelectDepartment extends Component {
         value={this.props.value}
         loadOptions={this._getDepartmentOptions}
         placeholder="Select department"
+        cache={false}
       />
     )
   }

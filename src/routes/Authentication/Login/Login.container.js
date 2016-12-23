@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { onSubmit } from './Login.reducer';
+import { reloadAuthorizationHeader } from 'helper/Http';
 import Form from 'react-bootstrap/lib/Form';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
@@ -25,14 +26,20 @@ export class Login extends Component {
   componentWillUpdate (nextProps) {
     const { router } = this.context;
     const { isLoggedIn } = nextProps;
-    if (isLoggedIn)
+    if (isLoggedIn){
+      reloadAuthorizationHeader();
       router.push(`/`);
+    }
+
   }
 
   componentWillMount () {
     const { router } = this.context;
-    if (this.props.isLoggedIn)
+    if (this.props.isLoggedIn){
+      reloadAuthorizationHeader();
       router.push(`/`);
+    }
+
   }
 
   _onEmailChange(e){

@@ -64,6 +64,7 @@ export class SelectPatient extends Component {
         value={this.props.value}
         loadOptions={this._getPatientOptions}
         placeholder="Search patient.."
+        cache={false}
       />
     )
   }

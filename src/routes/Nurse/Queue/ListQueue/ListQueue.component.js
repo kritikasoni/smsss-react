@@ -18,7 +18,7 @@ import TimePicker from 'components/TimePicker';
 import styles from './ListQueue.component.scss';
 import naturalSort from 'javascript-natural-sort';
 
-export default class ListQueue extends Component {
+export class ListQueue extends Component {
   constructor(props,context) {
     super(props,context);
     this.state =  {

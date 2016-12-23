@@ -10,7 +10,7 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 
-export default class AddMedicine extends Component {
+export class AddMedicine extends Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -178,6 +178,7 @@ export class DetailPatient extends Component {
             <th>Weight</th>
             <th>Height</th>
             <th>Blood pressure</th>
+            <th>Heart rate</th>
             <th>Phone number</th>
             <th></th>
           </tr>
@@ -192,6 +193,7 @@ export class DetailPatient extends Component {
             <td>{this.props.patient.weight}</td>
             <td>{this.props.patient.height}</td>
             <td>{this.props.patient.bloodPressure || 'N/A'}</td>
+            <td>{this.props.patient.heartRate || 'N/A'}</td>
             <td>{this.props.patient.phone}</td>
             <td>
               {actionButtons}

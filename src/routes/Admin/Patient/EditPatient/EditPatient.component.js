@@ -13,19 +13,21 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import classes from './EditPatient.component.scss';
-export default class EditPatient extends Component {
+export class EditPatient extends Component {
   constructor(props) {
     super(props);
     this.state = {
       firstName: '',
       lastName: '',
       email: '',
+      password: '',
       idCardNo: '',
       dob: moment(),
       weight: '',
       height: '',
       phone: '',
-      bloodPressure: ''
+      bloodPressure: '',
+      heartRate: ''
     };
     this._onSubmit = this._onSubmit.bind(this);
     this._handleDobChange = this._handleDobChange.bind(this);
@@ -35,17 +37,25 @@ export default class EditPatient extends Component {
   _onSubmit(e) {
     e.preventDefault();
     console.log('submit');
+    let patientData = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email:this.state.email,
+      password: this.state.password,
+      idCardNo:this.state.idCardNo,
+      dob:this.state.dob,
+      weight:this.state.weight,
+      height:this.state.height,
+      phone:this.state.phone,
+      bloodPressure: this.state.bloodPressure,
+      heartRate: this.state.heartRate
+    };
+
+    if (this.state.password.length == 0) {
+      delete patientData.password;
+    }
     Http
-      .put(`${BackendUrl}/patients/`+this.props.params.id,{
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        email:this.state.email,
-        idCardNo:this.state.idCardNo,
-        dob:this.state.dob,
-        weight:this.state.weight,
-        height:this.state.height,
-        phone:this.state.phone
-      })
+      .put(`${BackendUrl}/patients/`+this.props.params.id, patientData)
       .then(response => {
         console.log(response);
         this.props.history.push('/admin/patients');
@@ -76,7 +86,8 @@ export default class EditPatient extends Component {
           weight:response.data.weight,
           height:response.data.height,
           phone:response.data.phone,
-          bloodPressure: response.data.bloodPressure ? response.data.bloodPressure : ''
+          bloodPressure: response.data.bloodPressure ? response.data.bloodPressure : '',
+          heartRate: response.data.heartRate ? response.data.heartRate : ''
         });
       });
 
@@ -119,6 +130,17 @@ export default class EditPatient extends Component {
               <FormControl type="text" placeholder="Email"
                            value={this.state.email}
                            onChange={(e) => this.setState({email: e.target.value})}
+              />
+            </Col>
+          </FormGroup>
+          <FormGroup controlId="formHorizontalPassword">
+            <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+              Password:
+            </Col>
+            <Col xs={10} sm={3}>
+              <FormControl type="text" placeholder="Password"
+                           value={this.state.password}
+                           onChange={(e) => this.setState({password: e.target.value})}
               />
             </Col>
           </FormGroup>
@@ -175,6 +197,17 @@ export default class EditPatient extends Component {
               <FormControl type="text" placeholder="bloodPressure"
                            value={this.state.bloodPressure}
                            onChange={(e) => this.setState({bloodPressure: e.target.value})}
+              />
+            </Col>
+          </FormGroup>
+          <FormGroup controlId="formHorizontalBloodPressure">
+            <Col componentClass={ControlLabel} xs={2} sm={2} smOffset={3} >
+              Heart rate:
+            </Col>
+            <Col xs={10} sm={3}>
+              <FormControl type="number" placeholder="heartRate" step={1}
+                           value={this.state.heartRate}
+                           onChange={(e) => this.setState({heartRate: e.target.value})}
               />
             </Col>
           </FormGroup>

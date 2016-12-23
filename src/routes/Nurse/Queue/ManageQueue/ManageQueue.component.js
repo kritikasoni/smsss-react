@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Select from 'react-select';
 import { notify } from 'components/Notification';
 import Http from 'helper/Http';
 import { BackendUrl } from 'Config';
 import SelectPatient from 'components/SelectPatient';
-import SelectRoom from 'components/SelectRoom';
 import { addQueue } from './../queue.reducer';
 import Socket, { unsubscribe } from 'helper/Socket';
-import Card from 'components/Card';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Modal from 'react-bootstrap/lib/Modal';
@@ -31,7 +30,8 @@ export class ManageQueue extends Component {
       },
       selectedPatientId: 0,
       priority: 0,
-      insertIndex: 1
+      insertIndex: 1,
+      callQueueIndex: 1
     };
     this.socket = null;
     this._deleteQueue = this._deleteQueue.bind(this);
@@ -46,6 +46,7 @@ export class ManageQueue extends Component {
     this._onPatientChange = this._onPatientChange.bind(this);
     this._callQueue = this._callQueue.bind(this);
     this._clearAll = this._clearAll.bind(this);
+    this._onCallQueueIndexChange = this._onCallQueueIndexChange.bind(this);
   }
 
   componentWillMount() {
@@ -120,7 +121,8 @@ export class ManageQueue extends Component {
 
   _callQueue(){
     const self = this;
-    this.socket.get(`/queues/callQueue/${self.props.params.id}`, (body, JWR) => {
+    const url = `/queues/callQueue/${self.props.params.id}?patientIndex=${this.state.callQueueIndex}`;
+    this.socket.get(url, (body, JWR) => {
       if(JWR.statusCode > 399){
         self.props.notify(body.message,'Warning!','warn');
       }
@@ -246,7 +248,19 @@ export class ManageQueue extends Component {
     this.setState({time: time});
   }
 
+  _onCallQueueIndexChange (e) {
+    console.log(e);
+    this.setState({callQueueIndex: e ? e.value : 1});
+  }
+
   render() {
+    const queueIndexOptions = [
+      { value: 1, label: 'One' },
+      { value: 2, label: 'One and Two' },
+      { value: 3, label: 'One and Three' },
+      { value: 4, label: 'One and Four' },
+      { value: 5, label: 'One and Five' }
+    ];
     const room = this.state.rooms.filter(room => room.id == this.props.params.id).pop();
     const queues = this.state.queueRoom.queues
       .map((queue, index) => {
@@ -266,9 +280,13 @@ export class ManageQueue extends Component {
         <h1>{`Queues of ${this.state.queueRoom.name}`}</h1>
         <div className={`row container-fluid`}>
           <div className="row">
-            <button className={`btn btn-success col-xs-12 col-sm-4 col-sm-offset-4`} onClick={() => { this._callQueue() }}>
-              Call next queue
+            <button className={`btn btn-success col-xs-4 col-sm-2 col-sm-offset-4`} onClick={() => { this._callQueue() }}>
+              Call queue
             </button>
+            <Select name="select-queue-index" value={this.state.callQueueIndex} options={queueIndexOptions} onChange={this._onCallQueueIndexChange}
+                    className={`col-xs-8 col-sm-2`} placeholder={'Select queue to call'}
+                    cache={false}
+            />
             <button className={`btn btn-primary col-xs-12 col-sm-4 col-sm-offset-4 ${styles['add-queue-btn']}`} onClick={() => { this._openAddModal(room) }}>
               Add queue
             </button>

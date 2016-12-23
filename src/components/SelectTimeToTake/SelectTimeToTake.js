@@ -16,7 +16,7 @@ export class SelectTimeToTake extends Component {
       value: ttt.id
     });
     Http
-      .get(`${BackendUrl}/timeToTakes`)
+      .post(`${BackendUrl}/timeToTakes`, {})
       .then(({data}) => {
         if(input) {
           callback(null, {
@@ -43,6 +43,7 @@ export class SelectTimeToTake extends Component {
         onChange={this.props.onChange}
         value={this.props.value}
         loadOptions={this._getTimeToTakeOptions}
+        cache={false}
       />
     )
   }

@@ -44,6 +44,7 @@ export class SelectPosition extends Component {
         onChange={this.props.onChange}
         value={this.props.value}
         loadOptions={this._getPositionOptions}
+        cache={false}
       />
     )
   }

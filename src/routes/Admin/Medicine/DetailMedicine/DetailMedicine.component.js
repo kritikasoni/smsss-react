@@ -7,7 +7,7 @@ import { BackendUrl } from 'Config';
 import Button from 'react-bootstrap/lib/Button';
 import Medicine from './../ListMedicine/Medicine.component';
 
-export default class DetailMedicine extends Component {
+export class DetailMedicine extends Component {
   constructor(props) {
     super(props);
     this.state = {

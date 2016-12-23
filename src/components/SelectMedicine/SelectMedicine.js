@@ -51,6 +51,7 @@ export class SelectMedicine extends Component {
         value={this.props.value}
         loadOptions={this._getMedicineOptions}
         placeholder="Select medicine"
+        cache={false}
       />
     )
   }

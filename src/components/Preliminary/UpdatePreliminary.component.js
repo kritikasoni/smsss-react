@@ -17,7 +17,8 @@ export class UpdatePreliminary extends Component {
     this.state = {
       height: props.patient.height || 0,
       weight: props.patient.weight || 0,
-      bloodPressure: props.patient.bloodPressure || 'N/A'
+      bloodPressure: props.patient.bloodPressure || 'N/A',
+      heartRate: props.patient.heartRate || ''
     }
     this._onSubmit = this._onSubmit.bind(this);
   }
@@ -68,6 +69,17 @@ export class UpdatePreliminary extends Component {
                 <FormControl type="text" placeholder="Blood pressure"
                              value={this.state.bloodPressure}
                              onChange={(e) => this.setState({bloodPressure: e.target.value})}
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup controlId="formHorizontalHeartRate">
+              <Col componentClass={ControlLabel} xs={2}>
+                Heart rate (bpm) :
+              </Col>
+              <Col xs={10} >
+                <FormControl type="text" placeholder="Heart rate"
+                             value={this.state.heartRate}
+                             onChange={(e) => this.setState({heartRate: e.target.value})}
                 />
               </Col>
             </FormGroup>

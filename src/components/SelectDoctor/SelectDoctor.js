@@ -51,6 +51,7 @@ export class SelectDoctor extends Component {
         value={this.props.value}
         loadOptions={this._getDoctorOptions}
         placeholder="Search doctor"
+        cache={false}
       />
     )
   }

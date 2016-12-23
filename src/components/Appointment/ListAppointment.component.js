@@ -25,18 +25,20 @@ export class ListAppointment extends Component {
   }
 
   render() {
-    let appointments = this.props.appointments.map((appointment) => {
-      return (
-        <div key={`appointment${appointment.id}`} style={{paddingLeft:'10px'}}>
-          <p>Date time: {moment(appointment.date).format('YYYY/MM/DD HH:mm').toString()}</p>
-         <Col xs={4} xsOffset={8}>
-           <Button bsStyle={'primary'} className="col-xs-12" onClick={() => this._editAppointment(appointment.id)}>
-             Edit
-           </Button>
-         </Col>
-        </div>
-      );
-    });
+    let appointments = this.props.appointments
+      .sort((a,b) => moment(b.date).toDate() - moment(a.date).toDate())
+      .map((appointment) => {
+        return (
+          <div key={`appointment${appointment.id}`} style={{paddingLeft:'10px'}}>
+            <p>Date time: {moment(appointment.date).format('YYYY/MM/DD HH:mm').toString()}</p>
+            <Col xs={4} xsOffset={8}>
+              <Button bsStyle={'primary'} className="col-xs-12" onClick={() => this._editAppointment(appointment.id)}>
+                Edit
+              </Button>
+            </Col>
+          </div>
+        );
+      });
     return (
       <Modal show={!this.props.isModalClosed} onHide={() => {this.props.closeModal()}}>
         <Modal.Header closeButton>

@@ -123,15 +123,17 @@ export class EditPrescription extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    this.props.loadMedicinePrescription(nextProps.prescription.id);
-    this.setState({medicinePrescription: nextProps.prescription.medicinePrescription || []});
-
+    if(nextProps.prescription.id != this.props.prescription.id){
+      // this.props.loadMedicinePrescription(nextProps.prescription.id);
+      console.log('next props',nextProps.prescription.medicinePrescription );
+      this.setState({medicinePrescription: nextProps.prescription.medicinePrescription || []});
+    }
   }
 
   render() {
-    let medPres = this.state.medicinePrescription.map((medPres,index) => {
+    let medPres = this.state.medicinePrescription.map((mp,index) => {
       return (
-        <div key={`medPresKey${index}`}>
+        <div className="medPres" key={`medPresKey${index}`}>
           <Col xs={4} xsOffset={8} style={{marginBottom:'20px'}}>
             <Button bsStyle={`danger`}
                     className="pull-right"
@@ -145,7 +147,7 @@ export class EditPrescription extends Component {
             </Col>
             <Col xs={9}>
               <SelectMedicine  onChange={(e) => this._onMedicineChange(e,index)}
-                               value={medPres.medicine}/>
+                               value={mp.medicine.id}/>
             </Col>
           </FormGroup>
           <FormGroup controlId={`formHorizontalTimeToTake${index}`}>
@@ -154,7 +156,7 @@ export class EditPrescription extends Component {
             </Col>
             <Col xs={9}>
               <SelectTimeToTake onChange={(e) => this._onTimeToTakeChange(e,index)}
-                                value={parseInt(medPres.timeToTake)} />
+                                value={parseInt(mp.timeToTake.id)} />
             </Col>
           </FormGroup>
           <FormGroup controlId={`formHorizontalDosage${index}`}>
@@ -163,7 +165,7 @@ export class EditPrescription extends Component {
             </Col>
             <Col xs={9}>
               <FormControl type="number" placeholder="Dosage"
-                           value={medPres.dosage}
+                           value={mp.dosage}
                            min={0}
                            onChange={(e) => this._onDosageChange(e,index)} />
             </Col>
@@ -174,7 +176,7 @@ export class EditPrescription extends Component {
             </Col>
             <Col xs={9}>
               <FormControl type="number" placeholder="Amount"
-                           value={medPres.amount}
+                           value={mp.amount}
                            min={0}
                            onChange={(e) => this._onAmountChange(e,index)} />
             </Col>
@@ -182,7 +184,7 @@ export class EditPrescription extends Component {
               Amount is not a pill:
             </Col>
             <Col xs={9}>
-              <Checkbox onChange={e => this._onAmountStatus(e,index)} />
+              <Checkbox onChange={(e) => this._onAmountStatus(e,index)} />
             </Col>
           </FormGroup>
           <FormGroup controlId={`formHorizontalRemark${index}`}>
@@ -192,7 +194,7 @@ export class EditPrescription extends Component {
             <Col xs={9}>
               <textarea className="form-control"
                         placeholder="Remark"
-                        value={medPres.remark}
+                        value={mp.remark}
                         onChange={(e) => this._onRemarkChange(e,index)} />
             </Col>
           </FormGroup>
